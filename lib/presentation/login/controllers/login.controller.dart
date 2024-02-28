@@ -1,9 +1,26 @@
+import 'package:dpil/infrastructure/navigation/routes.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 class LoginController extends GetxController {
-  //TODO: Implement LoginController
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  final box = GetStorage();
 
-  final count = 0.obs;
+  void login() {
+    if (emailController.text == 'admin@gmail.com') {
+      box.write('adminemail', emailController.text);
+      Get.offNamed(Routes.ADMIN_DASHBOARD);
+    } else if (emailController.text == 'douser@gmail.com') {
+      box.write('douseremail', emailController.text);
+      Get.offNamed(Routes.DOUSER_DASHBOARD);
+    } else if (emailController.text == 'general@gmail.com') {
+      box.write('generalemail', emailController.text);
+      Get.offNamed(Routes.GENUSER_DASHBOARD);
+    }
+  }
+
   @override
   void onInit() {
     super.onInit();
@@ -17,7 +34,8 @@ class LoginController extends GetxController {
   @override
   void onClose() {
     super.onClose();
-  }
 
-  void increment() => count.value++;
+    emailController.dispose();
+    passwordController.dispose();
+  }
 }

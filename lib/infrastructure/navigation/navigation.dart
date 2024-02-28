@@ -38,17 +38,17 @@ class Nav {
     ),
     GetPage(
       name: Routes.ADMIN_DASHBOARD,
-      page: () => const AdminDashboardScreen(),
+      page: () => AdminDashboardScreen(),
       binding: AdminDashboardControllerBinding(),
     ),
     GetPage(
       name: Routes.DOUSER_DASHBOARD,
-      page: () => const DouserDashboardScreen(),
+      page: () => DouserDashboardScreen(),
       binding: DouserDashboardControllerBinding(),
     ),
     GetPage(
       name: Routes.GENUSER_DASHBOARD,
-      page: () => const GenuserDashboardScreen(),
+      page: () => GenuserDashboardScreen(),
       binding: GenuserDashboardControllerBinding(),
     ),
   ];

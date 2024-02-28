@@ -1,48 +1,42 @@
-import 'dart:async';
-
-import 'package:dpil/infrastructure/navigation/routes.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:dpil/infrastructure/navigation/routes.dart';
 
 class SplashController extends GetxController {
   final box = GetStorage();
-  RxBool alreadyLoggedIn = false.obs;
-  RxBool displaySplashImage = true.obs;
-  static const int splashDurationSeconds = 5;
+  static const int splashDurationSeconds = 3;
+
   @override
   void onInit() {
     super.onInit();
-    checkLoggedIn();
+    print('oninit called');
+    // Start the delayed Future after the controller initializes
+    startDelayedFuture();
   }
 
-  @override
-  void onReady() {
-    super.onReady();
+  Future<void> startDelayedFuture() async {
+    // Delay execution using Future.delayed
+    await Future.delayed(Duration(seconds: splashDurationSeconds));
+    // After the delay, call checkLoggedIn() to handle navigation
+    await checkLoggedIn();
   }
 
-  @override
-  void onClose() {
-    super.onClose();
-  }
-
-  void checkLoggedIn() {
+  Future<void> checkLoggedIn() async {
     var adminemail = box.read('adminemail');
     var douseremail = box.read('douseremail');
     var generalemail = box.read('generalemail');
 
-    Timer(
-      Duration(seconds: splashDurationSeconds),
-      () {
-        if (adminemail != null && adminemail.isNotEmpty) {
-          Get.offNamed(Routes.ADMIN_DASHBOARD);
-        } else if (douseremail != null && douseremail.isNotEmpty) {
-          Get.offNamed(Routes.DOUSER_DASHBOARD);
-        } else if (generalemail != null && generalemail.isNotEmpty) {
-          Get.offNamed(Routes.GENUSER_DASHBOARD);
-        } else {
-          Get.offNamed(Routes.LOGIN);
-        }
-      },
-    );
+    if (adminemail != null && adminemail.isNotEmpty) {
+      print('Admin called');
+      Get.offNamed(Routes.ADMIN_DASHBOARD);
+    } else if (douseremail != null && douseremail.isNotEmpty) {
+      print('douseremail called');
+      Get.offNamed(Routes.DOUSER_DASHBOARD);
+    } else if (generalemail != null && generalemail.isNotEmpty) {
+      print('generalemail called');
+      Get.offNamed(Routes.GENUSER_DASHBOARD);
+    } else {
+      Get.offNamed(Routes.LOGIN);
+    }
   }
 }
