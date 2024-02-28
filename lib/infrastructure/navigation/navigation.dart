@@ -28,13 +28,28 @@ class Nav {
   static List<GetPage> routes = [
     GetPage(
       name: Routes.SPLASH,
-      page: () => const SplashScreen(),
+      page: () => SplashScreen(),
       binding: SplashControllerBinding(),
     ),
     GetPage(
       name: Routes.LOGIN,
       page: () => const LoginScreen(),
       binding: LoginControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.ADMIN_DASHBOARD,
+      page: () => const AdminDashboardScreen(),
+      binding: AdminDashboardControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.DOUSER_DASHBOARD,
+      page: () => const DouserDashboardScreen(),
+      binding: DouserDashboardControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.GENUSER_DASHBOARD,
+      page: () => const GenuserDashboardScreen(),
+      binding: GenuserDashboardControllerBinding(),
     ),
   ];
 }
