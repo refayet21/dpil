@@ -24,9 +24,12 @@ class LoginController extends GetxController {
   //     Get.offNamed(Routes.GENUSER_DASHBOARD);
   //   }
   // }
+  var isLoading = false.obs; // Observable to track loading state
 
   Future<User?> login(String email, String password) async {
     try {
+      isLoading.value = true; // Set loading state to true
+
       bool isAdmin = await checkAdminAuthentication(email, password);
 
       if (isAdmin) {
@@ -63,22 +66,11 @@ class LoginController extends GetxController {
         }
       }
     } catch (e) {
-      // Handle specific exceptions and avoid showing other exceptions
-      // if (e is FirebaseAuthException && e.code == 'user-not-found') {
-      //   // User not found in Firebase Authentication
-      //   Get.snackbar(
-      //     'Error',
-      //     'User does not exist.',
-      //     snackPosition: SnackPosition.BOTTOM,
-      //   );
-      // } else {
-      //   // Handle other unexpected errors
-      //   Get.snackbar(
-      //     'Error',
-      //     'An unexpected error occurred: $e',
-      //     snackPosition: SnackPosition.BOTTOM,
-      //   );
-      // }
+      // Handle any unexpected errors
+      print('Error: $e');
+    } finally {
+      isLoading.value =
+          false; // Set loading state to false after login process completes
     }
 
     return null;
@@ -92,12 +84,6 @@ class LoginController extends GetxController {
       );
       return credential.user != null;
     } catch (e) {
-      // Handle authentication error for admin
-      // Get.snackbar(
-      //   'Error',
-      //   'Admin Authentication Error: $e',
-      //   snackPosition: SnackPosition.BOTTOM,
-      // );
       return false;
     }
   }
@@ -112,15 +98,6 @@ class LoginController extends GetxController {
           .get();
       return querySnapshot.docs.isNotEmpty;
     } catch (e) {
-      // Handle error while checking user credentials
-      // Get.snackbar(
-      //   'Error',
-      //   'Error checking user credentials: $e',
-      //   backgroundColor: Colors.red,
-      //   colorText: Colors.white,
-      //   icon: Icon(Icons.error),
-      //   snackPosition: SnackPosition.BOTTOM,
-      // );
       return false;
     }
   }

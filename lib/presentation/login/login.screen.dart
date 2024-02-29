@@ -188,40 +188,80 @@ class LoginScreen extends GetView<LoginController> {
                     SizedBox(
                       height: 30.h,
                     ),
-                    FadeInUp(
-                      duration: Duration(milliseconds: 1900),
-                      child: GestureDetector(
-                        child: Container(
-                          height: 50.h,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10.r),
-                            gradient: LinearGradient(
-                              colors: [
-                                Color.fromRGBO(143, 148, 251, 1),
-                                Color.fromRGBO(143, 148, 251, .6),
-                              ],
-                            ),
-                          ),
-                          child: Center(
-                            child: Text(
-                              "Login",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
+                    // FadeInUp(
+                    //   duration: Duration(milliseconds: 1900),
+                    //   child: GestureDetector(
+                    //     child: Container(
+                    //       height: 50.h,
+                    //       decoration: BoxDecoration(
+                    //         borderRadius: BorderRadius.circular(10.r),
+                    //         gradient: LinearGradient(
+                    //           colors: [
+                    //             Color.fromRGBO(143, 148, 251, 1),
+                    //             Color.fromRGBO(143, 148, 251, .6),
+                    //           ],
+                    //         ),
+                    //       ),
+                    //       child: Center(
+                    //         child: Text(
+                    //           "Login",
+                    //           style: TextStyle(
+                    //             color: Colors.white,
+                    //             fontWeight: FontWeight.bold,
+                    //           ),
+                    //         ),
+                    //       ),
+                    //     ),
+                    //     onTap: () {
+                    //       if (_formKey.currentState!.validate()) {
+                    //         controller.login(controller.emailController.text,
+                    //             controller.passwordController.text);
+                    //       }
+                    //     },
+                    //   ),
+                    // ),
+                    Obx(() {
+                      return FadeInUp(
+                        duration: Duration(milliseconds: 1900),
+                        child: GestureDetector(
+                          child: Container(
+                            height: 50.h,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10.r),
+                              gradient: LinearGradient(
+                                colors: [
+                                  Color.fromRGBO(143, 148, 251, 1),
+                                  Color.fromRGBO(143, 148, 251, .6),
+                                ],
                               ),
                             ),
+                            child: Center(
+                              // Show circular progress indicator while loading
+                              child: controller.isLoading.value
+                                  ? CircularProgressIndicator(
+                                      valueColor: AlwaysStoppedAnimation<Color>(
+                                          Colors.white),
+                                    )
+                                  : Text(
+                                      "Login",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                            ),
                           ),
+                          onTap: () {
+                            if (_formKey.currentState!.validate()) {
+                              controller.login(
+                                controller.emailController.text,
+                                controller.passwordController.text,
+                              );
+                            }
+                          },
                         ),
-                        onTap: () {
-                          // final box = GetStorage();
-                          // print(box.read('adminemail'));
-                          if (_formKey.currentState!.validate()) {
-                            controller.login(controller.emailController.text,
-                                controller.passwordController.text);
-                          }
-                        },
-                      ),
-                    ),
+                      );
+                    }),
                   ],
                 ),
               ),
