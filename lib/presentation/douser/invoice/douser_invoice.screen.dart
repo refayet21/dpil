@@ -1,3 +1,4 @@
+import 'package:dpil/presentation/widgets/do_drawer.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -9,6 +10,7 @@ class DouserInvoiceScreen extends GetView<DouserInvoiceController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: DoDrawer(),
       appBar: AppBar(
         title: const Text('DouserInvoiceScreen'),
         centerTitle: true,

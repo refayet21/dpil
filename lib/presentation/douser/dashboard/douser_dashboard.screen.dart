@@ -1,4 +1,5 @@
 import 'package:dpil/infrastructure/navigation/routes.dart';
+import 'package:dpil/presentation/widgets/do_drawer.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -12,6 +13,7 @@ class DouserDashboardScreen extends GetView<DouserDashboardController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: DoDrawer(),
       appBar: AppBar(
         title: const Text('DouserDashboardScreen'),
         centerTitle: true,
