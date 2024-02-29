@@ -1,4 +1,5 @@
 import 'package:dpil/infrastructure/navigation/routes.dart';
+import 'package:dpil/presentation/widgets/admin_drawer.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -12,8 +13,9 @@ class AdminDashboardScreen extends GetView<AdminDashboardController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: AdminDrawer(),
       appBar: AppBar(
-        title: const Text('AdminDashboardScreen'),
+        title: Text('DPIL'),
         centerTitle: true,
         actions: [
           IconButton(

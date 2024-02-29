@@ -1,3 +1,7 @@
+export 'package:dpil/infrastructure/navigation/bindings/controllers/admin_adddouser.controller.binding.dart'; 
+export 'package:dpil/infrastructure/navigation/bindings/controllers/admin_addgenuser.controller.binding.dart'; 
+export 'package:dpil/infrastructure/navigation/bindings/controllers/admin_addproduct.controller.binding.dart'; 
+export 'package:dpil/infrastructure/navigation/bindings/controllers/admin_addvendor.controller.binding.dart'; 
 export 'package:dpil/infrastructure/navigation/bindings/controllers/admin_dashboard.controller.binding.dart'; 
 export 'package:dpil/infrastructure/navigation/bindings/controllers/douser_dashboard.controller.binding.dart'; 
 export 'package:dpil/infrastructure/navigation/bindings/controllers/genuser_dashboard.controller.binding.dart'; 
