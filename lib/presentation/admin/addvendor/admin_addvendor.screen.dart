@@ -12,12 +12,8 @@ class AdminAddvendorScreen extends GetView<AdminAddvendorController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: AdminDrawer(),
       appBar: AppBar(
-        // leading: Icon(
-        //   Icons.medical_information,
-        //   size: 30.sp,
-        //   color: Colors.black,
-        // ),
         title: Text(
           'DPIL',
           style: TextStyle(fontSize: 30.sp, fontWeight: FontWeight.w700),
