@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "774679001400",
+    "project_id": "dpil-5386d",
+    "storage_bucket": "dpil-5386d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:774679001400:android:306e7c6028edb2b970a9cd",
+        "android_client_info": {
+          "package_name": "com.example.dpil"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCqxQWiLKylCF3JBa0ze8fRBUwxN1yOeTQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
