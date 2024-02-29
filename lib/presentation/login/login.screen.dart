@@ -8,13 +8,11 @@ import 'package:get_storage/get_storage.dart';
 import 'controllers/login.controller.dart';
 
 class LoginScreen extends GetView<LoginController> {
-  const LoginScreen({Key? key}) : super(key: key);
+  LoginScreen({Key? key}) : super(key: key);
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    // ScreenUtil.init(context,
-    //     designSize: Size(360, 690), allowFontScaling: true);
-
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
@@ -128,48 +126,67 @@ class LoginScreen extends GetView<LoginController> {
                             ),
                           ],
                         ),
-                        child: Column(
-                          children: <Widget>[
-                            Container(
-                              padding: EdgeInsets.all(8.w),
-                              decoration: BoxDecoration(
-                                border: Border(
-                                  bottom: BorderSide(
-                                    color: Color.fromRGBO(143, 148, 251, 1),
+                        child: Form(
+                          key: _formKey,
+                          child: Column(
+                            children: <Widget>[
+                              Container(
+                                padding: EdgeInsets.all(8.w),
+                                decoration: BoxDecoration(
+                                  border: Border(
+                                    bottom: BorderSide(
+                                      color: Color.fromRGBO(143, 148, 251, 1),
+                                    ),
                                   ),
                                 ),
-                              ),
-                              child: TextFormField(
-                                controller: controller.emailController,
-                                decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  hintText: "Enter Your Email",
-                                  hintStyle: TextStyle(
-                                    color: Colors.grey[700],
+                                child: TextFormField(
+                                  controller: controller.emailController,
+                                  autocorrect: true,
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    hintText: "Enter Your Email",
+                                    hintStyle: TextStyle(
+                                      color: Colors.grey[700],
+                                    ),
                                   ),
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Please enter your email';
+                                    }
+                                    // Add more email validation if necessary
+                                    return null;
+                                  },
                                 ),
                               ),
-                            ),
-                            Container(
-                              padding: EdgeInsets.all(8.w),
-                              child: TextFormField(
-                                controller: controller.passwordController,
-                                obscureText: true,
-                                decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  hintText: "Password",
-                                  hintStyle: TextStyle(
-                                    color: Colors.grey[700],
+                              Container(
+                                padding: EdgeInsets.all(8.w),
+                                child: TextFormField(
+                                  autocorrect: true,
+                                  controller: controller.passwordController,
+                                  obscureText: true,
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    hintText: "Password",
+                                    hintStyle: TextStyle(
+                                      color: Colors.grey[700],
+                                    ),
                                   ),
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Please enter your password';
+                                    }
+                                    // Add more password validation if necessary
+                                    return null;
+                                  },
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),
                     SizedBox(
-                      height: 25.h,
+                      height: 30.h,
                     ),
                     FadeInUp(
                       duration: Duration(milliseconds: 1900),
@@ -196,10 +213,12 @@ class LoginScreen extends GetView<LoginController> {
                           ),
                         ),
                         onTap: () {
-                          final box = GetStorage();
-                          print(box.read('adminemail'));
-
-                          controller.login();
+                          // final box = GetStorage();
+                          // print(box.read('adminemail'));
+                          if (_formKey.currentState!.validate()) {
+                            controller.login(controller.emailController.text,
+                                controller.passwordController.text);
+                          }
                         },
                       ),
                     ),
