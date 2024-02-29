@@ -71,5 +71,15 @@ class Nav {
       page: () => const AdminAddproductScreen(),
       binding: AdminAddproductControllerBinding(),
     ),
+    GetPage(
+      name: Routes.DOUSER_INVOICE,
+      page: () => const DouserInvoiceScreen(),
+      binding: DouserInvoiceControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.DOUSER_INVOICEPREVIEW,
+      page: () => const DouserInvoicepreviewScreen(),
+      binding: DouserInvoicepreviewControllerBinding(),
+    ),
   ];
 }

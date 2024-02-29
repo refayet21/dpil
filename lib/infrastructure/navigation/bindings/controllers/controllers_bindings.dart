@@ -4,6 +4,8 @@ export 'package:dpil/infrastructure/navigation/bindings/controllers/admin_addpro
 export 'package:dpil/infrastructure/navigation/bindings/controllers/admin_addvendor.controller.binding.dart'; 
 export 'package:dpil/infrastructure/navigation/bindings/controllers/admin_dashboard.controller.binding.dart'; 
 export 'package:dpil/infrastructure/navigation/bindings/controllers/douser_dashboard.controller.binding.dart'; 
+export 'package:dpil/infrastructure/navigation/bindings/controllers/douser_invoice.controller.binding.dart'; 
+export 'package:dpil/infrastructure/navigation/bindings/controllers/douser_invoicepreview.controller.binding.dart'; 
 export 'package:dpil/infrastructure/navigation/bindings/controllers/genuser_dashboard.controller.binding.dart'; 
 export 'package:dpil/infrastructure/navigation/bindings/controllers/login.controller.binding.dart';
 export 'package:dpil/infrastructure/navigation/bindings/controllers/splash.controller.binding.dart';
