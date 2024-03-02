@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:get/get.dart';
 import 'package:slide_to_act/slide_to_act.dart';
-
 import 'controllers/douser_dashboard.controller.dart';
 
 class DouserDashboardScreen extends StatelessWidget {
@@ -29,7 +29,7 @@ class DouserDashboardScreen extends StatelessWidget {
               ),
             ),
             Obx(() => Text(
-                  "Employee : ${controller.employeeId.value}",
+                  "Employee : ${controller.employeeName.value}",
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
@@ -119,33 +119,41 @@ class DouserDashboardScreen extends StatelessWidget {
               },
             ),
             const SizedBox(height: 24),
-            Obx(() => controller.checkOut.value == "--/--"
-                ? SlideAction(
-                    text: controller.checkIn.value == "--/--"
-                        ? "Slide to Check In"
-                        : "Slide to Check Out",
-                    textStyle: TextStyle(
-                      color: Colors.black54,
-                      fontSize: 20,
-                    ),
-                    outerColor: Colors.white,
-                    innerColor: Colors.blue,
-                    onSubmit: () {
-                      if (controller.checkIn.value == "--/--") {
-                        controller.checkInAction();
-                      } else {
-                        controller.checkOutAction();
-                      }
-                    },
-                  )
-                : Text(
-                    "You have completed this day!",
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.black54,
-                    ),
-                  )),
-            Obx(() => controller.locations.value != " "
+            controller.checkOut.value == "--/--"
+                ? Obx(() => SlideAction(
+                      key: controller.slideActionKey,
+                      text: controller.checkIn.value == "--/--"
+                          ? "Slide to Check In"
+                          : "Slide to Check Out",
+                      textStyle: TextStyle(
+                        color: Colors.black54,
+                        fontSize: 20,
+                      ),
+                      outerColor: Colors.white,
+                      innerColor: Colors.blue,
+                      onSubmit: () {
+                        if (controller.checkIn.value == "--/--") {
+                          controller.handleSlideAction(true);
+                        } else {
+                          controller.handleSlideAction(false);
+                        }
+                      },
+                    ))
+                : Obx(() => controller.checkOut.value != "--/--"
+                    ? Text(
+                        "You have completed this day!",
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.black54,
+                        ),
+                      )
+                    : SizedBox()),
+            SizedBox(
+              height: 10.h,
+            ),
+            Obx(() => controller.locations.value != " " &&
+                    (controller.checkIn.value != "--/--" ||
+                        controller.checkOut.value != "--/--")
                 ? Text(
                     "Location: ${controller.locations.value}",
                   )
