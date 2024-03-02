@@ -1,9 +1,15 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:intl/intl.dart';
 
 class DouserAttendenceController extends GetxController {
-  //TODO: Implement DouserAttendenceController
+  final box = GetStorage();
+  // var employeeId = box.read(
+  //   'employeeId',
+  // );
+  var employeeName = ''.obs;
 
-  final count = 0.obs;
   @override
   void onInit() {
     super.onInit();
@@ -12,12 +18,34 @@ class DouserAttendenceController extends GetxController {
   @override
   void onReady() {
     super.onReady();
+
+    getAttendanceRecords();
   }
 
-  @override
-  void onClose() {
-    super.onClose();
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  RxString selectedMonth = DateFormat('MMMM').format(DateTime.now()).obs;
+
+  Stream<QuerySnapshot> getAttendanceRecords() {
+    if (box
+        .read(
+          'employeeId',
+        )
+        .isNotEmpty) {
+      return _firestore
+          .collection("do_users")
+          .doc(box.read(
+            'employeeId',
+          ))
+          .collection("Record")
+          .snapshots();
+    } else {
+      print('Employee ID is empty');
+      return Stream.empty(); // Return an empty stream if employeeId is empty
+    }
   }
 
-  void increment() => count.value++;
+  void updateSelectedMonth(DateTime month) {
+    selectedMonth.value = DateFormat('MMMM').format(month);
+  }
 }

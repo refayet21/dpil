@@ -83,7 +83,7 @@ class Nav {
     ),
     GetPage(
       name: Routes.DOUSER_ATTENDENCE,
-      page: () => const DouserAttendenceScreen(),
+      page: () => DouserAttendenceScreen(),
       binding: DouserAttendenceControllerBinding(),
     ),
   ];
