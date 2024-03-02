@@ -1,72 +1,64 @@
-// ignore_for_file: must_be_immutable
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 import 'package:month_year_picker/month_year_picker.dart';
 
 import 'controllers/douser_attendence.controller.dart';
 
-class DouserAttendenceScreen extends GetView<DouserAttendenceController> {
-  DouserAttendenceScreen({Key? key}) : super(key: key);
-  DouserAttendenceController _calendarController =
+class DouserAttendenceScreen extends StatelessWidget {
+  final DouserAttendenceController _calendarController =
       Get.put(DouserAttendenceController());
+
   @override
   Widget build(BuildContext context) {
-    double screenHeight = MediaQuery.of(context).size.height;
-    double screenWidth = MediaQuery.of(context).size.width;
-
     return Scaffold(
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
-            GetBuilder<DouserAttendenceController>(
-              builder: (_) => Stack(
-                children: [
-                  Container(
-                    alignment: Alignment.centerLeft,
-                    margin: const EdgeInsets.only(top: 32),
-                    child: Text(
-                      _.selectedMonth.value,
-                      style: TextStyle(
-                        fontFamily: "NexaBold",
-                        fontSize: screenWidth / 18,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    alignment: Alignment.centerRight,
-                    margin: const EdgeInsets.only(top: 32),
-                    child: GestureDetector(
-                      onTap: () async {
-                        final month = await showMonthYearPicker(
-                          context: context,
-                          initialDate: DateTime.now(),
-                          firstDate: DateTime(2022),
-                          lastDate: DateTime(2099),
-                        );
-
-                        if (month != null) {
-                          _calendarController.updateSelectedMonth(month);
-                        }
-                      },
+            Obx(() => Stack(
+                  children: [
+                    Container(
+                      alignment: Alignment.centerLeft,
+                      margin: const EdgeInsets.only(top: 32),
                       child: Text(
-                        "Pick a Month",
+                        _calendarController.selectedMonth.value,
                         style: TextStyle(
                           fontFamily: "NexaBold",
-                          fontSize: screenWidth / 18,
+                          fontSize: MediaQuery.of(context).size.width / 18,
                         ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-            ),
+                    Container(
+                      alignment: Alignment.centerRight,
+                      margin: const EdgeInsets.only(top: 32),
+                      child: GestureDetector(
+                        onTap: () async {
+                          final month = await showMonthYearPicker(
+                            context: context,
+                            initialDate: DateTime.now(),
+                            firstDate: DateTime(2022),
+                            lastDate: DateTime(2099),
+                          );
+
+                          if (month != null) {
+                            _calendarController.updateSelectedMonth(month);
+                          }
+                        },
+                        child: Text(
+                          "Pick a Month",
+                          style: TextStyle(
+                            fontFamily: "NexaBold",
+                            fontSize: MediaQuery.of(context).size.width / 18,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                )),
             SizedBox(
-              height: screenHeight / 1.45,
+              height: MediaQuery.of(context).size.height / 1.45,
               child: StreamBuilder<QuerySnapshot>(
                 stream: _calendarController.getAttendanceRecords(),
                 builder: (BuildContext context,
@@ -103,7 +95,6 @@ class DouserAttendenceScreen extends GetView<DouserAttendenceController> {
                                       child: Container(
                                         margin: const EdgeInsets.only(),
                                         decoration: BoxDecoration(
-                                          // color: primary,
                                           borderRadius: const BorderRadius.all(
                                               Radius.circular(20)),
                                         ),
@@ -113,7 +104,10 @@ class DouserAttendenceScreen extends GetView<DouserAttendenceController> {
                                                 snap[index]['date'].toDate()),
                                             style: TextStyle(
                                               fontFamily: "NexaBold",
-                                              fontSize: screenWidth / 18,
+                                              fontSize: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  18,
                                               color: Colors.white,
                                             ),
                                           ),
@@ -131,7 +125,10 @@ class DouserAttendenceScreen extends GetView<DouserAttendenceController> {
                                             "Check In",
                                             style: TextStyle(
                                               fontFamily: "NexaRegular",
-                                              fontSize: screenWidth / 20,
+                                              fontSize: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  20,
                                               color: Colors.black54,
                                             ),
                                           ),
@@ -139,7 +136,10 @@ class DouserAttendenceScreen extends GetView<DouserAttendenceController> {
                                             snap[index]['checkIn'],
                                             style: TextStyle(
                                               fontFamily: "NexaBold",
-                                              fontSize: screenWidth / 18,
+                                              fontSize: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  18,
                                             ),
                                           ),
                                         ],
@@ -156,7 +156,10 @@ class DouserAttendenceScreen extends GetView<DouserAttendenceController> {
                                             "Check Out",
                                             style: TextStyle(
                                               fontFamily: "NexaRegular",
-                                              fontSize: screenWidth / 20,
+                                              fontSize: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  20,
                                               color: Colors.black54,
                                             ),
                                           ),
@@ -164,7 +167,10 @@ class DouserAttendenceScreen extends GetView<DouserAttendenceController> {
                                             snap[index]['checkOut'],
                                             style: TextStyle(
                                               fontFamily: "NexaBold",
-                                              fontSize: screenWidth / 18,
+                                              fontSize: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  18,
                                             ),
                                           ),
                                         ],
