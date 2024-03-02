@@ -1,3 +1,4 @@
+import 'package:dpil/presentation/widgets/do_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
@@ -12,6 +13,7 @@ class DouserDashboardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: DoDrawer(),
       appBar: AppBar(
         title: const Text('DPIL'),
         centerTitle: true,
