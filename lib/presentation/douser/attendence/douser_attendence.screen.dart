@@ -1,4 +1,6 @@
+import 'package:dpil/presentation/widgets/do_drawer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
@@ -13,8 +15,13 @@ class DouserAttendenceScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: DoDrawer(),
+      appBar: AppBar(
+        title: const Text('DPIL'),
+        centerTitle: true,
+      ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(20),
+        padding: EdgeInsets.all(20.h),
         child: Column(
           children: [
             Obx(() => Stack(
@@ -25,7 +32,6 @@ class DouserAttendenceScreen extends StatelessWidget {
                       child: Text(
                         _calendarController.selectedMonth.value,
                         style: TextStyle(
-                          fontFamily: "NexaBold",
                           fontSize: MediaQuery.of(context).size.width / 18,
                         ),
                       ),
@@ -49,7 +55,6 @@ class DouserAttendenceScreen extends StatelessWidget {
                         child: Text(
                           "Pick a Month",
                           style: TextStyle(
-                            fontFamily: "NexaBold",
                             fontSize: MediaQuery.of(context).size.width / 18,
                           ),
                         ),
@@ -102,7 +107,6 @@ class DouserAttendenceScreen extends StatelessWidget {
                                       child: Text(
                                         DateFormat('EE\ndd').format(date),
                                         style: TextStyle(
-                                          fontFamily: "NexaBold",
                                           fontSize: MediaQuery.of(context)
                                                   .size
                                                   .width /
@@ -133,7 +137,6 @@ class DouserAttendenceScreen extends StatelessWidget {
                                       Text(
                                         snap[index]['checkIn'],
                                         style: TextStyle(
-                                          fontFamily: "NexaBold",
                                           fontSize: MediaQuery.of(context)
                                                   .size
                                                   .width /
@@ -163,7 +166,6 @@ class DouserAttendenceScreen extends StatelessWidget {
                                       Text(
                                         snap[index]['checkOut'],
                                         style: TextStyle(
-                                          fontFamily: "NexaBold",
                                           fontSize: MediaQuery.of(context)
                                                   .size
                                                   .width /
