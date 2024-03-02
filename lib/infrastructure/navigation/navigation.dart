@@ -81,5 +81,10 @@ class Nav {
       page: () => const DouserInvoicepreviewScreen(),
       binding: DouserInvoicepreviewControllerBinding(),
     ),
+    GetPage(
+      name: Routes.DOUSER_ATTENDENCE,
+      page: () => const DouserAttendenceScreen(),
+      binding: DouserAttendenceControllerBinding(),
+    ),
   ];
 }

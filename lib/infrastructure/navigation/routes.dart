@@ -10,8 +10,9 @@ class Routes {
   static const ADMIN_DASHBOARD = '/admin-dashboard';
   static const DOUSER_DASHBOARD = '/douser-dashboard';
   static const DOUSER_INVOICE = '/douser-invoice';
+  static const DOUSER_INVOICEPREVIEW = '/douser-invoicepreview';
   static const GENUSER_DASHBOARD = '/genuser-dashboard';
   static const LOGIN = '/login';
   static const SPLASH = '/splash';
-  static const DOUSER_INVOICEPREVIEW = '/douser-invoicepreview';
+  static const DOUSER_ATTENDENCE = '/douser-attendence';
 }
