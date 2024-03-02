@@ -192,9 +192,10 @@ class DouserDashboardController extends GetxController {
 
   @override
   void onReady() {
-    _getUserInfoAndRecord();
-    _getRecord();
     super.onReady();
+
+    // _getRecord();
+    _getUserInfoAndRecord();
   }
 
   Future<void> initialize() async {
@@ -245,6 +246,9 @@ class DouserDashboardController extends GetxController {
       DocumentSnapshot userDoc = userSnapshot.docs.first;
       employeeId.value = userDoc.id;
       employeeName.value = userDoc['name'];
+      // box.write('employeeId', userDoc.id);
+      _getRecord();
+      print('_getUserInfoAndRecord is called');
     } catch (e) {
       print("Error getting user info and record: $e");
     }
@@ -255,8 +259,10 @@ class DouserDashboardController extends GetxController {
       print("Employee ID: ${employeeId.value}"); // Add this debug statement
       DocumentSnapshot recordSnapshot = await FirebaseFirestore.instance
           .collection("do_users")
-          // .doc(employeeId.value)
-          .doc('aPrpGE6yhgqt8eVUFdai')
+          .doc(employeeId.value)
+          // .doc(box.read(
+          //   'employeeId',
+          // ))
           .collection("Record")
           .doc(DateFormat('dd MMMM yyyy').format(DateTime.now()))
           .get();
@@ -267,6 +273,8 @@ class DouserDashboardController extends GetxController {
         checkIn.value = "--/--";
         checkOut.value = "--/--";
       }
+
+      print('_getRecord method is called');
     } catch (e) {
       print("Error getting record: $e");
       checkIn.value = "--/--";

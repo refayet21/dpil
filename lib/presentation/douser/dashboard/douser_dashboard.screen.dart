@@ -119,35 +119,37 @@ class DouserDashboardScreen extends StatelessWidget {
               },
             ),
             const SizedBox(height: 24),
-            controller.checkOut.value == "--/--"
-                ? Obx(() => SlideAction(
-                      key: controller.slideActionKey,
-                      text: controller.checkIn.value == "--/--"
-                          ? "Slide to Check In"
-                          : "Slide to Check Out",
-                      textStyle: TextStyle(
-                        color: Colors.black54,
-                        fontSize: 20,
-                      ),
-                      outerColor: Colors.white,
-                      innerColor: Colors.blue,
-                      onSubmit: () {
-                        if (controller.checkIn.value == "--/--") {
-                          controller.handleSlideAction(true);
-                        } else {
-                          controller.handleSlideAction(false);
-                        }
-                      },
-                    ))
-                : Obx(() => controller.checkOut.value != "--/--"
-                    ? Text(
-                        "You have completed this day!",
-                        style: TextStyle(
-                          fontSize: 20,
+            Obx(
+              () => controller.checkOut.value == "--/--"
+                  ? Obx(() => SlideAction(
+                        key: controller.slideActionKey,
+                        text: controller.checkIn.value == "--/--"
+                            ? "Slide to Check In"
+                            : "Slide to Check Out",
+                        textStyle: TextStyle(
                           color: Colors.black54,
+                          fontSize: 20,
                         ),
-                      )
-                    : SizedBox()),
+                        outerColor: Colors.white,
+                        innerColor: Colors.blue,
+                        onSubmit: () {
+                          if (controller.checkIn.value == "--/--") {
+                            controller.handleSlideAction(true);
+                          } else {
+                            controller.handleSlideAction(false);
+                          }
+                        },
+                      ))
+                  : Obx(() => controller.checkOut.value != "--/--"
+                      ? Text(
+                          "You have completed this day!",
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.black54,
+                          ),
+                        )
+                      : SizedBox()),
+            ),
             SizedBox(
               height: 10.h,
             ),
