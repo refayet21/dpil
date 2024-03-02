@@ -68,118 +68,117 @@ class DouserAttendenceScreen extends StatelessWidget {
                     return ListView.builder(
                       itemCount: snap.length,
                       itemBuilder: (context, index) {
-                        return DateFormat('MMMM')
-                                    .format(snap[index]['date'].toDate()) ==
-                                _calendarController.selectedMonth.value
-                            ? Container(
-                                margin: EdgeInsets.only(
-                                    top: index > 0 ? 12 : 0, left: 6, right: 6),
-                                height: 150,
-                                decoration: const BoxDecoration(
-                                  color: Colors.white,
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black26,
-                                      blurRadius: 10,
-                                      offset: Offset(2, 2),
-                                    ),
-                                  ],
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(20)),
+                        DateTime date = snap[index]['date'].toDate();
+                        if (DateFormat('MMMM').format(date) ==
+                            _calendarController.selectedMonth.value) {
+                          return Container(
+                            margin: EdgeInsets.only(
+                                top: index > 0 ? 12 : 0, left: 6, right: 6),
+                            height: 150,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black26,
+                                  blurRadius: 10,
+                                  offset: Offset(2, 2),
                                 ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Expanded(
-                                      child: Container(
-                                        margin: const EdgeInsets.only(),
-                                        decoration: BoxDecoration(
-                                          borderRadius: const BorderRadius.all(
-                                              Radius.circular(20)),
-                                        ),
-                                        child: Center(
-                                          child: Text(
-                                            DateFormat('EE\ndd').format(
-                                                snap[index]['date'].toDate()),
-                                            style: TextStyle(
-                                              fontFamily: "NexaBold",
-                                              fontSize: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  18,
-                                              color: Colors.white,
-                                            ),
-                                          ),
+                              ],
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20)),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Expanded(
+                                  child: Container(
+                                    margin: const EdgeInsets.only(),
+                                    decoration: BoxDecoration(
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(20)),
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        DateFormat('EE\ndd').format(date),
+                                        style: TextStyle(
+                                          fontFamily: "NexaBold",
+                                          fontSize: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              18,
+                                          color: Colors.white,
                                         ),
                                       ),
                                     ),
-                                    Expanded(
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            "Check In",
-                                            style: TextStyle(
-                                              fontFamily: "NexaRegular",
-                                              fontSize: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  20,
-                                              color: Colors.black54,
-                                            ),
-                                          ),
-                                          Text(
-                                            snap[index]['checkIn'],
-                                            style: TextStyle(
-                                              fontFamily: "NexaBold",
-                                              fontSize: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  18,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            "Check Out",
-                                            style: TextStyle(
-                                              fontFamily: "NexaRegular",
-                                              fontSize: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  20,
-                                              color: Colors.black54,
-                                            ),
-                                          ),
-                                          Text(
-                                            snap[index]['checkOut'],
-                                            style: TextStyle(
-                                              fontFamily: "NexaBold",
-                                              fontSize: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  18,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
+                                  ),
                                 ),
-                              )
-                            : const SizedBox();
+                                Expanded(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        "Check In",
+                                        style: TextStyle(
+                                          fontFamily: "NexaRegular",
+                                          fontSize: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              20,
+                                          color: Colors.black54,
+                                        ),
+                                      ),
+                                      Text(
+                                        snap[index]['checkIn'],
+                                        style: TextStyle(
+                                          fontFamily: "NexaBold",
+                                          fontSize: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              18,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        "Check Out",
+                                        style: TextStyle(
+                                          fontFamily: "NexaRegular",
+                                          fontSize: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              20,
+                                          color: Colors.black54,
+                                        ),
+                                      ),
+                                      Text(
+                                        snap[index]['checkOut'],
+                                        style: TextStyle(
+                                          fontFamily: "NexaBold",
+                                          fontSize: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              18,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        } else {
+                          return SizedBox();
+                        }
                       },
                     );
                   } else {
