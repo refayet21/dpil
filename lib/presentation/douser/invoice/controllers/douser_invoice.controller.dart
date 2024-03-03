@@ -1,80 +1,158 @@
-import 'dart:io';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dpil/presentation/admin/addvendor/controllers/admin_addvendor.controller.dart';
+import 'package:dpil/presentation/douser/invoicepreview/douser_invoicepreview.screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:get/get.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
+import 'package:dpil/model/vendor.dart';
 
 class DouserInvoiceController extends GetxController {
-  RxList<String> attachments = <String>[].obs;
-  int pdfCount = 0;
-  Rx<Uint8List?> pdfBytes = Rx<Uint8List?>(null);
-
-  Future<void> sendEmail(
-      List<String> recipients, String subject, String body) async {
-    if (attachments.isEmpty) {
-      await generatePdf();
-    }
-
-    final Email email = Email(
-      recipients: recipients,
-      subject: subject,
-      body: body,
-      attachmentPaths: attachments,
-    );
-
-    try {
-      await FlutterEmailSender.send(email);
-    } catch (error) {
-      print('Error sending email: $error');
-    }
+  RxList<VendorModel> vendors = RxList<VendorModel>([]);
+  AdminAddvendorController vendorAddController =
+      Get.put(AdminAddvendorController());
+  late CollectionReference collectionReference;
+  static final FirebaseAuth _auth = FirebaseAuth.instance;
+  static Future<void> logout() {
+    return _auth.signOut();
   }
 
-  Future<void> generatePdf() async {
-    // Increment the PDF count for each generation
-    pdfCount++;
+  Stream<List<VendorModel>> getAllVendors() =>
+      collectionReference.snapshots().map((query) =>
+          query.docs.map((item) => VendorModel.fromJson(item)).toList());
 
-    // Generate invoice number
-    final String currentDate = DateTime.now().day.toString().padLeft(2, '0');
-    final String currentMonth = DateTime.now().month.toString().padLeft(2, '0');
-    final String currentYear = DateTime.now().year.toString();
-    final String invoiceNumber =
-        'DPLC/$currentDate/$currentMonth/$currentYear/S-$pdfCount';
+  // Dropdown options
+  List<String> dropdownOptions = ['Product 1', 'Product 2', 'Product 3'];
 
-    // Create a new PDF document
-    final pdf = pw.Document();
+  // Getter method for dropdown options
+  List<String> getDropdownOptions() {
+    return dropdownOptions;
+  }
 
-    // Add content to the PDF
-    pdf.addPage(
-      pw.Page(
-        build: (pw.Context context) => pw.Column(
-          crossAxisAlignment: pw.CrossAxisAlignment.start,
+  Future<void> generateInvoicePdf(String vendorName, String date,
+      String productName, double productPrice, int productQuantity) async {
+    final doc = pw.Document();
+    try {
+      // Load fonts
+      final fontData = await rootBundle.load("assets/fonts/robotoregular.ttf");
+      final ttf = pw.Font.ttf(fontData);
+
+      // Invoice Header
+      final header = pw.Container(
+        alignment: pw.Alignment.center,
+        child: pw.Column(
           children: [
             pw.Text(
-              'Invoice Number: $invoiceNumber',
-              style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
+              'Invoice',
+              style: pw.TextStyle(
+                fontSize: 20.0,
+                fontWeight: pw.FontWeight.bold,
+                font: ttf,
+              ),
             ),
-            pw.SizedBox(height: 20),
+            pw.SizedBox(height: 10.0),
             pw.Text(
-              'Recipient: refayet21@gmail.com\n'
-              'Subject: subject\n'
-              'Body: body',
+              '$vendorName',
+              style: pw.TextStyle(
+                fontWeight: pw.FontWeight.bold,
+                font: ttf,
+              ),
+            ),
+            pw.Text(
+              'Date: $date',
+              style: pw.TextStyle(
+                fontWeight: pw.FontWeight.bold,
+                font: ttf,
+              ),
             ),
           ],
         ),
-      ),
-    );
+      );
 
-    final Uint8List bytes = await pdf.save();
+      // Invoice Body
+      final body = pw.Container(
+        child: pw.Table.fromTextArray(
+          context: null,
+          cellAlignment: pw.Alignment.centerLeft,
+          headerAlignment: pw.Alignment.centerLeft,
+          headerStyle: pw.TextStyle(
+            fontWeight: pw.FontWeight.bold,
+            font: ttf,
+          ),
+          cellStyle: pw.TextStyle(),
+          headerDecoration: pw.BoxDecoration(color: PdfColors.grey300),
+          headers: <String>['Product Name', 'Price', 'Quantity'],
+          data: <List<String>>[
+            [productName, productPrice.toString(), productQuantity.toString()],
+          ],
+        ),
+      );
 
-    pdfBytes.value = bytes;
+      // Calculate total price
+      final totalPrice = productPrice * productQuantity;
 
-    final tempDir = await getTemporaryDirectory();
-    final pdfFile = File('${tempDir.path}/example.pdf');
-    await pdfFile.writeAsBytes(bytes);
+      // Invoice Footer
+      final footer = pw.Container(
+        alignment: pw.Alignment.centerRight,
+        child: pw.Column(
+          children: [
+            pw.Text(
+              'Total Price: $totalPrice',
+              style: pw.TextStyle(
+                fontWeight: pw.FontWeight.bold,
+                font: ttf,
+              ),
+            ),
+          ],
+        ),
+      );
 
-    attachments.add(pdfFile.path);
+      // Add pages to the PDF document
+      doc.addPage(
+        pw.Page(
+          pageFormat: PdfPageFormat.a4,
+          theme: pw.ThemeData.withFont(
+            base: ttf,
+          ),
+          build: (pw.Context context) {
+            return pw.Expanded(
+              child: pw.Padding(
+                padding: pw.EdgeInsets.all(10),
+                child: pw.Column(
+                  crossAxisAlignment: pw.CrossAxisAlignment.start,
+                  children: [
+                    header,
+                    body,
+                    footer,
+                  ],
+                ),
+              ),
+            );
+          },
+        ),
+      );
+
+      Get.to(() => DouserInvoicepreviewScreen(doc: doc));
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
+
+  @override
+  void onInit() {
+    super.onInit();
+
+    vendors = vendorAddController.vendors;
+  }
+
+  @override
+  void onReady() {
+    super.onReady();
+  }
+
+  @override
+  void onClose() {
+    super.onClose();
   }
 }

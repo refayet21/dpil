@@ -78,7 +78,7 @@ class Nav {
     ),
     GetPage(
       name: Routes.DOUSER_INVOICEPREVIEW,
-      page: () => const DouserInvoicepreviewScreen(),
+      page: () => DouserInvoicepreviewScreen(),
       binding: DouserInvoicepreviewControllerBinding(),
     ),
     GetPage(
