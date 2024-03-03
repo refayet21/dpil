@@ -27,6 +27,8 @@ dependencies:
   firebase_storage: ^11.6.0
   image_picker: ^1.0.7
   month_year_picker: ^0.3.0+1 
+  pdf: ^3.10.8
+  printing: ^5.12.0
 
 dev_dependencies: 
   flutter_lints: ^2.0.0
@@ -38,4 +40,10 @@ flutter:
   assets: 
     - assets/
     - assets/images/
+    - assets/fonts/robotoregular.ttf
+
+fonts:
+    - family: robotoregular
+      fonts:
+        - asset: assets/fonts/robotoregular.ttf
 

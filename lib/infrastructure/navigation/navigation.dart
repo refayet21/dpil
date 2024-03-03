@@ -73,7 +73,7 @@ class Nav {
     ),
     GetPage(
       name: Routes.DOUSER_INVOICE,
-      page: () => const DouserInvoiceScreen(),
+      page: () => DouserInvoiceScreen(),
       binding: DouserInvoiceControllerBinding(),
     ),
     GetPage(
