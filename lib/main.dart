@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
+import 'package:month_year_picker/month_year_picker.dart';
 
 import 'infrastructure/navigation/navigation.dart';
 import 'infrastructure/navigation/routes.dart';
@@ -35,6 +36,9 @@ class Main extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         initialRoute: initialRoute,
         getPages: Nav.routes,
+        localizationsDelegates: const [
+          MonthYearPickerLocalizations.delegate,
+        ],
       ),
     );
   }
