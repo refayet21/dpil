@@ -18,10 +18,12 @@ class DouserInvoicepreviewController extends GetxController {
     super.onClose();
   }
 
-  Future<void> sendEmail(List<String> recipients, String subject, String body,
-      List<String>? attachmentPaths) async {
+  Future<void> sendEmail(List<String> to, List<String> cc, List<String> bcc,
+      String subject, String body, List<String>? attachmentPaths) async {
     final Email email = Email(
-        recipients: recipients,
+        recipients: to,
+        cc: cc,
+        bcc: bcc,
         subject: subject,
         body: body,
         attachmentPaths: attachmentPaths);

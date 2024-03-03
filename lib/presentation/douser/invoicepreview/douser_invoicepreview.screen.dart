@@ -43,9 +43,15 @@ class DouserInvoicepreviewScreen
           ElevatedButton(
             onPressed: () async {
               // Fetch your recipients, subject, and body as needed
-              List<String> recipients = ['refayet21@gmail.com'];
-              String subject = 'Your Subject';
-              String body = 'Your Email Body';
+              List<String> to = [
+                'mosarof.del@gmail.com',
+                'sanzid.dpil@gmail.com'
+              ];
+              List<String> cc = [];
+              List<String> bcc = [];
+
+              String subject = ' Subject';
+              String body = ' Email Body';
 
               // Get the directory path for documents
               String dir = (await getApplicationDocumentsDirectory()).path;
@@ -58,7 +64,7 @@ class DouserInvoicepreviewScreen
               await file.writeAsBytes(await doc!.save());
 
               // Call the sendEmail method from your controller
-              controller.sendEmail(recipients, subject, body, [pdfPath]);
+              controller.sendEmail(to, cc, bcc, subject, body, [pdfPath]);
             },
             child: Text('Send Email'),
           ),

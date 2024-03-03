@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dpil/presentation/admin/addvendor/controllers/admin_addvendor.controller.dart';
 import 'package:dpil/presentation/douser/invoicepreview/douser_invoicepreview.screen.dart';
@@ -38,94 +40,699 @@ class DouserInvoiceController extends GetxController {
       final fontData = await rootBundle.load("assets/fonts/robotoregular.ttf");
       final ttf = pw.Font.ttf(fontData);
 
-      // Invoice Header
-      final header = pw.Container(
-        alignment: pw.Alignment.center,
-        child: pw.Column(
-          children: [
-            pw.Text(
-              'Invoice',
-              style: pw.TextStyle(
-                fontSize: 20.0,
-                fontWeight: pw.FontWeight.bold,
-                font: ttf,
-              ),
-            ),
-            pw.SizedBox(height: 10.0),
-            pw.Text(
-              '$vendorName',
-              style: pw.TextStyle(
-                fontWeight: pw.FontWeight.bold,
-                font: ttf,
-              ),
-            ),
-            pw.Text(
-              'Date: $date',
-              style: pw.TextStyle(
-                fontWeight: pw.FontWeight.bold,
-                font: ttf,
-              ),
-            ),
-          ],
-        ),
-      );
+      final iconImage = (await rootBundle.load('assets/images/logo.png'))
+          .buffer
+          .asUint8List();
 
-      // Invoice Body
-      final body = pw.Container(
-        child: pw.Table.fromTextArray(
-          context: null,
-          cellAlignment: pw.Alignment.centerLeft,
-          headerAlignment: pw.Alignment.centerLeft,
-          headerStyle: pw.TextStyle(
-            fontWeight: pw.FontWeight.bold,
-            font: ttf,
-          ),
-          cellStyle: pw.TextStyle(),
-          headerDecoration: pw.BoxDecoration(color: PdfColors.grey300),
-          headers: <String>['Product Name', 'Price', 'Quantity'],
-          data: <List<String>>[
-            [productName, productPrice.toString(), productQuantity.toString()],
-          ],
-        ),
-      );
+      final tableHeaders = [
+        'S.L',
+        'Description',
+        'Roll',
+        'Meter',
+        'Total Meter',
+        'Rate(Tk)',
+        'Amount(Tk)',
+        'Remarks',
+      ];
 
-      // Calculate total price
-      final totalPrice = productPrice * productQuantity;
+      final tableData = [
+        [
+          '1'
+              'Coffee',
+          '7',
+          '\$ 5',
+          '1 %',
+          '\$ 35',
+          'Good'
+        ],
+        [
+          '1'
+              'Coffee',
+          '7',
+          '\$ 5',
+          '1 %',
+          '\$ 35',
+          'Good'
+        ],
+        [
+          '1'
+              'Coffee',
+          '7',
+          '\$ 5',
+          '1 %',
+          '\$ 35',
+          'Good'
+        ],
+        [
+          '1'
+              'Coffee',
+          '7',
+          '\$ 5',
+          '1 %',
+          '\$ 35',
+          'Good'
+        ],
+        [
+          '1'
+              'Coffee',
+          '7',
+          '\$ 5',
+          '1 %',
+          '\$ 35',
+          'Good'
+        ],
+      ];
 
-      // Invoice Footer
-      final footer = pw.Container(
-        alignment: pw.Alignment.centerRight,
-        child: pw.Column(
-          children: [
-            pw.Text(
-              'Total Price: $totalPrice',
-              style: pw.TextStyle(
-                fontWeight: pw.FontWeight.bold,
-                font: ttf,
-              ),
-            ),
-          ],
-        ),
-      );
+      // doc.addPage(
+      //   pw.MultiPage(
+      //     build: (context) {
+      //       return [
+      //         pw.Row(
+      //           children: [
+      //             pw.Image(
+      //               pw.MemoryImage(iconImage),
+      //               height: 72,
+      //               width: 72,
+      //             ),
+      //             pw.SizedBox(width: 1 * PdfPageFormat.mm),
+      //             pw.Column(
+      //               mainAxisSize: pw.MainAxisSize.min,
+      //               crossAxisAlignment: pw.CrossAxisAlignment.start,
+      //               children: [
+      //                 pw.Text(
+      //                   'Dynamic Polymer Industries Ltd.',
+      //                   style: pw.TextStyle(
+      //                     fontSize: 17.0,
+      //                     fontWeight: pw.FontWeight.bold,
+      //                     // color: color,
+      //                     // font: fontFamily,
+      //                   ),
+      //                 ),
+      //                 pw.Text(
+      //                   'Eco-Friendly Solution',
+      //                   style: pw.TextStyle(
+      //                     fontSize: 15.0,
+      //                     // color: color,
+      //                     // font: fontFamily,
+      //                   ),
+      //                 ),
+      //                 pw.Text(
+      //                   'Exceptional Quality',
+      //                   style: pw.TextStyle(
+      //                     fontSize: 15.0,
+      //                     // color: color,
+      //                     // font: fontFamily,
+      //                   ),
+      //                 ),
+      //               ],
+      //             ),
+      //             pw.Spacer(),
 
-      // Add pages to the PDF document
+      //           ],
+      //         ),
+      //         pw.SizedBox(height: 1 * PdfPageFormat.mm),
+      //         pw.Divider(),
+      //         pw.SizedBox(height: 1 * PdfPageFormat.mm),
+      //         pw.Column(
+      //           mainAxisSize: pw.MainAxisSize.min,
+      //           crossAxisAlignment: pw.CrossAxisAlignment.start,
+      //           children: [
+      //             pw.Text(
+      //               'Delivery Order',
+      //               style: pw.TextStyle(
+      //                 fontSize: 15.5,
+      //                 fontWeight: pw.FontWeight.bold,
+      //                 // color: color,
+      //                 // font: fontFamily,
+      //               ),
+      //             ),
+      //             pw.Text(
+      //               'Date : ${DateTime.now().toString()}',
+      //               style: pw.TextStyle(
+      //                 fontSize: 14.0,
+      //                 // color: color,
+      //                 // font: fontFamily,
+      //               ),
+      //             ),
+      //           ],
+      //         ),
+
+      //         pw.SizedBox(height: 5 * PdfPageFormat.mm),
+
+      //         ///
+      //         /// PDF Table Create
+      //         ///
+      //         pw.Table.fromTextArray(
+      //           headers: tableHeaders,
+      //           data: tableData,
+      //           border: null,
+      //           headerStyle: pw.TextStyle(fontWeight: pw.FontWeight.bold),
+      //           headerDecoration:
+      //               const pw.BoxDecoration(color: PdfColors.grey300),
+      //           cellHeight: 30.0,
+      //           cellAlignments: {
+      //             0: pw.Alignment.centerLeft,
+      //             1: pw.Alignment.centerRight,
+      //             2: pw.Alignment.centerRight,
+      //             3: pw.Alignment.centerRight,
+      //             4: pw.Alignment.centerRight,
+      //           },
+      //         ),
+      //         pw.Divider(),
+      //         pw.Container(
+      //           alignment: pw.Alignment.centerRight,
+      //           child: pw.Row(
+      //             children: [
+      //               pw.Spacer(flex: 6),
+      //               pw.Expanded(
+      //                 flex: 4,
+      //                 child: pw.Column(
+      //                   crossAxisAlignment: pw.CrossAxisAlignment.start,
+      //                   children: [
+      //                     pw.Row(
+      //                       children: [
+      //                         pw.Expanded(
+      //                           child: pw.Text(
+      //                             'Net total',
+      //                             style: pw.TextStyle(
+      //                               fontWeight: pw.FontWeight.bold,
+      //                               // color: color,
+      //                               // font: fontFamily,
+      //                             ),
+      //                           ),
+      //                         ),
+      //                         pw.Text(
+      //                           '\$ 464',
+      //                           style: pw.TextStyle(
+      //                             fontWeight: pw.FontWeight.bold,
+      //                             // color: color,
+      //                             // font: fontFamily,
+      //                           ),
+      //                         ),
+      //                       ],
+      //                     ),
+      //                     pw.Row(
+      //                       children: [
+      //                         pw.Expanded(
+      //                           child: pw.Text(
+      //                             'Vat 19.5 %',
+      //                             style: pw.TextStyle(
+      //                               fontWeight: pw.FontWeight.bold,
+      //                               // color: color,
+      //                               // font: fontFamily,
+      //                             ),
+      //                           ),
+      //                         ),
+      //                         pw.Text(
+      //                           '\$ 90.48',
+      //                           style: pw.TextStyle(
+      //                             fontWeight: pw.FontWeight.bold,
+      //                             // color: color,
+      //                             // font: fontFamily,
+      //                           ),
+      //                         ),
+      //                       ],
+      //                     ),
+      //                     pw.Divider(),
+      //                     pw.Row(
+      //                       children: [
+      //                         pw.Expanded(
+      //                           child: pw.Text(
+      //                             'Total amount due',
+      //                             style: pw.TextStyle(
+      //                               fontSize: 14.0,
+      //                               fontWeight: pw.FontWeight.bold,
+      //                               // color: color,
+      //                               // font: fontFamily,
+      //                             ),
+      //                           ),
+      //                         ),
+      //                         pw.Text(
+      //                           '\$ 554.48',
+      //                           style: pw.TextStyle(
+      //                             fontWeight: pw.FontWeight.bold,
+      //                             // color: color,
+      //                             // font: fontFamily,
+      //                           ),
+      //                         ),
+      //                       ],
+      //                     ),
+      //                     pw.SizedBox(height: 2 * PdfPageFormat.mm),
+      //                     pw.Container(height: 1, color: PdfColors.grey400),
+      //                     pw.SizedBox(height: 0.5 * PdfPageFormat.mm),
+      //                     pw.Container(height: 1, color: PdfColors.grey400),
+      //                   ],
+      //                 ),
+      //               ),
+      //             ],
+      //           ),
+      //         ),
+      //       ];
+      //     },
+      //     footer: (context) {
+      //       return pw.Column(
+      //         mainAxisSize: pw.MainAxisSize.min,
+      //         children: [
+      //           pw.Divider(),
+      //           pw.SizedBox(height: 2 * PdfPageFormat.mm),
+      //           pw.Text(
+      //             'Flutter Approach',
+      //             style: pw.TextStyle(
+      //               fontWeight: pw.FontWeight.bold,
+      //               // color: color,
+      //               // font: fontFamily
+      //             ),
+      //           ),
+      //           pw.SizedBox(height: 1 * PdfPageFormat.mm),
+      //           pw.Row(
+      //             mainAxisAlignment: pw.MainAxisAlignment.center,
+      //             children: [
+      //               pw.Text(
+      //                 'Address: ',
+      //                 style: pw.TextStyle(
+      //                   fontWeight: pw.FontWeight.bold,
+      //                   // color: color,
+      //                   // font: fontFamily
+      //                 ),
+      //               ),
+      //               pw.Text(
+      //                 'Merul Badda, Anandanagor, Dhaka 1212',
+      //                 // style: pw.TextStyle(color: color, font: fontFamily),
+      //               ),
+      //             ],
+      //           ),
+      //           pw.SizedBox(height: 1 * PdfPageFormat.mm),
+      //           pw.Row(
+      //             mainAxisAlignment: pw.MainAxisAlignment.center,
+      //             children: [
+      //               pw.Text(
+      //                 'Email: ',
+      //                 // style: pw.TextStyle(
+      //                 //     fontWeight: pw.FontWeight.bold,
+      //                 //     color: color,
+      //                 //     font: fontFamily),
+      //               ),
+      //               pw.Text(
+      //                 'flutterapproach@gmail.com',
+      //                 // style:
+      //                 //     pw.TextStyle(color: color, font: pw.Font.courier()),
+      //               ),
+      //             ],
+      //           ),
+      //         ],
+      //       );
+      //     },
+      //   ),
+      // );
+
+      // doc.addPage(
+      //   pw.MultiPage(
+      //     build: (context) {
+      //       return [
+      //         pw.Container(
+      //           margin: pw.EdgeInsets.only(bottom: 10),
+      //           child: pw.Row(
+      //             children: [
+      //               pw.Expanded(
+      //                 flex: 2,
+      //                 child: pw.Column(
+      //                   crossAxisAlignment: pw.CrossAxisAlignment.start,
+      //                   children: [
+      //                     pw.Text(
+      //                       'Dynamic Polymer Industries Ltd.',
+      //                       style: pw.TextStyle(
+      //                         fontSize: 17.0,
+      //                         fontWeight: pw.FontWeight.bold,
+      //                       ),
+      //                     ),
+      //                     pw.Text(
+      //                       'Eco-Friendly Solution',
+      //                       style: pw.TextStyle(
+      //                         fontSize: 15.0,
+      //                       ),
+      //                     ),
+      //                     pw.Text(
+      //                       'Exceptional Quality',
+      //                       style: pw.TextStyle(
+      //                         fontSize: 15.0,
+      //                       ),
+      //                     ),
+      //                   ],
+      //                 ),
+      //               ),
+      //               pw.Expanded(
+      //                 flex: 1,
+      //                 child: pw.Column(
+      //                   crossAxisAlignment: pw.CrossAxisAlignment.end,
+      //                   children: [
+      //                     pw.Text(
+      //                       'Delivery Order',
+      //                       style: pw.TextStyle(
+      //                         fontSize: 15.5,
+      //                         fontWeight: pw.FontWeight.bold,
+      //                       ),
+      //                     ),
+      //                     pw.Text(
+      //                       'Date: 17.02.2024',
+      //                       style: pw.TextStyle(
+      //                         fontSize: 14.0,
+      //                       ),
+      //                     ),
+      //                   ],
+      //                 ),
+      //               ),
+      //             ],
+      //           ),
+      //         ),
+      //         pw.SizedBox(height: 10),
+      //         pw.Table.fromTextArray(
+      //           headers: [
+      //             'S.L',
+      //             'Description',
+      //             'Roll',
+      //             'Meter',
+      //             'Total Meter',
+      //             'Rate (Tk)',
+      //             'Amount (Tk)',
+      //             'Remarks',
+      //           ],
+      //           data: [
+      //             [
+      //               '1',
+      //               '3mm basic Bubble',
+      //               '40',
+      //               '90',
+      //               '3600',
+      //               '13.5',
+      //               '48600',
+      //               ''
+      //             ],
+      //             ['Total', '', '', '', '48600', '', '48600', ''],
+      //           ],
+      //           border: pw.TableBorder.all(),
+      //           headerStyle: pw.TextStyle(
+      //             fontSize: 9.0,
+      //             fontWeight: pw.FontWeight.bold,
+      //           ),
+      //           cellAlignments: {
+      //             0: pw.Alignment.center,
+      //             1: pw.Alignment.centerLeft,
+      //             2: pw.Alignment.center,
+      //             3: pw.Alignment.center,
+      //             4: pw.Alignment.center,
+      //             5: pw.Alignment.center,
+      //             6: pw.Alignment.center,
+      //             7: pw.Alignment.center,
+      //           },
+      //         ),
+      //         pw.SizedBox(height: 10),
+      //         pw.Divider(),
+      //         pw.SizedBox(height: 10),
+      //         pw.Row(
+      //           mainAxisAlignment: pw.MainAxisAlignment.end,
+      //           children: [
+      //             pw.Text(
+      //               'IN WORDS BDT: FourtyEight Thousand Six Hundred Taka Only',
+      //               style: pw.TextStyle(
+      //                 fontSize: 11.0,
+      //               ),
+      //             ),
+      //           ],
+      //         ),
+      //         pw.SizedBox(height: 10),
+      //         pw.Text(
+      //           'Delivery Date: 17-02-2023',
+      //           style: pw.TextStyle(
+      //             fontSize: 11.0,
+      //           ),
+      //         ),
+      //         pw.SizedBox(height: 10),
+      //         pw.Text(
+      //           'Note: In case of failure in taking delivery within due time, beneficiary may cancel the D.O offered to the customer.',
+      //           style: pw.TextStyle(
+      //             fontSize: 11.0,
+      //           ),
+      //         ),
+      //         pw.SizedBox(height: 10),
+      //         pw.Divider(),
+      //         pw.SizedBox(height: 10),
+      //         pw.Container(
+      //           alignment: pw.Alignment.centerRight,
+      //           child: pw.Column(
+      //             crossAxisAlignment: pw.CrossAxisAlignment.end,
+      //             children: [
+      //               pw.Text(
+      //                 'Authorized Signature',
+      //                 style: pw.TextStyle(
+      //                   fontSize: 11.0,
+      //                   fontWeight: pw.FontWeight.bold,
+      //                 ),
+      //               ),
+      //             ],
+      //           ),
+      //         ),
+      //       ];
+      //     },
+      //     footer: (context) {
+      //       return pw.Container(
+      //         alignment: pw.Alignment.centerRight,
+      //         margin: const pw.EdgeInsets.only(top: 20.0),
+      //         child: pw.Text(
+      //           'Copy to: 01 Honorable Chairman (DPIL) 02 Controller Accounts (Head Office) 03 Head Of Operation (DPIL) 04 Head Of HR& Admin (DPIL) 05 In-Charge (Store)',
+      //           style: pw.TextStyle(
+      //             fontSize: 11.0,
+      //           ),
+      //         ),
+      //       );
+      //     },
+      //   ),
+      // );
+
       doc.addPage(
-        pw.Page(
-          pageFormat: PdfPageFormat.a4,
-          theme: pw.ThemeData.withFont(
-            base: ttf,
-          ),
-          build: (pw.Context context) {
-            return pw.Expanded(
-              child: pw.Padding(
-                padding: pw.EdgeInsets.all(10),
+        pw.MultiPage(
+          build: (context) {
+            return [
+              // Header Section
+
+              // Existing content...
+              pw.Container(
+                margin: pw.EdgeInsets.only(bottom: 10),
+                child: pw.Row(
+                  children: [
+                    pw.Expanded(
+                      flex: 2,
+                      child: pw.Column(
+                        crossAxisAlignment: pw.CrossAxisAlignment.start,
+                        children: [
+                          pw.Text(
+                            'Dynamic Polymer Industries Ltd.',
+                            style: pw.TextStyle(
+                              fontSize: 17.0,
+                              fontWeight: pw.FontWeight.bold,
+                            ),
+                          ),
+                          pw.Text(
+                            'Eco-Friendly Solution',
+                            style: pw.TextStyle(
+                              fontSize: 15.0,
+                            ),
+                          ),
+                          pw.Text(
+                            'Exceptional Quality',
+                            style: pw.TextStyle(
+                              fontSize: 15.0,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    pw.Expanded(
+                      flex: 1,
+                      child: pw.Column(
+                        crossAxisAlignment: pw.CrossAxisAlignment.end,
+                        children: [
+                          pw.Text(
+                            'Delivery Order',
+                            style: pw.TextStyle(
+                              fontSize: 15.5,
+                              fontWeight: pw.FontWeight.bold,
+                            ),
+                          ),
+                          pw.Text(
+                            'Date: 17.02.2024',
+                            style: pw.TextStyle(
+                              fontSize: 14.0,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              pw.Container(
+                margin: pw.EdgeInsets.only(bottom: 10),
                 child: pw.Column(
                   crossAxisAlignment: pw.CrossAxisAlignment.start,
                   children: [
-                    header,
-                    body,
-                    footer,
+                    pw.Row(
+                      mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                      children: [
+                        pw.Text(
+                          'DO#',
+                          style: pw.TextStyle(
+                            fontWeight: pw.FontWeight.bold,
+                          ),
+                        ),
+                        pw.Text(
+                          'Marketing Person: Atik DPIL',
+                          style: pw.TextStyle(
+                            fontWeight: pw.FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                    pw.SizedBox(height: 5),
+                    pw.Row(
+                      mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                      children: [
+                        pw.Text(
+                          'DO Type: Non Package',
+                          style: pw.TextStyle(
+                            fontWeight: pw.FontWeight.bold,
+                          ),
+                        ),
+                        pw.Text(
+                          'Supplier: Dynamic Polymer Industries Ltd.',
+                          style: pw.TextStyle(
+                            fontWeight: pw.FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                    pw.SizedBox(height: 5),
+                    pw.Text(
+                      'Supplier Address: West Dugri, Vawal Mirzapur, Gazipur',
+                      style: pw.TextStyle(
+                        fontWeight: pw.FontWeight.bold,
+                      ),
+                    ),
+                    pw.SizedBox(height: 5),
+                    pw.Text(
+                      'Customer Name: Moin and Brothers | Mobile: 01795-743317',
+                      style: pw.TextStyle(
+                        fontWeight: pw.FontWeight.bold,
+                      ),
+                    ),
+                    pw.Text(
+                      'Customer Address: Bangshal, Dhaka',
+                      style: pw.TextStyle(
+                        fontWeight: pw.FontWeight.bold,
+                      ),
+                    ),
                   ],
+                ),
+              ),
+
+              // Rest of the content...
+              pw.SizedBox(height: 10),
+              pw.Table.fromTextArray(
+                headers: [
+                  'S.L',
+                  'Description',
+                  'Roll',
+                  'Meter',
+                  'Total Meter',
+                  'Rate (Tk)',
+                  'Amount (Tk)',
+                  'Remarks',
+                ],
+                data: [
+                  [
+                    '1',
+                    '3mm basic Bubble',
+                    '40',
+                    '90',
+                    '3600',
+                    '13.5',
+                    '48600',
+                    ''
+                  ],
+                  ['Total', '', '', '', '48600', '', '48600', ''],
+                ],
+                border: pw.TableBorder.all(),
+                headerStyle: pw.TextStyle(
+                  fontSize: 9.0,
+                  fontWeight: pw.FontWeight.bold,
+                ),
+                cellAlignments: {
+                  0: pw.Alignment.center,
+                  1: pw.Alignment.centerLeft,
+                  2: pw.Alignment.center,
+                  3: pw.Alignment.center,
+                  4: pw.Alignment.center,
+                  5: pw.Alignment.center,
+                  6: pw.Alignment.center,
+                  7: pw.Alignment.center,
+                },
+              ),
+              pw.SizedBox(height: 10),
+              pw.Divider(),
+              pw.SizedBox(height: 10),
+              pw.Row(
+                mainAxisAlignment: pw.MainAxisAlignment.end,
+                children: [
+                  pw.Text(
+                    'IN WORDS BDT: FourtyEight Thousand Six Hundred Taka Only',
+                    style: pw.TextStyle(
+                      fontSize: 11.0,
+                    ),
+                  ),
+                ],
+              ),
+              pw.SizedBox(height: 10),
+              pw.Text(
+                'Delivery Date: 17-02-2023',
+                style: pw.TextStyle(
+                  fontSize: 11.0,
+                ),
+              ),
+              pw.SizedBox(height: 10),
+              pw.Text(
+                'Note: In case of failure in taking delivery within due time, beneficiary may cancel the D.O offered to the customer.',
+                style: pw.TextStyle(
+                  fontSize: 11.0,
+                ),
+              ),
+              pw.SizedBox(height: 10),
+              pw.Divider(),
+              pw.SizedBox(height: 10),
+              pw.Container(
+                alignment: pw.Alignment.centerRight,
+                child: pw.Column(
+                  crossAxisAlignment: pw.CrossAxisAlignment.end,
+                  children: [
+                    pw.Text(
+                      'Authorized Signature',
+                      style: pw.TextStyle(
+                        fontSize: 11.0,
+                        fontWeight: pw.FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ];
+          },
+          footer: (context) {
+            return pw.Container(
+              alignment: pw.Alignment.centerRight,
+              margin: const pw.EdgeInsets.only(top: 20.0),
+              child: pw.Text(
+                'Copy to: 01 Honorable Chairman (DPIL) 02 Controller Accounts (Head Office) 03 Head Of Operation (DPIL) 04 Head Of HR& Admin (DPIL) 05 In-Charge (Store)',
+                style: pw.TextStyle(
+                  fontSize: 11.0,
                 ),
               ),
             );
