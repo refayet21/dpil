@@ -10,4 +10,6 @@ class ImageConstant {
   static String clock = '$imagePath/clock.png';
   static String light1 = '$imagePath/light-1.png';
   static String light2 = '$imagePath/light-2.png';
+  static String pdfheader = '$imagePath/headerpad.png';
+  static String pdffooter = '$imagePath/footerpad.png';
 }

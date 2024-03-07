@@ -40,7 +40,10 @@ class DouserInvoiceController extends GetxController {
       final fontData = await rootBundle.load("assets/fonts/robotoregular.ttf");
       final ttf = pw.Font.ttf(fontData);
 
-      final iconImage = (await rootBundle.load('assets/images/logo.png'))
+      final header = (await rootBundle.load('assets/images/headerpad.png'))
+          .buffer
+          .asUint8List();
+      final footer = (await rootBundle.load('assets/images/footerpad.png'))
           .buffer
           .asUint8List();
 
@@ -510,6 +513,7 @@ class DouserInvoiceController extends GetxController {
 
       doc.addPage(
         pw.MultiPage(
+          pageFormat: PdfPageFormat.a4,
           build: (context) {
             return [
               // Header Section
@@ -520,53 +524,59 @@ class DouserInvoiceController extends GetxController {
                 child: pw.Row(
                   children: [
                     pw.Expanded(
-                      flex: 2,
+                      // flex: 2,
                       child: pw.Column(
-                        crossAxisAlignment: pw.CrossAxisAlignment.start,
+                        // crossAxisAlignment: pw.CrossAxisAlignment.start,
                         children: [
-                          pw.Text(
-                            'Dynamic Polymer Industries Ltd.',
-                            style: pw.TextStyle(
-                              fontSize: 17.0,
-                              fontWeight: pw.FontWeight.bold,
-                            ),
-                          ),
-                          pw.Text(
-                            'Eco-Friendly Solution',
-                            style: pw.TextStyle(
-                              fontSize: 15.0,
-                            ),
-                          ),
-                          pw.Text(
-                            'Exceptional Quality',
-                            style: pw.TextStyle(
-                              fontSize: 15.0,
-                            ),
+                          // pw.Text(
+                          //   'Dynamic Polymer Industries Ltd.',
+                          //   style: pw.TextStyle(
+                          //     fontSize: 17.0,
+                          //     fontWeight: pw.FontWeight.bold,
+                          //   ),
+                          // ),
+                          // pw.Text(
+                          //   'Eco-Friendly Solution',
+                          //   style: pw.TextStyle(
+                          //     fontSize: 15.0,
+                          //   ),
+                          // ),
+                          // pw.Text(
+                          //   'Exceptional Quality',
+                          //   style: pw.TextStyle(
+                          //     fontSize: 15.0,
+                          //   ),
+                          // ),
+
+                          pw.Image(
+                            pw.MemoryImage(header),
+                            // height: 72,
+                            // width: 72,
                           ),
                         ],
                       ),
                     ),
-                    pw.Expanded(
-                      flex: 1,
-                      child: pw.Column(
-                        crossAxisAlignment: pw.CrossAxisAlignment.end,
-                        children: [
-                          pw.Text(
-                            'Delivery Order',
-                            style: pw.TextStyle(
-                              fontSize: 15.5,
-                              fontWeight: pw.FontWeight.bold,
-                            ),
-                          ),
-                          pw.Text(
-                            'Date: 17.02.2024',
-                            style: pw.TextStyle(
-                              fontSize: 14.0,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                    // pw.Expanded(
+                    //   flex: 1,
+                    //   child: pw.Column(
+                    //     crossAxisAlignment: pw.CrossAxisAlignment.end,
+                    //     children: [
+                    //       pw.Text(
+                    //         'Delivery Order',
+                    //         style: pw.TextStyle(
+                    //           fontSize: 15.5,
+                    //           fontWeight: pw.FontWeight.bold,
+                    //         ),
+                    //       ),
+                    //       pw.Text(
+                    //         'Date: 17.02.2024',
+                    //         style: pw.TextStyle(
+                    //           fontSize: 14.0,
+                    //         ),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
                   ],
                 ),
               ),
@@ -729,11 +739,16 @@ class DouserInvoiceController extends GetxController {
             return pw.Container(
               alignment: pw.Alignment.centerRight,
               margin: const pw.EdgeInsets.only(top: 20.0),
-              child: pw.Text(
-                'Copy to: 01 Honorable Chairman (DPIL) 02 Controller Accounts (Head Office) 03 Head Of Operation (DPIL) 04 Head Of HR& Admin (DPIL) 05 In-Charge (Store)',
-                style: pw.TextStyle(
-                  fontSize: 11.0,
-                ),
+              // child: pw.Text(
+              //   'Copy to: 01 Honorable Chairman (DPIL) 02 Controller Accounts (Head Office) 03 Head Of Operation (DPIL) 04 Head Of HR& Admin (DPIL) 05 In-Charge (Store)',
+              //   style: pw.TextStyle(
+              //     fontSize: 11.0,
+              //   ),
+              // ),
+              child: pw.Image(
+                pw.MemoryImage(footer),
+                // height: 72,
+                // width: 72,
               ),
             );
           },
