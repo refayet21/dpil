@@ -132,8 +132,21 @@ class DouserInvoiceScreen extends GetView<DouserInvoiceController> {
                       int.parse(productQuantityController.text);
 
                   // Call the generateInvoicePDF method
-                  homeController.generateInvoicePdf(vendorInfo, date,
-                      productName, productPrice, productQuantity);
+                  homeController.generateInvoicePdf(
+                    
+  'DO123',
+  'John Doe',
+  'Type A',
+  'ABC Supplier',
+  '123 Supplier St',
+  'John Smith',
+  '456 Customer St',
+  '+1234567890',
+  'Roll',
+  'Meter'
+  // 5.0,
+  // 10,               
+                      );
                 },
                 child: Text('Invoice'),
               ),
