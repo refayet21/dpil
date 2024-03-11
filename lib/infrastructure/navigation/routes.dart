@@ -1,6 +1,6 @@
 class Routes {
   static Future<String> get initialRoute async {
-    return DOUSER_INVOICE;
+    return LOGIN;
   }
 
   static const ADMIN_ADDDOUSER = '/admin-adddouser';
