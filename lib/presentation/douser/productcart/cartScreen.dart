@@ -84,7 +84,13 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
                             'Unit: ${controller.cartItems[index].unit ?? "N/A"}',
                           ),
                           Text(
-                            'quantity: ${controller.cartItems[index].quantity ?? "N/A"}',
+                            'totalunit: ${controller.cartItems[index].totalunit ?? "N/A"}',
+                          ),
+                          Text(
+                            'unitqty: ${controller.cartItems[index].unitqty?.toString()}',
+                          ),
+                          Text(
+                            'rate: ${controller.cartItems[index].rate?.toString()}',
                           ),
                           Text(
                             'Stock: ${controller.cartItems[index].stock?.toString()}',
@@ -351,10 +357,11 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
                 String itemInfo = '';
                 itemInfo += 'Product Name: ${item.name ?? "N/A"}\n';
                 itemInfo += 'Unit: ${item.unit ?? "N/A"}\n';
-                itemInfo += 'quantity: ${item.quantity ?? "N/A"}\n';
+                itemInfo += 'totalunit: ${item.totalunit ?? "N/A"}\n';
+                itemInfo += 'unitqty: ${item.unitqty ?? "N/A"}\n';
+                itemInfo += 'rate: ${item.rate ?? "N/A"}\n';
                 itemInfo += 'Stock: ${item.stock?.toString() ?? "N/A"}\n';
-                itemInfo +=
-                    'New Stock: ${(item.stock! + item.quantity).toString()}\n';
+                itemInfo += 'Sell Amount: ${(item.quantity).toString()}\n';
                 itemInfo += '---\n'; // Separator between items, for clarity
 
                 // Add the purchaseInfo data to the list
