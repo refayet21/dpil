@@ -36,9 +36,9 @@ class DouserProductcartScreen extends GetView<DouserProductcartController> {
                     Text(
                       'Unit : ${controller.productModel[index].unit ?? "N/A"}',
                     ),
-                    Text(
-                      'quantity  : ${controller.productModel[index].quantity ?? "N/A"}',
-                    ),
+                    // Text(
+                    //   'quantity  : ${controller.productModel[index].quantity.toString() ?? "N/A"}',
+                    // ),
                     Text(
                       'Stock : ${controller.productModel[index].stock?.toString() ?? "N/A"}',
                     ),

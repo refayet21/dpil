@@ -340,6 +340,117 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
           //   child: Text('Confirm Purchase'),
           // ),
 
+          // ElevatedButton(
+          //   onPressed: () async {
+          //     // Create a list to hold purchaseInfo data for each item
+          //     List<String> purchaseInfoList = [];
+
+          //     var serialno;
+
+          //     // Add vendor and date information
+          //     String vendorName =
+          //         'Vendor Name: ${selectedVendor?.name ?? "N/A"}';
+          //     String vendorAddress =
+          //         'Vendor address: ${selectedVendor?.address ?? "N/A"}';
+
+          //     String dateInfo = 'Date: ${dateController.text}';
+          //     purchaseInfoList.add('$vendorName\n$vendorAddress\n$dateInfo\n');
+
+          //     // Add cart items information
+          //     for (var index = 0;
+          //         index < controller.cartItems.length;
+          //         index++) {
+          //       serialno = index + 1;
+          //       var item = controller.cartItems[index];
+
+          //       String itemInfo = '';
+          //       itemInfo += 'Product Name: ${item.name ?? "N/A"}\n';
+          //       itemInfo += 'Unit: ${item.unit ?? "N/A"}\n';
+          //       itemInfo += 'totalunit: ${item.totalunit ?? "N/A"}\n';
+          //       itemInfo += 'unitqty: ${item.unitqty ?? "N/A"}\n';
+          //       itemInfo += 'rate: ${item.rate ?? "N/A"}\n';
+          //       itemInfo += 'Stock: ${item.stock?.toString() ?? "N/A"}\n';
+          //       itemInfo += 'Sell Amount: ${(item.quantity).toString()}\n';
+          //       itemInfo += '---\n'; // Separator between items, for clarity
+
+          //       // Add the purchaseInfo data to the list
+          //       purchaseInfoList.add(itemInfo);
+          //     }
+
+          //     // Show a dialog with the previous purchase information
+          //     await showDialog(
+          //       context: context,
+          //       builder: (BuildContext context) {
+          //         return AlertDialog(
+          //           title: Text('Previous Purchase Information'),
+          //           content: SingleChildScrollView(
+          //             child: Column(
+          //               crossAxisAlignment: CrossAxisAlignment.start,
+          //               children:
+          //                   purchaseInfoList.map((info) => Text(info)).toList(),
+          //             ),
+          //           ),
+          //           actions: <Widget>[
+          //             TextButton(
+          //               onPressed: () async {
+          //                 // Continue with the purchase confirmation using updated cart items
+          //                 // await controller.addPurchaseData(
+          //                 //   vendorDocId: selectedVendor!.docId,
+          //                 //   date: dateController.text,
+          //                 //   cartItems: controller.cartItems
+          //                 //       .map((item) => item.toJson())
+          //                 //       .toList(),
+          //                 // );
+          //                 String vendorName =
+          //                     '${selectedVendor?.name ?? "N/A"}';
+          //                 String vendorAddress =
+          //                     '${selectedVendor?.address ?? "N/A"}';
+          //                 String contactPerson =
+          //                     '${selectedVendor?.contactperson ?? "N/A"}';
+          //                 String vendorMobile =
+          //                     '${selectedVendor?.mobile ?? "N/A"}';
+
+          //                 homeController.generateInvoicePdf(
+          //                   'John Doe',
+          //                   vendorName,
+          //                   vendorAddress,
+          //                   contactPerson,
+          //                   vendorMobile,
+          //                   controller.cartItems[0].unit,
+          //                   controller.cartItems[0].totalunit,
+          //                   controller.cartItems
+          //                       .map((item) => [
+          //                             serialno,
+          //                             item.name ?? 'N/A',
+          //                             item.unitqty ?? 'N/A',
+          //                             item.totalunit ?? 'N/A',
+          //                             item.rate != null
+          //                                 ? item.rate.toString()
+          //                                 : 'N/A', // Ensure rate is converted to String
+          //                           ])
+          //                       .toList(),
+          //                 );
+
+          //                 // Close the dialog
+          //                 Navigator.of(context).pop();
+          //               },
+          //               child: Text('Confirm'),
+          //             ),
+          //             TextButton(
+          //               onPressed: () {
+          //                 // Close the dialog without saving
+          //                 Navigator.of(context).pop();
+          //               },
+          //               child: Text('Cancel'),
+          //             ),
+          //           ],
+          //         );
+          //       },
+          //     );
+          //   },
+          //   child: Text('Confirm Purchase'),
+          // )
+
           ElevatedButton(
             onPressed: () async {
               // Create a list to hold purchaseInfo data for each item
@@ -350,17 +461,35 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
                   'Vendor Name: ${selectedVendor?.name ?? "N/A"}';
               String vendorAddress =
                   'Vendor address: ${selectedVendor?.address ?? "N/A"}';
-
               String dateInfo = 'Date: ${dateController.text}';
               purchaseInfoList.add('$vendorName\n$vendorAddress\n$dateInfo\n');
 
               // Add cart items information
+              List<List<dynamic>> invoiceData =
+                  []; // Create a list to hold invoice data
               for (var index = 0;
                   index < controller.cartItems.length;
                   index++) {
                 var item = controller.cartItems[index];
 
+                // Generate serial number
+                var serialno = index + 1;
+
+                // Create a list for each item in the invoice data
+                List<dynamic> itemData = [
+                  serialno, // Include serial number
+                  item.name ?? 'N/A',
+                  item.quantity ?? 'N/A',
+                  item.totalunit ?? 'N/A',
+                  item.rate != null ? item.rate.toString() : 'N/A',
+                ];
+
+                // Add item data to the invoice data list
+                invoiceData.add(itemData);
+
+                // Add item info to the purchase info list
                 String itemInfo = '';
+                itemInfo += 'Serial No: $serialno\n'; // Include serial number
                 itemInfo += 'Product Name: ${item.name ?? "N/A"}\n';
                 itemInfo += 'Unit: ${item.unit ?? "N/A"}\n';
                 itemInfo += 'totalunit: ${item.totalunit ?? "N/A"}\n';
@@ -369,8 +498,6 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
                 itemInfo += 'Stock: ${item.stock?.toString() ?? "N/A"}\n';
                 itemInfo += 'Sell Amount: ${(item.quantity).toString()}\n';
                 itemInfo += '---\n'; // Separator between items, for clarity
-
-                // Add the purchaseInfo data to the list
                 purchaseInfoList.add(itemInfo);
               }
 
@@ -391,13 +518,6 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
                       TextButton(
                         onPressed: () async {
                           // Continue with the purchase confirmation using updated cart items
-                          // await controller.addPurchaseData(
-                          //   vendorDocId: selectedVendor!.docId,
-                          //   date: dateController.text,
-                          //   cartItems: controller.cartItems
-                          //       .map((item) => item.toJson())
-                          //       .toList(),
-                          // );
                           String vendorName =
                               '${selectedVendor?.name ?? "N/A"}';
                           String vendorAddress =
@@ -408,13 +528,15 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
                               '${selectedVendor?.mobile ?? "N/A"}';
 
                           homeController.generateInvoicePdf(
-                              'John Doe',
-                              vendorName,
-                              vendorAddress,
-                              contactPerson,
-                              vendorMobile,
-                              controller.cartItems[0].unit,
-                              controller.cartItems[0].totalunit, []);
+                            'John Doe',
+                            vendorName,
+                            vendorAddress,
+                            contactPerson,
+                            vendorMobile,
+                            controller.cartItems[0].unit,
+                            controller.cartItems[0].totalunit,
+                            invoiceData, // Pass invoice data to generateInvoicePdf function
+                          );
 
                           // Close the dialog
                           Navigator.of(context).pop();

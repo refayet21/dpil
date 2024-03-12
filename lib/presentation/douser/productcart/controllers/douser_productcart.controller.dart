@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dpil/model/product.dart';
 import 'package:dpil/model/vendor.dart';
@@ -181,11 +183,7 @@ class DouserProductcartController extends GetxController {
   String generateddate = DateFormat('dd.mm.yyyy').format(DateTime.now());
 
   Future<void> generateInvoicePdf(
-    // String dono,
     String marketingperson,
-    // String dotype,
-    // String supplier,
-    // String supplieraddress,
     String vendorName,
     String vendorAddress,
     String contactPerson,

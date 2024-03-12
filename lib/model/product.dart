@@ -28,7 +28,7 @@ class ProductModel {
         unit = data["unit"] as String?,
         totalunit = data["totalunit"] as String?,
         unitqty = data["unitqty"] as int?,
-        rate = data["s_price"] as double?,
+        rate = data["rate"] as double?,
         stock = data["stock"] as int?,
         quantity = 1;
 
@@ -40,7 +40,7 @@ class ProductModel {
       'unit': unit,
       'totalunit': totalunit,
       'unitqty': unitqty,
-      's_price': rate,
+      'rate': rate,
       'stock': stock,
       'quantity': quantity,
     };
