@@ -19,6 +19,10 @@ class DoDrawer extends StatelessWidget {
         title: 'Create Invoice',
         routeName: Routes.DOUSER_INVOICE,
         icon: Icons.print),
+    DrawerMenuItem(
+        title: 'Product Cart',
+        routeName: Routes.DOUSER_PRODUCTCART,
+        icon: Icons.print),
   ];
   DoDrawer({
     super.key,

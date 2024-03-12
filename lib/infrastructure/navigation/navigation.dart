@@ -86,5 +86,10 @@ class Nav {
       page: () => DouserAttendenceScreen(),
       binding: DouserAttendenceControllerBinding(),
     ),
+    GetPage(
+      name: Routes.DOUSER_PRODUCTCART,
+      page: () => const DouserProductcartScreen(),
+      binding: DouserProductcartControllerBinding(),
+    ),
   ];
 }

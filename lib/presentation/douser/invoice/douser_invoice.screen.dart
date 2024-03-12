@@ -1,4 +1,5 @@
 import 'package:dpil/model/vendor.dart';
+import 'package:dpil/presentation/widgets/do_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -18,8 +19,9 @@ class DouserInvoiceScreen extends GetView<DouserInvoiceController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: DoDrawer(),
       appBar: AppBar(
-        title: const Text('HomeView'),
+        title: const Text('DPIL'),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -133,19 +135,18 @@ class DouserInvoiceScreen extends GetView<DouserInvoiceController> {
 
                   // Call the generateInvoicePDF method
                   homeController.generateInvoicePdf(
-                    
-  'DO123',
-  'John Doe',
-  'Type A',
-  'ABC Supplier',
-  '123 Supplier St',
-  'John Smith',
-  '456 Customer St',
-  '+1234567890',
-  'Roll',
-  'Meter'
-  // 5.0,
-  // 10,               
+                      'DO123',
+                      'John Doe',
+                      'Type A',
+                      'ABC Supplier',
+                      '123 Supplier St',
+                      'John Smith',
+                      '456 Customer St',
+                      '+1234567890',
+                      'Roll',
+                      'Meter'
+                      // 5.0,
+                      // 10,
                       );
                 },
                 child: Text('Invoice'),
