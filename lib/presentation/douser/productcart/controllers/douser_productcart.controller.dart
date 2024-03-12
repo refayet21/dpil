@@ -5,6 +5,7 @@ import 'package:dpil/presentation/admin/addvendor/controllers/admin_addvendor.co
 import 'package:dpil/presentation/douser/invoicepreview/douser_invoicepreview.screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:pdf/pdf.dart';
@@ -244,7 +245,10 @@ class DouserProductcartController extends GetxController {
                           pw.Text(
                             'Delivery Order',
                             style: pw.TextStyle(
-                              fontSize: 20,
+                              fontSize: 20.sp,
+                              fontWeight: pw.FontWeight.bold,
+                              decoration: pw
+                                  .TextDecoration.underline, // Adding underline
                             ),
                           ),
                         ],
