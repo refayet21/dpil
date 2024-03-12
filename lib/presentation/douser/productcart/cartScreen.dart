@@ -453,11 +453,9 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
 
           ElevatedButton(
             onPressed: () async {
-              // Create a list to hold purchaseInfo data for each item
               List<String> purchaseInfoList = [];
-              var totalAmount = 0.0;
+              double totalAmount = 0.0;
 
-              // Add vendor and date information
               String vendorName =
                   'Vendor Name: ${selectedVendor?.name ?? "N/A"}';
               String vendorAddress =
@@ -465,44 +463,39 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
               String dateInfo = 'Date: ${dateController.text}';
               purchaseInfoList.add('$vendorName\n$vendorAddress\n$dateInfo\n');
 
-              // Add cart items information
-              List<List<dynamic>> invoiceData =
-                  []; // Create a list to hold invoice data
+              List<List<dynamic>> invoiceData = [];
+
               for (var index = 0;
                   index < controller.cartItems.length;
                   index++) {
                 var item = controller.cartItems[index];
+                var serialNo = index + 1;
 
-                // Generate serial number
-                var serialno = index + 1;
+                // Add null checks for quantity and unitQty before performing multiplication
+                var quantity = item.quantity ?? 0;
+                var unitQty = item.unitqty ?? 0;
 
-                // Calculate the amount for the current item
-                var amount = (item.rate ?? 1) *
-                    ((item.quantity ?? 1) * (item.unitqty ?? 1));
+                var bagTotal =
+                    NumberFormat.decimalPattern().format(quantity * unitQty);
+                var amount = NumberFormat.decimalPattern()
+                    .format((item.rate ?? 1) * (quantity * unitQty));
+                totalAmount += (item.rate ?? 1) * (quantity * unitQty);
 
-                // Update total amount with the amount for the current item
-                totalAmount += amount;
-
-                // Calculate bag total for the current item
-                var bagtotal = (item.quantity ?? 1) * (item.unitqty ?? 1);
-
-                // Create a list for each item in the invoice data
                 List<dynamic> itemData = [
-                  serialno, // Include serial number
+                  serialNo,
                   item.name ?? 'N/A',
-                  item.quantity ?? 'N/A',
-                  item.unitqty ?? 'N/A',
-                  bagtotal, // Include bagtotal
+                  quantity,
+                  unitQty,
+                  bagTotal,
                   item.rate != null ? item.rate.toString() : 'N/A',
-                  amount, // Include the calculated amount for the item
+                  amount,
                 ];
 
-                // Add item data to the invoice data list
                 invoiceData.add(itemData);
 
-                // Add item info to the purchase info list
+                // Item info remains unchanged
                 String itemInfo = '';
-                itemInfo += 'Serial No: $serialno\n'; // Include serial number
+                itemInfo += 'Serial No: $serialNo\n';
                 itemInfo += 'Product Name: ${item.name ?? "N/A"}\n';
                 itemInfo += 'Unit: ${item.unit ?? "N/A"}\n';
                 itemInfo += 'totalunit: ${item.totalunit ?? "N/A"}\n';
@@ -510,11 +503,11 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
                 itemInfo += 'rate: ${item.rate ?? "N/A"}\n';
                 itemInfo += 'Stock: ${item.stock?.toString() ?? "N/A"}\n';
                 itemInfo += 'Sell Amount: ${(item.quantity).toString()}\n';
-                itemInfo += '---\n'; // Separator between items, for clarity
+                itemInfo += '---\n';
+
                 purchaseInfoList.add(itemInfo);
               }
 
-              // Show a dialog with the previous purchase information
               await showDialog(
                 context: context,
                 builder: (BuildContext context) {
@@ -530,7 +523,6 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
                     actions: <Widget>[
                       TextButton(
                         onPressed: () async {
-                          // Continue with the purchase confirmation using updated cart items
                           String vendorName =
                               '${selectedVendor?.name ?? "N/A"}';
                           String vendorAddress =
@@ -549,17 +541,15 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
                             controller.cartItems[0].unit,
                             controller.cartItems[0].totalunit,
                             invoiceData,
-                            totalAmount, // Pass totalAmount to generateInvoicePdf function
+                            totalAmount,
                           );
 
-                          // Close the dialog
                           Navigator.of(context).pop();
                         },
                         child: Text('Confirm'),
                       ),
                       TextButton(
                         onPressed: () {
-                          // Close the dialog without saving
                           Navigator.of(context).pop();
                         },
                         child: Text('Cancel'),
