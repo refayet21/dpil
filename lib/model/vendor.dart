@@ -4,12 +4,14 @@ class VendorModel {
   String? docId;
   String? name;
   String? address;
+  String? contactperson;
   String? mobile;
 
   VendorModel({
     this.docId,
     this.name,
     this.address,
+    this.contactperson,
     this.mobile,
   });
 
@@ -17,6 +19,7 @@ class VendorModel {
     docId = data.id;
     name = data["name"] as String?;
     address = data["address"] as String?;
+    contactperson = data["contactperson"] as String?;
     mobile = data["mobile"] as String?;
   }
 
@@ -26,6 +29,7 @@ class VendorModel {
       'docId': docId,
       'name': name,
       'address': address,
+      'contactperson': contactperson,
       'mobile': mobile,
     };
   }

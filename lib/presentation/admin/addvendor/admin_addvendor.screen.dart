@@ -70,6 +70,16 @@ class AdminAddvendorScreen extends GetView<AdminAddvendorController> {
                           height: 3.h,
                         ),
                         Text(
+                          'Contact Person :${controller.foundVendor[index].contactperson!}',
+                          style: TextStyle(
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black),
+                        ),
+                        SizedBox(
+                          height: 3.h,
+                        ),
+                        Text(
                           'Mobile : ${controller.foundVendor[index].mobile!}',
                           style: TextStyle(
                               fontSize: 14.sp,
@@ -102,6 +112,8 @@ class AdminAddvendorScreen extends GetView<AdminAddvendorController> {
                       controller.nameController.text =
                           controller.foundVendor[index].name!;
                       controller.addressController.text =
+                          controller.foundVendor[index].address!;
+                      controller.contactpersonController.text =
                           controller.foundVendor[index].address!;
                       controller.mobileController.text =
                           controller.foundVendor[index].mobile!;
@@ -181,6 +193,19 @@ class AdminAddvendorScreen extends GetView<AdminAddvendorController> {
                     controller: controller.addressController,
                   ),
                   SizedBox(
+                    height: 10.h,
+                  ),
+                  TextFormField(
+                    keyboardType: TextInputType.multiline,
+                    decoration: InputDecoration(
+                      hintText: 'Contact Person',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8.r),
+                      ),
+                    ),
+                    controller: controller.contactpersonController,
+                  ),
+                  SizedBox(
                     height: 8.h,
                   ),
                   TextFormField(
@@ -208,6 +233,7 @@ class AdminAddvendorScreen extends GetView<AdminAddvendorController> {
                         controller.saveUpdateVendor(
                           controller.nameController.text,
                           controller.addressController.text,
+                          controller.contactpersonController.text,
                           controller.mobileController.text,
                           docId!,
                           addEditFlag!,

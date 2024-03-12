@@ -9,6 +9,7 @@ class AdminAddvendorController extends GetxController {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   late TextEditingController nameController,
       addressController,
+      contactpersonController,
       mobileController;
   RxList<VendorModel> foundVendor = RxList<VendorModel>([]);
 
@@ -24,6 +25,7 @@ class AdminAddvendorController extends GetxController {
     super.onInit();
     nameController = TextEditingController();
     addressController = TextEditingController();
+    contactpersonController = TextEditingController();
     mobileController = TextEditingController();
     collectionReference = firebaseFirestore.collection("Vendors");
     vendors.bindStream(getAllVendors());
@@ -54,6 +56,7 @@ class AdminAddvendorController extends GetxController {
   void saveUpdateVendor(
     String? name,
     String? address,
+    String? contactperson,
     String? mobile,
     String? docId,
     int? addEditFlag,
@@ -68,6 +71,7 @@ class AdminAddvendorController extends GetxController {
       collectionReference.add({
         'name': name,
         'address': address,
+        'contactperson': contactperson,
         'mobile': mobile,
       }).whenComplete(() {
         CustomFullScreenDialog.cancelDialog();
@@ -93,6 +97,7 @@ class AdminAddvendorController extends GetxController {
       collectionReference.doc(docId).update({
         'name': name,
         'address': address,
+        'contactperson': contactperson,
         'mobile': mobile,
       }).whenComplete(() {
         CustomFullScreenDialog.cancelDialog();
@@ -123,12 +128,14 @@ class AdminAddvendorController extends GetxController {
   void onClose() {
     nameController.dispose();
     addressController.dispose();
+    contactpersonController.dispose();
     mobileController.dispose();
   }
 
   void clearEditingControllers() {
     nameController.clear();
     addressController.clear();
+    contactpersonController.clear();
     mobileController.clear();
   }
 

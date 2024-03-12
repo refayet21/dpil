@@ -246,7 +246,7 @@ class AdminAddproductScreen extends GetView<AdminAddproductController> {
   //   );
   // }
 
-   @override
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: AdminDrawer(),
@@ -303,7 +303,7 @@ class AdminAddproductScreen extends GetView<AdminAddproductController> {
                               fontWeight: FontWeight.w600,
                               color: Colors.black),
                         ),
-                         SizedBox(
+                        SizedBox(
                           height: 7.h,
                         ),
                         Text(
@@ -370,7 +370,7 @@ class AdminAddproductScreen extends GetView<AdminAddproductController> {
                           controller.foundProduct[index].name!;
                       controller.unitController.text =
                           controller.foundProduct[index].unit!;
-                            controller.totalunitController.text =
+                      controller.totalunitController.text =
                           controller.foundProduct[index].totalunit!;
                       controller.unitqtyController.text =
                           controller.foundProduct[index].unitqty!.toString();
@@ -453,8 +453,7 @@ class AdminAddproductScreen extends GetView<AdminAddproductController> {
                     ),
                     controller: controller.unitController,
                   ),
-
-                   SizedBox(
+                  SizedBox(
                     height: 10.h,
                   ),
                   TextFormField(
@@ -522,11 +521,10 @@ class AdminAddproductScreen extends GetView<AdminAddproductController> {
                           docId: docId,
                           name: controller.nameController.text,
                           unit: controller.unitController.text,
-                            totalunit: controller.totalunitController.text,
+                          totalunit: controller.totalunitController.text,
                           unitqty:
                               int.tryParse(controller.unitqtyController.text),
-                          rate:
-                              int.tryParse(controller.rateController.text),
+                          rate: double.tryParse(controller.rateController.text),
                           stock: int.tryParse(controller.stockController.text),
                         );
 

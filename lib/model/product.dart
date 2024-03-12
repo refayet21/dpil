@@ -4,9 +4,9 @@ class ProductModel {
   String? docId;
   String? name;
   String? unit;
-    String? totalunit;
+  String? totalunit;
   int? unitqty;
-  int? rate;
+  double? rate;
   int? stock;
   int quantity;
 
@@ -14,7 +14,7 @@ class ProductModel {
     this.docId,
     this.name,
     this.unit,
-     this.totalunit,
+    this.totalunit,
     this.unitqty,
     this.rate,
     this.stock,
@@ -26,9 +26,9 @@ class ProductModel {
       : docId = data.id,
         name = data["name"] as String?,
         unit = data["unit"] as String?,
-            totalunit = data["totalunit"] as String?,
+        totalunit = data["totalunit"] as String?,
         unitqty = data["unitqty"] as int?,
-        rate = data["s_price"] as int?,
+        rate = data["s_price"] as double?,
         stock = data["stock"] as int?,
         quantity = 1;
 
@@ -38,7 +38,7 @@ class ProductModel {
       'docId': docId,
       'name': name,
       'unit': unit,
-        'totalunit': totalunit,
+      'totalunit': totalunit,
       'unitqty': unitqty,
       's_price': rate,
       'stock': stock,

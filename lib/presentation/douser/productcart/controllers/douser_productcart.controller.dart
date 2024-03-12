@@ -181,24 +181,26 @@ class DouserProductcartController extends GetxController {
   String generateddate = DateFormat('dd.mm.yyyy').format(DateTime.now());
 
   Future<void> generateInvoicePdf(
-    String dono,
+    // String dono,
     String marketingperson,
-    String dotype,
-    String supplier,
-    String supplieraddress,
-    String customername,
-    String customeraddress,
-    String mobile,
-    String Roll,
-    String Meter,
-
-    // String vendorName,
-    // String date,
-    // String productName,
-    // double productPrice,
-    // int productQuantity
+    // String dotype,
+    // String supplier,
+    // String supplieraddress,
+    String vendorName,
+    String vendorAddress,
+    String contactPerson,
+    String vendorMobile,
+    String? Roll,
+    String? Meter,
+    List<List<dynamic>> data,
   ) async {
     final doc = pw.Document();
+
+    final String currentDate = DateTime.now().day.toString().padLeft(2, '0');
+    final String currentMonth = DateTime.now().month.toString().padLeft(2, '0');
+    final String currentYear = DateTime.now().year.toString();
+    final String doNo =
+        'DPIL-$currentDate-$currentMonth-$currentYear-S-pdfCount';
     try {
       // Load fonts
       final fontData = await rootBundle.load("assets/fonts/robotoregular.ttf");
@@ -275,33 +277,32 @@ class DouserProductcartController extends GetxController {
               pw.Column(
                   crossAxisAlignment: pw.CrossAxisAlignment.start,
                   children: [
-                    pw.Text("Do : $dono"),
+                    pw.Text("Do : $doNo"),
+                    pw.SizedBox(height: 1.h),
                     pw.Text("Marketing Person : $marketingperson"),
-                    pw.Text("DO Type : $dotype"),
-                    pw.Text("Suppliar : $supplier"),
-                    pw.Text("Suppliar Address : $supplieraddress"),
-                    pw.Text("Customer Name : $customername"),
-                    pw.Text("Customer Address : $customeraddress"),
-                    pw.Text("Mobile : $mobile"),
+                    pw.SizedBox(height: 1.h),
+                    pw.Text("DO Type : Non Package"),
+                    pw.SizedBox(height: 1.h),
+                    pw.Text("Suppliar : Dynamic Polymer Industries Ltd."),
+                    pw.SizedBox(height: 1.h),
+                    pw.Text(
+                        "Suppliar Address : West Dugri, Vawal Mirzapur, Gazipur"),
+                    pw.SizedBox(height: 1.h),
+                    pw.Text("Customer Name : $vendorName"),
+                    pw.SizedBox(height: 1.h),
+                    pw.Text("Customer Address : $vendorAddress"),
+                    pw.SizedBox(height: 1.h),
+                    pw.Text("Contact Person : $contactPerson"),
+                    pw.SizedBox(height: 1.h),
+                    pw.Text("Contact Person Mobile : $vendorMobile"),
+                    pw.SizedBox(height: 1.h),
                   ]),
 
 // Rest of the content...
               pw.SizedBox(height: 10),
               pw.Table.fromTextArray(
                 headers: tableHeaders,
-                data: [
-                  [
-                    '1',
-                    '3mm basic Bubble',
-                    '40',
-                    '90',
-                    '3600',
-                    '13.5',
-                    '48600',
-                    ''
-                  ],
-                  ['Total', '', '', '', '48600', '', '48600', ''],
-                ],
+                data: data,
                 border: pw.TableBorder.all(),
                 headerStyle: pw.TextStyle(
                   fontSize: 9.0,

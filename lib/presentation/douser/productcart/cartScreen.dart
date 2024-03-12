@@ -398,21 +398,23 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
                           //       .map((item) => item.toJson())
                           //       .toList(),
                           // );
+                          String vendorName =
+                              '${selectedVendor?.name ?? "N/A"}';
+                          String vendorAddress =
+                              '${selectedVendor?.address ?? "N/A"}';
+                          String contactPerson =
+                              '${selectedVendor?.contactperson ?? "N/A"}';
+                          String vendorMobile =
+                              '${selectedVendor?.mobile ?? "N/A"}';
 
                           homeController.generateInvoicePdf(
-                              'DO123',
                               'John Doe',
-                              'Type A',
-                              'ABC Supplier',
-                              '123 Supplier St',
-                              'John Smith',
-                              '456 Customer St',
-                              '+1234567890',
-                              'Roll',
-                              'Meter'
-                              // 5.0,
-                              // 10,
-                              );
+                              vendorName,
+                              vendorAddress,
+                              contactPerson,
+                              vendorMobile,
+                              controller.cartItems[0].unit,
+                              controller.cartItems[0].totalunit, []);
 
                           // Close the dialog
                           Navigator.of(context).pop();
