@@ -1,5 +1,6 @@
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:dpil/model/vendor.dart';
+import 'package:dpil/presentation/douser/invoice/controllers/douser_invoice.controller.dart';
 import 'package:dpil/presentation/douser/productcart/controllers/douser_productcart.controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,6 +9,8 @@ import 'package:intl/intl.dart';
 
 class CartItemsScreen extends GetView<DouserProductcartController> {
   // VendorAddController vendorAddController = Get.put(VendorAddController());
+  DouserProductcartController homeController =
+      Get.put(DouserProductcartController());
 
   TextEditingController dateController = TextEditingController();
 
@@ -343,10 +346,13 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
               List<String> purchaseInfoList = [];
 
               // Add vendor and date information
-              String vendorInfo =
+              String vendorName =
                   'Vendor Name: ${selectedVendor?.name ?? "N/A"}';
+              String vendorAddress =
+                  'Vendor address: ${selectedVendor?.address ?? "N/A"}';
+
               String dateInfo = 'Date: ${dateController.text}';
-              purchaseInfoList.add('$vendorInfo\n$dateInfo\n');
+              purchaseInfoList.add('$vendorName\n$vendorAddress\n$dateInfo\n');
 
               // Add cart items information
               for (var index = 0;
@@ -385,13 +391,28 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
                       TextButton(
                         onPressed: () async {
                           // Continue with the purchase confirmation using updated cart items
-                          await controller.addPurchaseData(
-                            vendorDocId: selectedVendor!.docId,
-                            date: dateController.text,
-                            cartItems: controller.cartItems
-                                .map((item) => item.toJson())
-                                .toList(),
-                          );
+                          // await controller.addPurchaseData(
+                          //   vendorDocId: selectedVendor!.docId,
+                          //   date: dateController.text,
+                          //   cartItems: controller.cartItems
+                          //       .map((item) => item.toJson())
+                          //       .toList(),
+                          // );
+
+                          homeController.generateInvoicePdf(
+                              'DO123',
+                              'John Doe',
+                              'Type A',
+                              'ABC Supplier',
+                              '123 Supplier St',
+                              'John Smith',
+                              '456 Customer St',
+                              '+1234567890',
+                              'Roll',
+                              'Meter'
+                              // 5.0,
+                              // 10,
+                              );
 
                           // Close the dialog
                           Navigator.of(context).pop();
