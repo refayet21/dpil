@@ -455,6 +455,7 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
             onPressed: () async {
               // Create a list to hold purchaseInfo data for each item
               List<String> purchaseInfoList = [];
+              var totalAmount = 0.0;
 
               // Add vendor and date information
               String vendorName =
@@ -475,13 +476,25 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
                 // Generate serial number
                 var serialno = index + 1;
 
+                // Calculate the amount for the current item
+                var amount = (item.rate ?? 1) *
+                    ((item.quantity ?? 1) * (item.unitqty ?? 1));
+
+                // Update total amount with the amount for the current item
+                totalAmount += amount;
+
+                // Calculate bag total for the current item
+                var bagtotal = (item.quantity ?? 1) * (item.unitqty ?? 1);
+
                 // Create a list for each item in the invoice data
                 List<dynamic> itemData = [
                   serialno, // Include serial number
                   item.name ?? 'N/A',
                   item.quantity ?? 'N/A',
-                  item.totalunit ?? 'N/A',
+                  item.unitqty ?? 'N/A',
+                  bagtotal, // Include bagtotal
                   item.rate != null ? item.rate.toString() : 'N/A',
+                  amount, // Include the calculated amount for the item
                 ];
 
                 // Add item data to the invoice data list
@@ -535,7 +548,8 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
                             vendorMobile,
                             controller.cartItems[0].unit,
                             controller.cartItems[0].totalunit,
-                            invoiceData, // Pass invoice data to generateInvoicePdf function
+                            invoiceData,
+                            totalAmount, // Pass totalAmount to generateInvoicePdf function
                           );
 
                           // Close the dialog

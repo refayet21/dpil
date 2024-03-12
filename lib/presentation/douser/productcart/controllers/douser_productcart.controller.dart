@@ -191,6 +191,7 @@ class DouserProductcartController extends GetxController {
     String? Roll,
     String? Meter,
     List<List<dynamic>> data,
+    double? totalAmount,
   ) async {
     final doc = pw.Document();
 
@@ -318,7 +319,18 @@ class DouserProductcartController extends GetxController {
                 },
               ),
 
-              pw.SizedBox(height: 10),
+              // pw.SizedBox(height: 10),
+              pw.Row(
+                mainAxisAlignment: pw.MainAxisAlignment.end,
+                children: [
+                  pw.Text(
+                    '$totalAmount',
+                    style: pw.TextStyle(
+                      fontSize: 11.0,
+                    ),
+                  ),
+                ],
+              ),
               pw.Divider(),
               pw.SizedBox(height: 10),
               pw.Row(
