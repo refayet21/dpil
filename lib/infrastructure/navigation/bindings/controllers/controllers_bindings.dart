@@ -2,7 +2,10 @@ export 'package:dpil/infrastructure/navigation/bindings/controllers/admin_adddou
 export 'package:dpil/infrastructure/navigation/bindings/controllers/admin_addgenuser.controller.binding.dart'; 
 export 'package:dpil/infrastructure/navigation/bindings/controllers/admin_addproduct.controller.binding.dart'; 
 export 'package:dpil/infrastructure/navigation/bindings/controllers/admin_addvendor.controller.binding.dart'; 
+export 'package:dpil/infrastructure/navigation/bindings/controllers/admin_attendance.controller.binding.dart'; 
 export 'package:dpil/infrastructure/navigation/bindings/controllers/admin_dashboard.controller.binding.dart'; 
+export 'package:dpil/infrastructure/navigation/bindings/controllers/admin_do.controller.binding.dart'; 
+export 'package:dpil/infrastructure/navigation/bindings/controllers/admin_email.controller.binding.dart'; 
 export 'package:dpil/infrastructure/navigation/bindings/controllers/douser_attendence.controller.binding.dart'; 
 export 'package:dpil/infrastructure/navigation/bindings/controllers/douser_dashboard.controller.binding.dart'; 
 export 'package:dpil/infrastructure/navigation/bindings/controllers/douser_invoice.controller.binding.dart'; 

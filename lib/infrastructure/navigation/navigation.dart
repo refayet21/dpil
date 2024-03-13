@@ -91,5 +91,20 @@ class Nav {
       page: () => const DouserProductcartScreen(),
       binding: DouserProductcartControllerBinding(),
     ),
+    GetPage(
+      name: Routes.ADMIN_ATTENDANCE,
+      page: () => const AdminAttendanceScreen(),
+      binding: AdminAttendanceControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.ADMIN_DO,
+      page: () => const AdminDoScreen(),
+      binding: AdminDoControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.ADMIN_EMAIL,
+      page: () => const AdminEmailScreen(),
+      binding: AdminEmailControllerBinding(),
+    ),
   ];
 }

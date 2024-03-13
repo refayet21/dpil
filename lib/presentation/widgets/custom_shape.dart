@@ -3,14 +3,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 // ignore: must_be_immutable
 class CustomShape extends StatelessWidget {
-  String imageurl;
-  String title;
-  void Function() onTap;
-  CustomShape(
-      {super.key,
-      required this.imageurl,
-      required this.title,
-      required this.onTap});
+  String? imageurl;
+  String? title;
+  void Function()? onTap;
+  CustomShape({super.key, this.imageurl, this.title, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +42,7 @@ class CustomShape extends StatelessWidget {
                 decoration: BoxDecoration(
                     // color: Colors.amber,
                     image: DecorationImage(
-                        fit: BoxFit.contain, image: AssetImage(imageurl))),
+                        fit: BoxFit.contain, image: AssetImage(imageurl!))),
               ),
             )
           ]),
@@ -56,7 +52,7 @@ class CustomShape extends StatelessWidget {
           height: 7.h,
         ),
         Text(
-          title,
+          title!,
           style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600),
         ),
       ],

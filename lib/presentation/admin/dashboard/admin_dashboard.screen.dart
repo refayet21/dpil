@@ -19,7 +19,10 @@ class AdminDashboardScreen extends GetView<AdminDashboardController> {
     return Scaffold(
       // drawer: AdminDrawer(),
       appBar: AppBar(
-        title: Text('DPIL'),
+        title: Text(
+          'DPIL',
+          style: TextStyle(fontSize: 30.sp, fontWeight: FontWeight.w700),
+        ),
         centerTitle: true,
         actions: [
           IconButton(
@@ -30,20 +33,21 @@ class AdminDashboardScreen extends GetView<AdminDashboardController> {
               icon: Icon(Icons.logout))
         ],
       ),
+
       body: SingleChildScrollView(
         child: Column(
           children: [
-            CustomCard(
-              logoPath: ImageConstant
-                  .splash_screen_image, // Provide the path to your logo image
-              title: 'Eco-Friendly Solution',
-              subtitle: 'Exceptional Quality',
-            ),
+            // CustomCard(
+            //   logoPath: ImageConstant
+            //       .splash_screen_image, // Provide the path to your logo image
+            //   title: 'Eco-Friendly Solution',
+            //   subtitle: 'Exceptional Quality',
+            // ),
             SizedBox(
               height: 20.h,
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 CustomShape(
                   imageurl: ImageConstant.adduser,
@@ -70,10 +74,10 @@ class AdminDashboardScreen extends GetView<AdminDashboardController> {
               ],
             ),
             SizedBox(
-              height: 10.h,
+              height: 15.h,
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 CustomShape(
                   imageurl: ImageConstant.addcustomer,
@@ -98,10 +102,10 @@ class AdminDashboardScreen extends GetView<AdminDashboardController> {
               ],
             ),
             SizedBox(
-              height: 10.h,
+              height: 15.h,
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 CustomShape(
                   imageurl: ImageConstant.attendance,
@@ -109,22 +113,52 @@ class AdminDashboardScreen extends GetView<AdminDashboardController> {
                   onTap: () {
                     Get.toNamed(
                       // Routes.ALL_INPUT_FIELD,
-                      Routes.ADMIN_ADDPRODUCT,
+                      Routes.ADMIN_ATTENDANCE,
                     );
                   },
                 ),
                 CustomShape(
                   imageurl: ImageConstant.doorder,
                   title: 'DO',
-                  onTap: () {},
+                  onTap: () {
+                    Get.toNamed(
+                      // Routes.ALL_INPUT_FIELD,
+                      Routes.ADMIN_DO,
+                    );
+                  },
                 ),
               ],
             ),
             SizedBox(
-              height: 10.h,
+              height: 15.h,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                CustomShape(
+                  imageurl: ImageConstant.other,
+                  title: 'OTHERS',
+                  onTap: () {
+                    // Get.toNamed(
+                    //   // Routes.ALL_INPUT_FIELD,
+                    //   Routes.ADMIN_ATTENDANCE,
+                    // );
+                  },
+                ),
+                CustomShape(
+                  imageurl: ImageConstant.gmail,
+                  title: 'EMAIL',
+                  onTap: () {
+                    Get.toNamed(
+                      // Routes.ALL_INPUT_FIELD,
+                      Routes.ADMIN_EMAIL,
+                    );
+                  },
+                ),
+              ],
             ),
             SizedBox(
-              height: 10.h,
+              height: 15.h,
             ),
           ],
         ),
