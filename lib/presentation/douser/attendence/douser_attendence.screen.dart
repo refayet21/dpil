@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dpil/infrastructure/navigation/routes.dart';
 import 'package:dpil/presentation/widgets/do_drawer.dart';
 import 'package:flutter/material.dart';
@@ -321,26 +322,32 @@ import 'controllers/douser_attendence.controller.dart';
 //   }
 // }
 
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
-
 class DouserAttendenceScreen extends StatelessWidget {
   final DouserAttendenceController _calendarController =
       Get.put(DouserAttendenceController());
   final box = GetStorage();
+  String _formatDateTime(Timestamp timestamp) {
+    // Convert the Timestamp object to a DateTime object
+    DateTime dateTime = timestamp.toDate();
+    // Format the date as desired using DateFormat
+    return DateFormat('dd-MM-yyyy').format(dateTime);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: DoDrawer(),
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text("Monthly Attendance"),
+      ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(20.h),
         child: Column(
           children: [
             Obx(
               () => Padding(
-                padding: EdgeInsets.only(top: 32.h),
+                padding: EdgeInsets.only(top: 32.h, bottom: 32.h),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -348,6 +355,7 @@ class DouserAttendenceScreen extends StatelessWidget {
                       _calendarController.selectedMonth.value,
                       style: TextStyle(
                         fontSize: 18.sp,
+                        color: Colors.blue,
                       ),
                     ),
                     GestureDetector(
@@ -367,6 +375,7 @@ class DouserAttendenceScreen extends StatelessWidget {
                         "Pick a Month",
                         style: TextStyle(
                           fontSize: 18.sp,
+                          color: Colors.blue,
                         ),
                       ),
                     ),
@@ -375,7 +384,7 @@ class DouserAttendenceScreen extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height: 280.h,
+              height: 500.h,
               child: Obx(
                 () {
                   final filteredSnap = _calendarController.filteredAttendance;
@@ -386,6 +395,8 @@ class DouserAttendenceScreen extends StatelessWidget {
                       return Container(
                         padding: EdgeInsets.symmetric(
                             vertical: 12.h, horizontal: 12.w),
+                        margin: EdgeInsets.symmetric(
+                            vertical: 6.h, horizontal: 3.w),
                         height: 220.h,
                         decoration: BoxDecoration(
                           color: Colors.white,
@@ -402,79 +413,93 @@ class DouserAttendenceScreen extends StatelessWidget {
                           children: [
                             Expanded(
                               child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    "Check In",
+                                    'Date: ${_formatDateTime(data['date'])}',
                                     style: TextStyle(
-                                      fontFamily: "NexaRegular",
+                                      // fontFamily: "NexaRegular",
                                       fontSize: 16.sp,
-                                      color: Colors.black54,
+                                      color: Colors.blue,
                                     ),
                                   ),
-                                  Text(
-                                    data['checkIn'],
-                                    style: TextStyle(
-                                      fontSize: 18.sp,
-                                    ),
+                                  SizedBox(
+                                    height: 10.h,
                                   ),
-                                  SizedBox(height: 10.h),
                                   Text(
-                                    "Location:",
+                                    "Check In Info",
                                     style: TextStyle(
-                                      fontFamily: "NexaRegular",
+                                      // fontFamily: "NexaRegular",
                                       fontSize: 14.sp,
+                                      color: Colors.blue,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 2.h,
+                                  ),
+                                  SizedBox(
+                                    height: 2.h,
+                                  ),
+                                  Text(
+                                    "Time : ${data['checkIn']}",
+                                    style: TextStyle(
+                                      // fontFamily: "NexaRegular",
+                                      fontSize: 12.sp,
                                       color: Colors.black54,
                                     ),
                                   ),
+                                  SizedBox(
+                                    height: 2.h,
+                                  ),
                                   Text(
-                                    data['checkInLocation'],
+                                    "Location: ${data['checkInLocation']}",
                                     style: TextStyle(
-                                      fontSize: 16.sp,
+                                      // fontFamily: "NexaRegular",
+                                      fontSize: 10.sp,
+                                      color: Colors.black54,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 15.h,
+                                  ),
+                                  Text(
+                                    "Check Out Info",
+                                    style: TextStyle(
+                                      fontSize: 14.sp,
+                                      color: Colors.blue,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 2.h,
+                                  ),
+                                  SizedBox(
+                                    height: 2.h,
+                                  ),
+                                  Text(
+                                    "Time : ${data['checkOut']}",
+                                    style: TextStyle(
+                                      // fontFamily: "NexaRegular",
+                                      fontSize: 12.sp,
+                                      color: Colors.black54,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 2.h,
+                                  ),
+                                  Text(
+                                    "Location: ${data['checkOutLocation']}",
+                                    style: TextStyle(
+                                      // fontFamily: "NexaRegular",
+                                      fontSize: 10.sp,
+                                      color: Colors.black54,
                                     ),
                                   ),
                                 ],
                               ),
                             ),
-                            Expanded(
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                children: [
-                                  Text(
-                                    "Check Out",
-                                    style: TextStyle(
-                                      fontFamily: "NexaRegular",
-                                      fontSize: 16.sp,
-                                      color: Colors.black54,
-                                    ),
-                                  ),
-                                  Text(
-                                    data['checkOut'],
-                                    style: TextStyle(
-                                      fontSize: 18.sp,
-                                    ),
-                                  ),
-                                  SizedBox(height: 10.h),
-                                  Text(
-                                    "Location:",
-                                    style: TextStyle(
-                                      fontFamily: "NexaRegular",
-                                      fontSize: 14.sp,
-                                      color: Colors.black54,
-                                    ),
-                                  ),
-                                  Text(
-                                    data['checkOutLocation'],
-                                    style: TextStyle(
-                                      fontSize: 16.sp,
-                                    ),
-                                  ),
-                                ],
-                              ),
+                            SizedBox(
+                              width: 10.w,
                             ),
                           ],
                         ),
