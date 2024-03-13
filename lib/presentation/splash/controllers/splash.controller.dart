@@ -4,7 +4,7 @@ import 'package:dpil/infrastructure/navigation/routes.dart';
 
 class SplashController extends GetxController {
   final box = GetStorage();
-  static const int splashDurationSeconds = 3;
+  static const int splashDurationSeconds = 1;
 
   @override
   void onInit() {
