@@ -397,7 +397,10 @@ class DouserProductcartController extends GetxController {
         ),
       );
 
-      Get.to(() => DouserInvoicepreviewScreen(doc: doc));
+      Get.to(() => DouserInvoicepreviewScreen(
+            doc: doc,
+            pdfname: doNo,
+          ));
     } catch (e) {
       print('Error: $e');
     }
