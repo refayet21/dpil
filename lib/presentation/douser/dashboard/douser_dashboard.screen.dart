@@ -1,6 +1,8 @@
+import 'package:dpil/infrastructure/navigation/routes.dart';
 import 'package:dpil/presentation/widgets/do_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:get/get.dart';
 import 'package:slide_to_act/slide_to_act.dart';
@@ -9,14 +11,26 @@ import 'controllers/douser_dashboard.controller.dart';
 class DouserDashboardScreen extends StatelessWidget {
   final DouserDashboardController controller =
       Get.put(DouserDashboardController());
+  final box = GetStorage();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: DoDrawer(),
       appBar: AppBar(
-        title: const Text('DPIL'),
+        title: Text(
+          'DPIL',
+          style: TextStyle(fontSize: 30.sp, fontWeight: FontWeight.w700),
+        ),
         centerTitle: true,
+        actions: [
+          IconButton(
+              onPressed: () {
+                box.remove('douseremail');
+                Get.offNamed(Routes.LOGIN);
+              },
+              icon: Icon(Icons.logout))
+        ],
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),

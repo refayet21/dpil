@@ -30,21 +30,24 @@ class DouserInvoicepreviewScreen
         centerTitle: true,
         title: Text("Delivery Order"),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Expanded(
-            child: PdfPreview(
-              build: (format) => doc!.save(),
-              allowSharing: false,
-              allowPrinting: false,
-              dynamicLayout: false,
-              useActions: false,
-              initialPageFormat: PdfPageFormat.a4,
-              pdfFileName: "$pdfname.pdf",
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: PdfPreview(
+                build: (format) => doc!.save(),
+                allowSharing: false,
+                allowPrinting: false,
+                dynamicLayout: false,
+                useActions: false,
+                initialPageFormat: PdfPageFormat.a4,
+                pdfFileName: "$pdfname.pdf",
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
       floatingActionButton: ElevatedButton(
         onPressed: () async {

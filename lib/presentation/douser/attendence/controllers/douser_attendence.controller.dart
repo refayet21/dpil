@@ -49,12 +49,16 @@ class DouserAttendenceController extends GetxController {
 
   // Define filteredAttendance property here
   List<DocumentSnapshot> get filteredAttendance {
-    // Add your filtering logic here based on selectedMonth
-    // For example:
-    // return attendanceRecordsList?.where((record) {
-    //   final recordMonth = record['date'].toDate().month;
-    //   return recordMonth == selectedMonth.value;
-    // }).toList() ?? [];
-    return attendanceRecordsList ?? [];
+    if (selectedMonth.value.isNotEmpty) {
+      final selectedMonthInt =
+          DateFormat('MMMM').parse(selectedMonth.value).month;
+      return attendanceRecordsList?.where((record) {
+            final recordMonth = record['date'].toDate().month;
+            return recordMonth == selectedMonthInt;
+          }).toList() ??
+          [];
+    } else {
+      return [];
+    }
   }
 }
