@@ -180,19 +180,19 @@ class DouserProductcartController extends GetxController {
     }
   }
 
-  String generateddate = DateFormat('dd.mm.yyyy').format(DateTime.now());
+  String generateddate = DateFormat('dd.MM.yyyy').format(DateTime.now());
 
   Future<void> generateInvoicePdf(
-    String marketingperson,
-    String vendorName,
-    String vendorAddress,
-    String contactPerson,
-    String vendorMobile,
-    String? Roll,
-    String? Meter,
-    List<List<dynamic>> data,
-    double? totalAmount,
-  ) async {
+      String marketingperson,
+      String vendorName,
+      String vendorAddress,
+      String contactPerson,
+      String vendorMobile,
+      String? Roll,
+      String? Meter,
+      List<List<dynamic>> data,
+      double? totalAmount,
+      String? deliveryDate) async {
     final doc = pw.Document();
 
     final String currentDate = DateTime.now().day.toString().padLeft(2, '0');
@@ -267,7 +267,10 @@ class DouserProductcartController extends GetxController {
                       // flex: 2,
                       child: pw.Column(
                         crossAxisAlignment: pw.CrossAxisAlignment.end,
-                        children: [pw.Text('Date: $generateddate')],
+                        children: [
+                          pw.Text(
+                              'Date: $currentDate-$currentMonth-$currentYear')
+                        ],
                       ),
                     ),
                   ],
@@ -324,7 +327,7 @@ class DouserProductcartController extends GetxController {
                 mainAxisAlignment: pw.MainAxisAlignment.end,
                 children: [
                   pw.Text(
-                    '$totalAmount',
+                    'Total : $totalAmount',
                     style: pw.TextStyle(
                       fontSize: 11.0,
                     ),
@@ -346,7 +349,7 @@ class DouserProductcartController extends GetxController {
               ),
               pw.SizedBox(height: 10),
               pw.Text(
-                'Delivery Date: 17-02-2023',
+                'Delivery Date: $deliveryDate',
                 style: pw.TextStyle(
                   fontSize: 11.0,
                 ),
