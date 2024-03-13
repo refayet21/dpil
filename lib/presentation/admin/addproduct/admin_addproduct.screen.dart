@@ -249,7 +249,7 @@ class AdminAddproductScreen extends GetView<AdminAddproductController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: AdminDrawer(),
+      // drawer: AdminDrawer(),
       appBar: AppBar(
         title: Text(
           'DPIL',

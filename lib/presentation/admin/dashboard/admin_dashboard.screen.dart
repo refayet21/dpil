@@ -1,6 +1,10 @@
+import 'package:dpil/const/image_constant.dart';
 import 'package:dpil/infrastructure/navigation/routes.dart';
 import 'package:dpil/presentation/widgets/admin_drawer.dart';
+import 'package:dpil/presentation/widgets/custom_card.dart';
+import 'package:dpil/presentation/widgets/custom_shape.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -13,7 +17,7 @@ class AdminDashboardScreen extends GetView<AdminDashboardController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: AdminDrawer(),
+      // drawer: AdminDrawer(),
       appBar: AppBar(
         title: Text('DPIL'),
         centerTitle: true,
@@ -26,10 +30,103 @@ class AdminDashboardScreen extends GetView<AdminDashboardController> {
               icon: Icon(Icons.logout))
         ],
       ),
-      body: const Center(
-        child: Text(
-          'AdminDashboardScreen is working',
-          style: TextStyle(fontSize: 20),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            CustomCard(
+              logoPath: ImageConstant
+                  .splash_screen_image, // Provide the path to your logo image
+              title: 'Eco-Friendly Solution',
+              subtitle: 'Exceptional Quality',
+            ),
+            SizedBox(
+              height: 20.h,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                CustomShape(
+                  imageurl: ImageConstant.adduser,
+                  title: 'DO USER',
+                  onTap: () {
+                    // print('পন্য যোগ করুন');
+
+                    Get.toNamed(
+                      // Routes.ALL_INPUT_FIELD,
+                      Routes.ADMIN_ADDDOUSER,
+                    );
+                  },
+                ),
+                CustomShape(
+                  imageurl: ImageConstant.generaluser,
+                  title: 'GEN USER',
+                  onTap: () {
+                    Get.toNamed(
+                      // Routes.ALL_INPUT_FIELD,
+                      Routes.ADMIN_ADDGENUSER,
+                    );
+                  },
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 10.h,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                CustomShape(
+                  imageurl: ImageConstant.addcustomer,
+                  title: 'CUSTOMER',
+                  onTap: () {
+                    Get.toNamed(
+                      // Routes.ALL_INPUT_FIELD,
+                      Routes.ADMIN_ADDVENDOR,
+                    );
+                  },
+                ),
+                CustomShape(
+                  imageurl: ImageConstant.addproduct,
+                  title: 'PRODUCT',
+                  onTap: () {
+                    Get.toNamed(
+                      // Routes.ALL_INPUT_FIELD,
+                      Routes.ADMIN_ADDPRODUCT,
+                    );
+                  },
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 10.h,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                CustomShape(
+                  imageurl: ImageConstant.attendance,
+                  title: 'ATTENDANCE',
+                  onTap: () {
+                    Get.toNamed(
+                      // Routes.ALL_INPUT_FIELD,
+                      Routes.ADMIN_ADDPRODUCT,
+                    );
+                  },
+                ),
+                CustomShape(
+                  imageurl: ImageConstant.doorder,
+                  title: 'DO',
+                  onTap: () {},
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 10.h,
+            ),
+            SizedBox(
+              height: 10.h,
+            ),
+          ],
         ),
       ),
     );

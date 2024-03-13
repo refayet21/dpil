@@ -12,7 +12,7 @@ class AdminAddgenuserScreen extends GetView<AdminAddgenuserController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: AdminDrawer(),
+      // drawer: AdminDrawer(),
       appBar: AppBar(
         title: Text(
           'DPIL',

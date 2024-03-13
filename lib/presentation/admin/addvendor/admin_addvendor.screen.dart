@@ -12,7 +12,7 @@ class AdminAddvendorScreen extends GetView<AdminAddvendorController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: AdminDrawer(),
+      // drawer: AdminDrawer(),
       appBar: AppBar(
         title: Text(
           'DPIL',
@@ -134,7 +134,7 @@ class AdminAddvendorScreen extends GetView<AdminAddvendorController> {
           onPressed: () {
             _buildAddEditVendorView(text: 'ADD', addEditFlag: 1, docId: '');
           },
-          child: Text('Add Vendor')),
+          child: Text('Add Customer')),
     );
   }
 
@@ -158,7 +158,7 @@ class AdminAddvendorScreen extends GetView<AdminAddvendorController> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '${text} Vendor',
+                    '${text} Customer',
                     style: TextStyle(
                         fontSize: 16.sp,
                         fontWeight: FontWeight.bold,
@@ -252,9 +252,9 @@ class AdminAddvendorScreen extends GetView<AdminAddvendorController> {
 
   displayDeleteDialog(String docId) {
     Get.defaultDialog(
-      title: "Delete Vendor",
+      title: "Delete Customer",
       titleStyle: TextStyle(fontSize: 20.sp),
-      middleText: 'Are you sure to delete Vendor ?',
+      middleText: 'Are you sure to delete Customer ?',
       textCancel: "Cancel",
       textConfirm: "Confirm",
       confirmTextColor: Colors.black,

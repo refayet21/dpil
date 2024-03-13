@@ -12,7 +12,7 @@ class AdminAdddouserScreen extends GetView<AdminAdddouserController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: AdminDrawer(),
+      // drawer: AdminDrawer(),
       appBar: AppBar(
         title: Text(
           'DPIL',

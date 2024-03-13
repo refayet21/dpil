@@ -12,4 +12,10 @@ class ImageConstant {
   static String light2 = '$imagePath/light-2.png';
   static String pdfheader = '$imagePath/headerpad.png';
   static String pdffooter = '$imagePath/footerpad.png';
+  static String adduser = '$imagePath/add-user.png';
+  static String generaluser = '$imagePath/add_gen_user.png';
+  static String addproduct = '$imagePath/add_product.png';
+  static String addcustomer = '$imagePath/add_customer.png';
+  static String attendance = '$imagePath/attendance.png';
+  static String doorder = '$imagePath/do.png';
 }
