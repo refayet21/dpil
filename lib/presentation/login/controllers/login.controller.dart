@@ -46,8 +46,8 @@ class LoginController extends GetxController {
         if (isDoUser) {
           // DoUser, redirect to DoUser dashboard
           box.write('douseremail', email);
-          // Get.offNamed(Routes.DOUSER_DASHBOARD);
-          Get.offNamed(Routes.DOUSER_INVOICE);
+          Get.offNamed(Routes.DOUSER_DASHBOARD);
+          // Get.offNamed(Routes.DOUSER_INVOICE);
           return null; // No need to return User object for DoUser
         } else if (isGeneralUser) {
           // General user, redirect to General user dashboard

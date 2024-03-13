@@ -67,7 +67,8 @@ class DouserProductcartScreen extends GetView<DouserProductcartController> {
         onPressed: () {
           Get.to(() => CartItemsScreen());
         },
-        label: Obx(() => Text('Cart (${controller.cartItems.length})')),
+        label: Obx(
+            () => Text('Selected Product (${controller.cartItems.length})')),
       ),
     );
   }

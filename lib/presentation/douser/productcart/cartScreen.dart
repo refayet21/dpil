@@ -33,7 +33,7 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Cart Items'),
+        title: Text('DPIL'),
         centerTitle: true,
       ),
       body: Column(
@@ -43,7 +43,7 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
             onChanged: (value) {
               selectedVendor = value;
             },
-            hint: const Text('Select Vendor'),
+            hint: const Text('Select Customer'),
             isExpanded: true,
             value: selectedVendor,
             items: controller.vendors
@@ -59,7 +59,7 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
           TextField(
             controller: dateController,
             decoration: InputDecoration(
-                icon: Icon(Icons.calendar_today), labelText: "Enter Date"),
+                icon: Icon(Icons.calendar_today), labelText: "Delivery Date"),
             readOnly: true,
             onTap: () {
               selectDate(context);
@@ -457,10 +457,10 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
               double totalAmount = 0.0;
 
               String vendorName =
-                  'Vendor Name: ${selectedVendor?.name ?? "N/A"}';
+                  'Customer Name: ${selectedVendor?.name ?? "N/A"}';
               String vendorAddress =
-                  'Vendor address: ${selectedVendor?.address ?? "N/A"}';
-              String dateInfo = 'Date: ${dateController.text}';
+                  'Customer address: ${selectedVendor?.address ?? "N/A"}';
+              String dateInfo = 'Delivery Date: ${dateController.text}';
               purchaseInfoList.add('$vendorName\n$vendorAddress\n$dateInfo\n');
 
               List<List<dynamic>> invoiceData = [];
@@ -512,7 +512,7 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
                 context: context,
                 builder: (BuildContext context) {
                   return AlertDialog(
-                    title: Text('Previous Purchase Information'),
+                    title: Text('Previous Delivery Order'),
                     content: SingleChildScrollView(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -533,7 +533,7 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
                               '${selectedVendor?.mobile ?? "N/A"}';
 
                           homeController.generateInvoicePdf(
-                            'John Doe',
+                            'Test user',
                             vendorName,
                             vendorAddress,
                             contactPerson,
@@ -559,7 +559,7 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
                 },
               );
             },
-            child: Text('Confirm Purchase'),
+            child: Text('Confirm Order'),
           )
         ],
       ),
