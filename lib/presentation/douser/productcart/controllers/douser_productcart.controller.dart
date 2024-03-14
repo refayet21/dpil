@@ -1,6 +1,7 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dpil/model/douser_model.dart';
 import 'package:dpil/model/product.dart';
 import 'package:dpil/model/vendor.dart';
 import 'package:dpil/presentation/admin/addvendor/controllers/admin_addvendor.controller.dart';
@@ -133,11 +134,29 @@ class DouserProductcartController extends GetxController {
     }
   }
 
+  Future<DoUserModel?> getDoUserById(String userId) async {
+    try {
+      DocumentSnapshot snapshot = await FirebaseFirestore.instance
+          .collection('do_users')
+          .doc(userId)
+          .get();
+      if (snapshot.exists) {
+        return DoUserModel.fromJson(snapshot);
+      } else {
+        print('User not found for ID: $userId');
+        return null;
+      }
+    } catch (e) {
+      print('Error fetching user: $e');
+      return null;
+    }
+  }
+
   String generateddate = DateFormat('dd.MM.yyyy').format(DateTime.now());
   // var docounter = 0;
 
   Future<void> generateInvoicePdf(
-      String marketingperson,
+      // String marketingperson,
       String vendorName,
       String vendorAddress,
       String contactPerson,
@@ -148,6 +167,7 @@ class DouserProductcartController extends GetxController {
       double? totalAmount,
       String? deliveryDate) async {
     String currentDates = DateFormat('yyyy-MM-dd').format(DateTime.now());
+    DoUserModel? marketingperson = await getDoUserById(box.read('employeeId'));
 
     // Retrieve the stored date and docounter value from local storage
     String? storedDate = box.read('storedDate');
@@ -173,8 +193,10 @@ class DouserProductcartController extends GetxController {
     final String currentDate = DateTime.now().day.toString().padLeft(2, '0');
     final String currentMonth = DateTime.now().month.toString().padLeft(2, '0');
     final String currentYear = DateTime.now().year.toString();
+
+    var firstletter = marketingperson!.name!.substring(0, 1).capitalize;
     final String doNo =
-        'DPIL-$currentDate-$currentMonth-$currentYear-S-$docounter';
+        'DPIL-$currentDate-$currentMonth-$currentYear-$firstletter-$docounter';
     try {
       // Load fonts
       final fontData = await rootBundle.load("assets/fonts/robotoregular.ttf");
@@ -256,7 +278,7 @@ class DouserProductcartController extends GetxController {
                   children: [
                     pw.Text("Do : $doNo"),
                     pw.SizedBox(height: 1.h),
-                    pw.Text("Marketing Person : $marketingperson"),
+                    pw.Text("Marketing Person : ${marketingperson!.name}"),
                     pw.SizedBox(height: 1.h),
                     pw.Text("DO Type : Non Package"),
                     pw.SizedBox(height: 1.h),

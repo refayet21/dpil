@@ -533,7 +533,7 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
                               '${selectedVendor?.mobile ?? "N/A"}';
 
                           homeController.generateInvoicePdf(
-                              'Test user',
+                              // 'Test user',
                               vendorName,
                               vendorAddress,
                               contactPerson,
