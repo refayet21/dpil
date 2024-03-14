@@ -9,12 +9,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 
 class DouserProductcartController extends GetxController {
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   RxList<ProductModel> cartItems = RxList<ProductModel>([]);
   AdminAddvendorController vendorAddController =
       Get.put(AdminAddvendorController());
@@ -22,6 +24,7 @@ class DouserProductcartController extends GetxController {
   late CollectionReference collectionReference;
   RxList<ProductModel> productModel = RxList<ProductModel>([]);
   var quantity = 0.obs;
+  final box = GetStorage();
 
   Stream<List<ProductModel>> getAllVendors() =>
       collectionReference.snapshots().map((query) =>
@@ -101,62 +104,12 @@ class DouserProductcartController extends GetxController {
     if (pickedDate != null) {
       print(pickedDate);
       String formattedDate = DateFormat('dd-MM-yyyy').format(pickedDate);
-      // print(formattedDate);
 
-      // dateinput.text = formattedDate;
       return formattedDate;
     }
   }
 
   // add purchase product
-
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-
-  // Future<void> addPurchaseData({
-  //   String? vendorDocId,
-  //   required String date,
-  //   required List<Map<String, dynamic>> cartItems,
-  // }) async {
-  //   try {
-  //     CollectionReference purchasesCollection =
-  //         _firestore.collection('purchases');
-
-  //     // Add a new document with a generated ID
-  //     await purchasesCollection.add({
-  //       'vendorDocId': vendorDocId,
-  //       'date': date,
-  //       'cartItems': cartItems,
-  //     });
-
-  //     print('Purchase data added to Firestore');
-  //   } catch (e) {
-  //     print('Error adding purchase data: $e');
-  //   }
-  // }
-
-  // Future<void> addPurchaseData({
-  //   String? vendorDocId,
-  //   required String date,
-  //   required List<Map<String, dynamic>> cartItems,
-  //   String? purchaseInfo, // Add this parameter
-  // }) async {
-  //   try {
-  //     CollectionReference purchasesCollection =
-  //         _firestore.collection('purchases');
-
-  //     // Add a new document with a generated ID
-  //     await purchasesCollection.add({
-  //       'vendorDocId': vendorDocId,
-  //       'date': date,
-  //       'cartItems': cartItems,
-  //       'purchaseInfo': purchaseInfo, // Add purchaseInfo to the document
-  //     });
-
-  //     print('Purchase data added to Firestore');
-  //   } catch (e) {
-  //     print('Error adding purchase data: $e');
-  //   }
-  // }
 
   Future<void> addPurchaseData({
     String? vendorDocId,
@@ -181,6 +134,7 @@ class DouserProductcartController extends GetxController {
   }
 
   String generateddate = DateFormat('dd.MM.yyyy').format(DateTime.now());
+  // var docounter = 0;
 
   Future<void> generateInvoicePdf(
       String marketingperson,
@@ -188,18 +142,39 @@ class DouserProductcartController extends GetxController {
       String vendorAddress,
       String contactPerson,
       String vendorMobile,
-      String? Roll,
-      String? Meter,
+      String? roll,
+      String? meter,
       List<List<dynamic>> data,
       double? totalAmount,
       String? deliveryDate) async {
+    String currentDates = DateFormat('yyyy-MM-dd').format(DateTime.now());
+
+    // Retrieve the stored date and docounter value from local storage
+    String? storedDate = box.read('storedDate');
+    int docounter = box.read('docounter') ?? 0;
+
+    // Check if the stored date matches the current date
+    if (storedDate != currentDates) {
+      // Reset the counter to 1
+      docounter = 0;
+      // Update the stored date to the current date
+      await box.write('storedDate', currentDates);
+    } else {
+      // Increment the counter if the stored date matches the current date
+      docounter++;
+    }
+
+    // Save the updated docounter value to local storage
+    await box.write('docounter', docounter);
+
     final doc = pw.Document();
+    docounter++;
 
     final String currentDate = DateTime.now().day.toString().padLeft(2, '0');
     final String currentMonth = DateTime.now().month.toString().padLeft(2, '0');
     final String currentYear = DateTime.now().year.toString();
     final String doNo =
-        'DPIL-$currentDate-$currentMonth-$currentYear-S-pdfCount';
+        'DPIL-$currentDate-$currentMonth-$currentYear-S-$docounter';
     try {
       // Load fonts
       final fontData = await rootBundle.load("assets/fonts/robotoregular.ttf");
@@ -215,9 +190,9 @@ class DouserProductcartController extends GetxController {
       final tableHeaders = [
         'S.L',
         'Description',
-        '$Roll',
-        '$Meter',
-        'Total $Meter',
+        '$roll',
+        '$meter',
+        'Total $meter',
         'Rate(Tk)',
         'Amount(Tk)',
         'Remarks',
@@ -300,7 +275,6 @@ class DouserProductcartController extends GetxController {
                     pw.SizedBox(height: 1.h),
                   ]),
 
-// Rest of the content...
               pw.SizedBox(height: 10),
               pw.Table.fromTextArray(
                 headers: tableHeaders,
