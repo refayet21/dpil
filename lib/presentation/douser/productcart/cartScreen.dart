@@ -541,7 +541,7 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
                               controller.cartItems[0].unit,
                               controller.cartItems[0].totalunit,
                               invoiceData,
-                              totalAmount,
+                              NumberFormat.decimalPattern().format(totalAmount),
                               dateController.text);
 
                           Navigator.of(context).pop();

@@ -164,7 +164,7 @@ class DouserProductcartController extends GetxController {
       String? roll,
       String? meter,
       List<List<dynamic>> data,
-      double? totalAmount,
+      String? totalAmount,
       String? deliveryDate) async {
     String currentDates = DateFormat('yyyy-MM-dd').format(DateTime.now());
     DoUserModel? marketingperson = await getDoUserById(box.read('employeeId'));
