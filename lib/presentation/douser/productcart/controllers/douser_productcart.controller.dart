@@ -12,6 +12,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
+import 'package:number_to_words_english/number_to_words_english.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 
@@ -165,6 +166,7 @@ class DouserProductcartController extends GetxController {
       String? meter,
       List<List<dynamic>> data,
       String? totalAmount,
+      int? totalinword,
       String? deliveryDate) async {
     String currentDates = DateFormat('yyyy-MM-dd').format(DateTime.now());
     DoUserModel? marketingperson = await getDoUserById(box.read('employeeId'));
@@ -336,7 +338,7 @@ class DouserProductcartController extends GetxController {
                 mainAxisAlignment: pw.MainAxisAlignment.end,
                 children: [
                   pw.Text(
-                    'IN WORDS BDT: FourtyEight Thousand Six Hundred Taka Only',
+                    'In words: ${NumberToWordsEnglish.convert(totalinword!)}',
                     style: pw.TextStyle(
                       fontSize: 11.0,
                     ),
