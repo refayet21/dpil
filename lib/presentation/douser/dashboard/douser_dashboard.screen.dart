@@ -169,13 +169,16 @@ class DouserDashboardScreen extends StatelessWidget {
             SizedBox(
               height: 10.h,
             ),
-            Obx(() => controller.locations.value != " " &&
-                    (controller.checkIn.value != "--/--" ||
-                        controller.checkOut.value != "--/--")
-                ? Text(
-                    "Location: ${controller.locations.value}",
-                  )
-                : SizedBox()),
+            Obx(() =>
+                    // controller.locations.value != " " &&
+                    //         (controller.checkIn.value != "--/--" ||
+                    //             controller.checkOut.value != "--/--")
+                    //     ?
+                    Text(
+                      "Location: ${controller.locations.value}",
+                    )
+                // : SizedBox()
+                ),
           ],
         ),
       ),

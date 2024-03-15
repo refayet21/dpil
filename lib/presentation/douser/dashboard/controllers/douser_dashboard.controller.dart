@@ -188,6 +188,7 @@ class DouserDashboardController extends GetxController {
   void onInit() {
     initialize();
     super.onInit();
+    _getUserInfoAndRecord();
   }
 
   @override
@@ -195,7 +196,6 @@ class DouserDashboardController extends GetxController {
     super.onReady();
 
     // _getRecord();
-    _getUserInfoAndRecord();
   }
 
   Future<void> initialize() async {
