@@ -673,15 +673,16 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
                             String vendorMobile =
                                 '${selectedVendor?.mobile ?? "N/A"}';
 
-                            // controller.generateInvoicePdf(
-                            //   vendorName,
-                            //   vendorAddress,
-                            //   contactPerson,
-                            //   vendorMobile,
-                            //   invoiceData,
-                            //   totalAmount.toInt(),
-                            //   dateController.text,
-                            // );
+                            controller.generateInvoicePdf(
+                              vendorName,
+                              vendorAddress,
+                              contactPerson,
+                              vendorMobile,
+                              invoiceData,
+                              totalAmount,
+                              25,
+                              dateController.text,
+                            );
 
                             Navigator.of(context).pop();
                           },

@@ -162,10 +162,8 @@ class DouserProductcartController extends GetxController {
       String vendorAddress,
       String contactPerson,
       String vendorMobile,
-      String? roll,
-      String? meter,
       List<List<dynamic>> data,
-      String? totalAmount,
+      double? totalAmount,
       int? totalinword,
       String? deliveryDate) async {
     String currentDates = DateFormat('yyyy-MM-dd').format(DateTime.now());
@@ -196,7 +194,8 @@ class DouserProductcartController extends GetxController {
     final String currentMonth = DateTime.now().month.toString().padLeft(2, '0');
     final String currentYear = DateTime.now().year.toString();
 
-    var firstletter = marketingperson!.name!.substring(0, 1).capitalize;
+    var firstletter = marketingperson!.name;
+    // .substring(0, 1).capitalize;
     final String doNo =
         'DPIL-$currentDate-$currentMonth-$currentYear-$firstletter-$docounter';
     try {
@@ -214,10 +213,11 @@ class DouserProductcartController extends GetxController {
       final tableHeaders = [
         'S.L',
         'Description',
-        '$roll',
-        '$meter',
-        'Total $meter',
-        'Rate(Tk)',
+        'Roll/PCS/Bag',
+        'Per Roll/PCS/Bag',
+        'Unit',
+        'Per Unit Price',
+        'Total Unit',
         'Amount(Tk)',
         'Remarks',
       ];
@@ -247,8 +247,7 @@ class DouserProductcartController extends GetxController {
                             style: pw.TextStyle(
                               fontSize: 20.sp,
                               fontWeight: pw.FontWeight.bold,
-                              decoration: pw
-                                  .TextDecoration.underline, // Adding underline
+                              decoration: pw.TextDecoration.underline,
                             ),
                           ),
                         ],
@@ -306,18 +305,18 @@ class DouserProductcartController extends GetxController {
                 border: pw.TableBorder.all(),
                 headerStyle: pw.TextStyle(
                   fontSize: 9.0,
-                  fontWeight: pw.FontWeight.bold,
+                  // fontWeight: pw.FontWeight.bold,
                 ),
-                cellAlignments: {
-                  0: pw.Alignment.center,
-                  1: pw.Alignment.centerLeft,
-                  2: pw.Alignment.center,
-                  3: pw.Alignment.center,
-                  4: pw.Alignment.center,
-                  5: pw.Alignment.center,
-                  6: pw.Alignment.center,
-                  7: pw.Alignment.center,
-                },
+                // cellAlignments: {
+                //   0: pw.Alignment.center,
+                //   1: pw.Alignment.centerLeft,
+                //   2: pw.Alignment.center,
+                //   3: pw.Alignment.center,
+                //   4: pw.Alignment.center,
+                //   5: pw.Alignment.center,
+                //   6: pw.Alignment.center,
+                //   7: pw.Alignment.center,
+                // },
               ),
 
               // pw.SizedBox(height: 10),
