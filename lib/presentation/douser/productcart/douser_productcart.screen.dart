@@ -33,9 +33,9 @@ class DouserProductcartScreen extends GetView<DouserProductcartController> {
                 subtitle: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      'Unit : ${controller.productModel[index].unit ?? "N/A"}',
-                    ),
+                    // Text(
+                    //   'Unit : ${controller.productModel[index].unit ?? "N/A"}',
+                    // ),
                     // Text(
                     //   'quantity  : ${controller.productModel[index].quantity.toString() ?? "N/A"}',
                     // ),
