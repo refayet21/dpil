@@ -224,11 +224,12 @@ class DouserProductcartController extends GetxController {
 
       doc.addPage(
         pw.MultiPage(
+          margin:
+              pw.EdgeInsets.only(top: 3, right: 10.w, bottom: 6, left: 10.w),
           pageFormat: PdfPageFormat.a4,
           build: (context) {
             return [
               pw.Container(
-                margin: pw.EdgeInsets.only(bottom: 10),
                 child: pw.Row(
                   children: [
                     pw.Expanded(
@@ -236,7 +237,6 @@ class DouserProductcartController extends GetxController {
                       child: pw.Column(
                         // crossAxisAlignment: pw.CrossAxisAlignment.start,
                         children: [
-// uncoment it
                           pw.Image(
                             pw.MemoryImage(header),
                             // height: 72,
@@ -258,7 +258,6 @@ class DouserProductcartController extends GetxController {
               ),
 
               pw.Container(
-                margin: pw.EdgeInsets.only(bottom: 10),
                 child: pw.Row(
                   children: [
                     pw.Expanded(
