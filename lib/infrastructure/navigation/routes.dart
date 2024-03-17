@@ -10,6 +10,7 @@ class Routes {
   static const ADMIN_ATTENDANCE = '/admin-attendance';
   static const ADMIN_DASHBOARD = '/admin-dashboard';
   static const ADMIN_DO = '/admin-do';
+  static const ADMIN_EMAIL = '/admin-email';
   static const DOUSER_ATTENDENCE = '/douser-attendence';
   static const DOUSER_DASHBOARD = '/douser-dashboard';
   static const DOUSER_INVOICE = '/douser-invoice';
@@ -18,5 +19,5 @@ class Routes {
   static const GENUSER_DASHBOARD = '/genuser-dashboard';
   static const LOGIN = '/login';
   static const SPLASH = '/splash';
-  static const ADMIN_EMAIL = '/admin-email';
+  static const ADMIN_PREVIEWATTENDANCE = '/admin-previewattendance';
 }

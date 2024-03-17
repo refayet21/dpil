@@ -115,6 +115,9 @@
 //   }
 // }
 
+import 'package:dpil/infrastructure/navigation/routes.dart';
+import 'package:dpil/presentation/admin/previewattendance/admin_previewattendance.screen.dart';
+import 'package:dpil/presentation/douser/attendence/douser_attendence.screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -215,6 +218,9 @@ class AdminAttendanceScreen extends GetView<AdminAttendanceController> {
                       backgroundColor: Colors.blue.shade200,
                     ),
                     onTap: () {
+                      Get.to(() => AdminPreviewattendanceScreen(
+                            employeeId: controller.founddouser[index].docId!,
+                          ));
                       print(
                           'Doc Id is : ${controller.founddouser[index].docId!}');
                     },

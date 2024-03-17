@@ -106,5 +106,10 @@ class Nav {
       page: () => const AdminEmailScreen(),
       binding: AdminEmailControllerBinding(),
     ),
+    GetPage(
+      name: Routes.ADMIN_PREVIEWATTENDANCE,
+      page: () => AdminPreviewattendanceScreen(),
+      binding: AdminPreviewattendanceControllerBinding(),
+    ),
   ];
 }
