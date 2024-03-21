@@ -163,7 +163,7 @@ class DouserProductcartController extends GetxController {
       String contactPerson,
       String vendorMobile,
       List<List<dynamic>> data,
-      double? totalAmount,
+      // double? totalAmount,
       int? totalinword,
       String? deliveryDate) async {
     String currentDates = DateFormat('yyyy-MM-dd').format(DateTime.now());
@@ -256,7 +256,6 @@ class DouserProductcartController extends GetxController {
                   ],
                 ),
               ),
-
               pw.Container(
                 child: pw.Row(
                   children: [
@@ -296,7 +295,6 @@ class DouserProductcartController extends GetxController {
                     pw.Text("Contact Person Mobile : $vendorMobile"),
                     pw.SizedBox(height: 1.h),
                   ]),
-
               pw.SizedBox(height: 10),
               pw.Table.fromTextArray(
                 headers: tableHeaders,
@@ -304,33 +302,8 @@ class DouserProductcartController extends GetxController {
                 border: pw.TableBorder.all(),
                 headerStyle: pw.TextStyle(
                   fontSize: 9.0,
-                  // fontWeight: pw.FontWeight.bold,
                 ),
-                // cellAlignments: {
-                //   0: pw.Alignment.center,
-                //   1: pw.Alignment.centerLeft,
-                //   2: pw.Alignment.center,
-                //   3: pw.Alignment.center,
-                //   4: pw.Alignment.center,
-                //   5: pw.Alignment.center,
-                //   6: pw.Alignment.center,
-                //   7: pw.Alignment.center,
-                // },
               ),
-
-              // pw.SizedBox(height: 10),
-              pw.Row(
-                mainAxisAlignment: pw.MainAxisAlignment.end,
-                children: [
-                  pw.Text(
-                    'Total : $totalAmount',
-                    style: pw.TextStyle(
-                      fontSize: 11.0,
-                    ),
-                  ),
-                ],
-              ),
-              pw.Divider(),
               pw.SizedBox(height: 10),
               pw.Row(
                 mainAxisAlignment: pw.MainAxisAlignment.end,

@@ -464,7 +464,6 @@
 //     );
 //   }
 // }
-
 import 'package:dpil/model/vendor.dart';
 import 'package:dpil/presentation/douser/productcart/controllers/douser_productcart.controller.dart';
 import 'package:flutter/material.dart';
@@ -515,7 +514,7 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
               items: controller.vendors
                   .map((vendor) => DropdownMenuItem<VendorModel>(
                         value: vendor,
-                        child: Text(vendor.name ?? 'N/A'),
+                        child: Text(vendor.name ?? ''),
                       ))
                   .toList(),
             ),
@@ -531,71 +530,113 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
                 selectDate(context);
               },
             ),
-            ListView.builder(
-              shrinkWrap: true,
-              itemCount: controller.cartItems.length,
-              itemBuilder: (context, index) {
-                // Ensure that itemDataList has data for each item in the cart
-                while (itemDataList.length <= index) {
-                  itemDataList.add({});
-                }
+            SizedBox(
+              height: 430.h, // Set a specific height for the ListView
+              child: ListView.builder(
+                itemCount: controller.cartItems.length,
+                itemBuilder: (context, index) {
+                  // Ensure that itemDataList has data for each item in the cart
+                  while (itemDataList.length <= index) {
+                    itemDataList.add({});
+                  }
 
-                return Card(
-                  color: Colors.blue.shade200,
-                  child: ListTile(
-                    title: Text(
-                        'Name: ${controller.cartItems[index].name ?? "N/A"}'),
-                    subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Stock: ${controller.cartItems[index].stock?.toString()}',
-                        ),
-                        SizedBox(height: 10),
-                        TextFormField(
-                          keyboardType: TextInputType.number,
-                          decoration: InputDecoration(labelText: 'Quantity'),
-                          onChanged: (value) {
-                            itemDataList[index]['quantity'] = value;
-                          },
-                        ),
-                        SizedBox(height: 10),
-                        TextFormField(
-                          keyboardType: TextInputType.number,
-                          decoration:
-                              InputDecoration(labelText: 'Per Quantity'),
-                          onChanged: (value) {
-                            itemDataList[index]['perQuantity'] = value;
-                          },
-                        ),
-                        SizedBox(height: 10),
-                        TextFormField(
-                          decoration: InputDecoration(labelText: 'Unit'),
-                          onChanged: (value) {
-                            itemDataList[index]['unit'] = value;
-                          },
-                        ),
-                        SizedBox(height: 10),
-                        TextFormField(
-                          keyboardType: TextInputType.number,
-                          decoration:
-                              InputDecoration(labelText: 'Per Unit Price'),
-                          onChanged: (value) {
-                            itemDataList[index]['perUnitPrice'] = value;
-                          },
-                        ),
-                        SizedBox(height: 10),
-                      ],
+                  return Card(
+                    color: Colors.blue.shade200,
+                    child: ListTile(
+                      title: Text(
+                          'Product Name: ${controller.cartItems[index].name ?? "N/A"}'),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Stock Qty: ${controller.cartItems[index].stock?.toString()}',
+                          ),
+                          SizedBox(height: 10),
+                          // TextFormField(
+                          //   keyboardType: TextInputType.number,
+                          //   decoration:
+                          //       InputDecoration(labelText: 'Roll/PCS/Bag'),
+                          //   onChanged: (value) {
+                          //     itemDataList[index]['quantity'] = value;
+                          //   },
+                          // ),
+
+                          TextFormField(
+                            keyboardType: TextInputType.number,
+                            decoration:
+                                InputDecoration(labelText: 'Roll/PCS/Bag'),
+                            onChanged: (value) {
+                              itemDataList[index]['quantity'] =
+                                  int.tryParse(value) ?? 0;
+                            },
+                          ),
+                          SizedBox(height: 10),
+                          // TextFormField(
+                          //   keyboardType: TextInputType.number,
+                          //   decoration:
+                          //       InputDecoration(labelText: 'Per roll/PCS/Bag'),
+                          //   onChanged: (value) {
+                          //     itemDataList[index]['perQuantity'] = value;
+                          //   },
+                          // ),
+
+                          TextFormField(
+                            keyboardType: TextInputType.number,
+                            decoration:
+                                InputDecoration(labelText: 'Per roll/PCS/Bag'),
+                            onChanged: (value) {
+                              itemDataList[index]['perQuantity'] =
+                                  int.tryParse(value) ?? 0;
+                            },
+                          ),
+                          SizedBox(height: 10),
+                          TextFormField(
+                            decoration: InputDecoration(labelText: 'Unit'),
+                            onChanged: (value) {
+                              itemDataList[index]['unit'] = value;
+                            },
+                          ),
+                          SizedBox(height: 10),
+                          // TextFormField(
+                          //   keyboardType: TextInputType.number,
+                          //   decoration:
+                          //       InputDecoration(labelText: 'Per Unit Price'),
+                          //   onChanged: (value) {
+                          //     itemDataList[index]['perUnitPrice'] = value;
+                          //   },
+                          // ),
+
+                          TextFormField(
+                            keyboardType: TextInputType.number,
+                            decoration:
+                                InputDecoration(labelText: 'Per Unit Price'),
+                            onChanged: (value) {
+                              itemDataList[index]['perUnitPrice'] =
+                                  double.tryParse(value) ?? 0.0;
+                            },
+                          ),
+                          SizedBox(height: 10),
+                          TextFormField(
+                            keyboardType: TextInputType.text,
+                            decoration: InputDecoration(labelText: 'Remarks'),
+                            onChanged: (value) {
+                              itemDataList[index]['remarks'] = value;
+                            },
+                          ),
+                          SizedBox(height: 10),
+                        ],
+                      ),
+                      trailing: IconButton(
+                        icon: Icon(Icons.remove_shopping_cart),
+                        onPressed: () {
+                          controller
+                              .removeFromCart(controller.cartItems[index]);
+                        },
+                      ),
                     ),
-                    trailing: IconButton(
-                      icon: Icon(Icons.remove_shopping_cart),
-                      onPressed: () {
-                        controller.removeFromCart(controller.cartItems[index]);
-                      },
-                    ),
-                  ),
-                );
-              },
+                  );
+                },
+              ),
             ),
             ElevatedButton(
               onPressed: () async {
@@ -603,9 +644,9 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
                 double totalAmount = 0.0;
 
                 String vendorName =
-                    'Customer Name: ${selectedVendor?.name ?? "N/A"}';
+                    'Customer Name: ${selectedVendor?.name ?? ""}';
                 String vendorAddress =
-                    'Customer address: ${selectedVendor?.address ?? "N/A"}';
+                    'Customer address: ${selectedVendor?.address ?? ""}';
                 String dateInfo = 'Delivery Date: ${dateController.text}';
                 purchaseInfoList
                     .add('$vendorName\n$vendorAddress\n$dateInfo\n');
@@ -618,34 +659,57 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
                   var item = controller.cartItems[index];
                   var serialNo = index + 1;
 
-                  var quantity = itemDataList[index]['quantity'] ?? 'N/A';
-                  var perQuantity = itemDataList[index]['perQuantity'] ?? 'N/A';
-                  var unit = itemDataList[index]['unit'] ?? 'N/A';
-                  var perUnitPrice =
-                      itemDataList[index]['perUnitPrice'] ?? 'N/A';
+                  var quantity = itemDataList[index]['quantity'] ?? '';
+                  var perQuantity = itemDataList[index]['perQuantity'] ?? '';
+                  var unit = itemDataList[index]['unit'] ?? '';
+                  var perUnitPrice = itemDataList[index]['perUnitPrice'] ?? '';
+                  var totalUnit = quantity * perQuantity;
+                  var amount = perUnitPrice * (quantity * perQuantity);
+
+                  var remarks = itemDataList[index]['remarks'] ?? '';
+
+                  totalAmount += amount;
 
                   List<dynamic> itemData = [
                     serialNo,
-                    item.name ?? 'N/A',
+                    item.name ?? '',
                     quantity,
                     perQuantity,
                     unit,
                     perUnitPrice,
+                    totalUnit,
+                    amount,
+                    remarks
                   ];
 
                   invoiceData.add(itemData);
 
                   String itemInfo = '';
                   itemInfo += 'Serial No: $serialNo\n';
-                  itemInfo += 'Product Name: ${item.name ?? "N/A"}\n';
-                  itemInfo += 'Stock: ${item.stock?.toString() ?? "N/A"}\n';
-                  itemInfo += 'Quantity: $quantity\n';
-                  itemInfo += 'Per Quantity: $perQuantity\n';
+                  itemInfo += 'Product Name: ${item.name ?? ""}\n';
+                  itemInfo += 'Stock Qty: ${item.stock?.toString() ?? ""}\n';
+                  itemInfo += 'Roll/PCS/Bag: $quantity\n';
+                  itemInfo += 'Per Roll/PCS/Bag: $perQuantity\n';
                   itemInfo += 'Unit: $unit\n';
                   itemInfo += 'Per Unit Price: $perUnitPrice\n';
+                  itemInfo += 'Remarks: $remarks\n';
                   itemInfo += '---\n';
 
                   purchaseInfoList.add(itemInfo);
+                }
+                for (var i = 0; i < 1; i++) {
+                  var itemData = [
+                    '',
+                    'Total',
+                    '',
+                    '',
+                    '',
+                    '',
+                    '',
+                    totalAmount,
+                    ''
+                  ];
+                  invoiceData.add(itemData);
                 }
 
                 await showDialog(
@@ -664,14 +728,13 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
                       actions: <Widget>[
                         TextButton(
                           onPressed: () async {
-                            String vendorName =
-                                '${selectedVendor?.name ?? "N/A"}';
+                            String vendorName = '${selectedVendor?.name ?? ""}';
                             String vendorAddress =
-                                '${selectedVendor?.address ?? "N/A"}';
+                                '${selectedVendor?.address ?? ""}';
                             String contactPerson =
-                                '${selectedVendor?.contactperson ?? "N/A"}';
+                                '${selectedVendor?.contactperson ?? ""}';
                             String vendorMobile =
-                                '${selectedVendor?.mobile ?? "N/A"}';
+                                '${selectedVendor?.mobile ?? ""}';
 
                             controller.generateInvoicePdf(
                               vendorName,
@@ -679,7 +742,7 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
                               contactPerson,
                               vendorMobile,
                               invoiceData,
-                              totalAmount,
+                              // totalAmount,
                               25,
                               dateController.text,
                             );
