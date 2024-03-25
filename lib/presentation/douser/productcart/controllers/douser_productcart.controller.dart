@@ -1,6 +1,7 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dpil/model/do_model.dart';
 import 'package:dpil/model/douser_model.dart';
 import 'package:dpil/model/product.dart';
 import 'package:dpil/model/vendor.dart';
@@ -28,7 +29,6 @@ class DouserProductcartController extends GetxController {
   late CollectionReference collectionReference;
   RxList<ProductModel> productModel = RxList<ProductModel>([]);
   var quantity = 0.obs;
-  final box = GetStorage();
 
   Stream<List<ProductModel>> getAllVendors() =>
       collectionReference.snapshots().map((query) =>
@@ -159,47 +159,19 @@ class DouserProductcartController extends GetxController {
   // var docounter = 0;
 
   Future<void> generateInvoicePdf(
-      // String marketingperson,
+      String doNo,
+      String date,
+      String userId,
+      String marketingperson,
       String vendorName,
       String vendorAddress,
       String contactPerson,
       String vendorMobile,
       List<List<dynamic>> data,
-      // double? totalAmount,
       var totalinword,
       String? deliveryDate) async {
-    String currentDates = DateFormat('yyyy-MM-dd').format(DateTime.now());
-    DoUserModel? marketingperson = await getDoUserById(box.read('employeeId'));
-
-    // Retrieve the stored date and docounter value from local storage
-    String? storedDate = box.read('storedDate');
-    int docounter = box.read('docounter') ?? 0;
-
-    // Check if the stored date matches the current date
-    if (storedDate != currentDates) {
-      // Reset the counter to 1
-      docounter = 0;
-      // Update the stored date to the current date
-      await box.write('storedDate', currentDates);
-    } else {
-      // Increment the counter if the stored date matches the current date
-      docounter++;
-    }
-
-    // Save the updated docounter value to local storage
-    await box.write('docounter', docounter);
-
     final doc = pw.Document();
-    docounter++;
 
-    final String currentDate = DateTime.now().day.toString().padLeft(2, '0');
-    final String currentMonth = DateTime.now().month.toString().padLeft(2, '0');
-    final String currentYear = DateTime.now().year.toString();
-
-    var firstletter = marketingperson!.name;
-    // .substring(0, 1).capitalize;
-    final String doNo =
-        'DPIL-$currentDate-$currentMonth-$currentYear-$firstletter-$docounter';
     try {
       // Load fonts
       final fontData = await rootBundle.load("assets/fonts/robotoregular.ttf");
@@ -265,10 +237,7 @@ class DouserProductcartController extends GetxController {
                       // flex: 2,
                       child: pw.Column(
                         crossAxisAlignment: pw.CrossAxisAlignment.end,
-                        children: [
-                          pw.Text(
-                              'Date: $currentDate-$currentMonth-$currentYear')
-                        ],
+                        children: [pw.Text('Date: $date')],
                       ),
                     ),
                   ],
@@ -279,7 +248,7 @@ class DouserProductcartController extends GetxController {
                   children: [
                     pw.Text("Do : $doNo"),
                     pw.SizedBox(height: 1.h),
-                    pw.Text("Marketing Person : ${marketingperson!.name}"),
+                    pw.Text("Marketing Person : ${marketingperson}"),
                     pw.SizedBox(height: 1.h),
                     pw.Text("DO Type : Non Package"),
                     pw.SizedBox(height: 1.h),
@@ -417,6 +386,19 @@ class DouserProductcartController extends GetxController {
       Get.to(() => DouserInvoicepreviewScreen(
             doc: doc,
             pdfname: doNo,
+            deliveryOrder: DeliveryOrder(
+              doNo: doNo,
+              date: date,
+              userId: userId,
+              marketingPerson: marketingperson,
+              vendorName: vendorName,
+              vendorAddress: vendorAddress,
+              contactPerson: contactPerson,
+              vendorMobile: vendorMobile,
+              data: data,
+              totalInWord: totalinword,
+              deliveryDate: deliveryDate,
+            ),
           ));
     } catch (e) {
       print('Error: $e');

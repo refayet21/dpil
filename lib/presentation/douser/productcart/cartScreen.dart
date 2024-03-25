@@ -1,14 +1,17 @@
+import 'package:dpil/model/do_model.dart';
+import 'package:dpil/model/douser_model.dart';
 import 'package:dpil/model/vendor.dart';
 import 'package:dpil/presentation/douser/productcart/controllers/douser_productcart.controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
 
 class CartItemsScreen extends GetView<DouserProductcartController> {
   DouserProductcartController controller =
       Get.put(DouserProductcartController());
-  TextEditingController dateController = TextEditingController();
+  TextEditingController deliverydateController = TextEditingController();
 
   VendorModel? selectedVendor;
 
@@ -23,7 +26,7 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
     );
     if (picked != null && picked != DateTime.now()) {
       String formattedDate = "${picked.day}/${picked.month}/${picked.year}";
-      dateController.text = formattedDate;
+      deliverydateController.text = formattedDate;
     }
   }
 
@@ -57,7 +60,7 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
           Expanded(
             flex: 1,
             child: TextField(
-              controller: dateController,
+              controller: deliverydateController,
               decoration: InputDecoration(
                 icon: Icon(Icons.calendar_today),
                 labelText: "Delivery Date",
@@ -161,7 +164,8 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
                       'Customer Name: ${selectedVendor?.name ?? ""}';
                   String vendorAddress =
                       'Customer address: ${selectedVendor?.address ?? ""}';
-                  String dateInfo = 'Delivery Date: ${dateController.text}';
+                  String dateInfo =
+                      'Delivery Date: ${deliverydateController.text}';
                   purchaseInfoList
                       .add('$vendorName\n$vendorAddress\n$dateInfo\n');
 
@@ -211,7 +215,6 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
                       unit,
                       perUnitPrice,
                       totalUnit,
-                      // amount,
                       formatedamount,
                       remarks
                     ];
@@ -266,6 +269,47 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
                         actions: <Widget>[
                           TextButton(
                             onPressed: () async {
+                              final box = GetStorage();
+                              String currentDates = DateFormat('yyyy-MM-dd')
+                                  .format(DateTime.now());
+                              DoUserModel? marketingperson = await controller
+                                  .getDoUserById(box.read('employeeId'));
+
+                              // Retrieve the stored date and docounter value from local storage
+                              String? storedDate = box.read('storedDate');
+                              int docounter = box.read('docounter') ?? 0;
+
+                              // Check if the stored date matches the current date
+                              if (storedDate != currentDates) {
+                                // Reset the counter to 1
+                                docounter = 0;
+                                // Update the stored date to the current date
+                                await box.write('storedDate', currentDates);
+                              } else {
+                                // Increment the counter if the stored date matches the current date
+                                docounter++;
+                              }
+
+                              // Save the updated docounter value to local storage
+                              await box.write('docounter', docounter);
+
+                              docounter++;
+
+                              final String currentDate =
+                                  DateTime.now().day.toString().padLeft(2, '0');
+                              final String currentMonth = DateTime.now()
+                                  .month
+                                  .toString()
+                                  .padLeft(2, '0');
+                              final String currentYear =
+                                  DateTime.now().year.toString();
+
+                              var firstletter = marketingperson!.name;
+
+                              final String doNo =
+                                  'DPIL-$currentDate-$currentMonth-$currentYear-$firstletter-$docounter';
+                              final String date =
+                                  '$currentDate-$currentMonth-$currentYear';
                               String vendorName =
                                   '${selectedVendor?.name ?? ""}';
                               String vendorAddress =
@@ -276,14 +320,17 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
                                   '${selectedVendor?.mobile ?? ""}';
 
                               controller.generateInvoicePdf(
+                                doNo,
+                                date,
+                                marketingperson.docId!,
+                                marketingperson.name!,
                                 vendorName,
                                 vendorAddress,
                                 contactPerson,
                                 vendorMobile,
                                 invoiceData,
                                 totalAmount,
-                                // 25.5,
-                                dateController.text,
+                                deliverydateController.text,
                               );
 
                               Navigator.of(context).pop();

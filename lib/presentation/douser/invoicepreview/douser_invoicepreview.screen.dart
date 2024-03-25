@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dpil/model/do_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pdf/pdf.dart';
@@ -15,8 +16,10 @@ class DouserInvoicepreviewScreen
       Get.put(DouserInvoicepreviewController());
   final pw.Document? doc;
   String? pdfname;
+  DeliveryOrder? deliveryOrder;
 
-  DouserInvoicepreviewScreen({Key? key, this.doc, this.pdfname})
+  DouserInvoicepreviewScreen(
+      {Key? key, this.doc, this.pdfname, this.deliveryOrder})
       : super(key: key);
 
   @override
@@ -69,7 +72,10 @@ class DouserInvoicepreviewScreen
       floatingActionButton: ElevatedButton(
         onPressed: () async {
           // Fetch your recipients, subject, and body as needed
-          List<String> to = ['mosarof.del@gmail.com', 'sanzid.dpil@gmail.com'];
+          // List<String> to = ['mosarof.del@gmail.com', 'sanzid.dpil@gmail.com'];
+          List<String> to = [
+            'refayet94@gmail.com',
+          ];
           List<String> cc = [];
           List<String> bcc = [];
 
@@ -87,7 +93,17 @@ class DouserInvoicepreviewScreen
           await file.writeAsBytes(await doc!.save());
 
           // Call the sendEmail method from your controller
-          controller.sendEmail(to, cc, bcc, subject, body, [pdfPath]);
+// Call the saveDeliveryOrder method to save the delivery order to Firestore
+          bool savedSuccessfully =
+              await controller.saveDeliveryOrder(deliveryOrder!);
+
+          if (savedSuccessfully) {
+            // Delivery order saved successfully, now send the email
+            controller.sendEmail(to, cc, bcc, subject, body, [pdfPath]);
+          } else {
+            // Handle the case where saving the delivery order failed
+            print('Failed to save delivery order');
+          }
         },
         child: Text('Send Email'),
       ),
