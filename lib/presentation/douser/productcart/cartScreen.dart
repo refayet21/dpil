@@ -73,6 +73,7 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
             child: ListView.builder(
               itemCount: controller.cartItems.length,
               itemBuilder: (context, index) {
+                int displayIndex = index + 1;
                 while (itemDataList.length <= index) {
                   itemDataList.add({});
                 }
@@ -80,8 +81,11 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
                 return Card(
                   color: Colors.blue.shade200,
                   child: ListTile(
+                    leading: Text('SL: $displayIndex',
+                        style: TextStyle(
+                            fontSize: 16.sp, fontWeight: FontWeight.w700)),
                     title: Text(
-                        'Product Name: ${controller.cartItems[index].name ?? "N/A"}',
+                        'Description: ${controller.cartItems[index].name ?? "N/A"}',
                         style: TextStyle(
                             fontSize: 16.sp, fontWeight: FontWeight.w700)),
                     subtitle: Column(
@@ -89,7 +93,7 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
                       children: [
                         SizedBox(height: 5.h),
                         Text(
-                            'Product Stock: ${controller.cartItems[index].stock?.toString()}',
+                            'Stock: ${controller.cartItems[index].stock?.toString()}',
                             style: TextStyle(
                                 fontSize: 14.sp, fontWeight: FontWeight.w600)),
                         SizedBox(height: 10.h),
@@ -98,7 +102,7 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
                           decoration:
                               InputDecoration(labelText: 'Roll/PCS/Bag'),
                           onChanged: (value) {
-                            itemDataList[index]['quantity'] =
+                            itemDataList[index]['rollPcsBag'] =
                                 double.tryParse(value) ?? 0;
                           },
                         ),
@@ -108,7 +112,7 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
                           decoration:
                               InputDecoration(labelText: 'Per roll/PCS/Bag'),
                           onChanged: (value) {
-                            itemDataList[index]['perQuantity'] =
+                            itemDataList[index]['perRollPcsBag'] =
                                 double.tryParse(value) ?? 0;
                           },
                         ),
@@ -140,13 +144,6 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
                         SizedBox(height: 10.h),
                       ],
                     ),
-                    // trailing: IconButton(
-                    //   icon: Icon(Icons.remove_shopping_cart),
-                    //   style: ButtonStyle(),
-                    //   onPressed: () {
-                    //     controller.removeFromCart(controller.cartItems[index]);
-                    //   },
-                    // ),
                   ),
                 );
               },
@@ -158,6 +155,7 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
                 onPressed: () async {
                   List<String> purchaseInfoList = [];
                   double totalAmount = 0.0;
+                  var formatedtotalAmount;
 
                   String vendorName =
                       'Customer Name: ${selectedVendor?.name ?? ""}';
@@ -175,42 +173,61 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
                     var item = controller.cartItems[index];
                     var serialNo = index + 1;
 
-                    var quantity = itemDataList[index]['quantity'] ?? '';
-                    var perQuantity = itemDataList[index]['perQuantity'] ?? '';
+                    var rollPcsBag = double.tryParse(
+                            itemDataList[index]['rollPcsBag'].toString()) ??
+                        0.0;
+                    var perRollPcsBag = double.tryParse(
+                            itemDataList[index]['perRollPcsBag'].toString()) ??
+                        0.0;
+
                     var unit = itemDataList[index]['unit'] ?? '';
                     var perUnitPrice =
-                        itemDataList[index]['perUnitPrice'] ?? '';
-                    var totalUnit = quantity * perQuantity;
-                    var amount = perUnitPrice * (quantity * perQuantity);
+                        itemDataList[index]['perUnitPrice'] ?? 0.0;
+                    var totalUnit;
 
+                    if (rollPcsBag != 0.0 && perRollPcsBag != 0.0) {
+                      totalUnit = rollPcsBag * perRollPcsBag;
+                    } else if (rollPcsBag != 0.0) {
+                      totalUnit = rollPcsBag;
+                    } else if (perRollPcsBag != 0.0) {
+                      totalUnit = perRollPcsBag;
+                    } else {
+                      totalUnit =
+                          0.0; // Set a default value or handle the case where both are null
+                    }
+                    var formatter = NumberFormat('#,##,000.00');
+                    var amount = perUnitPrice * totalUnit;
+                    var formatedamount = formatter.format(amount);
                     var remarks = itemDataList[index]['remarks'] ?? '';
 
-                    totalAmount += amount;
+                    formatedtotalAmount =
+                        formatter.format(totalAmount += amount);
 
                     List<dynamic> itemData = [
                       serialNo,
                       item.name ?? '',
-                      quantity,
-                      perQuantity,
+                      rollPcsBag,
+                      perRollPcsBag,
                       unit,
                       perUnitPrice,
                       totalUnit,
-                      amount,
+                      // amount,
+                      formatedamount,
                       remarks
                     ];
 
                     invoiceData.add(itemData);
 
                     String itemInfo = '';
-                    itemInfo += 'Serial No: $serialNo\n';
-                    itemInfo += 'Product Name: ${item.name ?? ""}\n';
-                    itemInfo += 'Stock Qty: ${item.stock?.toString() ?? ""}\n';
-                    itemInfo += 'Roll/PCS/Bag: $quantity\n';
-                    itemInfo += 'Per Roll/PCS/Bag: $perQuantity\n';
+                    itemInfo += 'SL: $serialNo\n';
+                    itemInfo += 'Description: ${item.name ?? ""}\n';
+                    itemInfo += 'Stock: ${item.stock?.toString() ?? ""}\n';
+                    itemInfo += 'Roll/PCS/Bag: $rollPcsBag\n';
+                    itemInfo += 'Per Roll/PCS/Bag: $perRollPcsBag\n';
                     itemInfo += 'Unit: $unit\n';
                     itemInfo += 'Per Unit Price: $perUnitPrice\n';
                     itemInfo += 'Remarks: $remarks\n';
-                    itemInfo += '---\n';
+                    itemInfo += '----------------\n';
 
                     purchaseInfoList.add(itemInfo);
                   }
@@ -223,7 +240,8 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
                       '',
                       '',
                       '',
-                      totalAmount,
+                      // totalAmount,
+                      formatedtotalAmount,
                       ''
                     ];
                     invoiceData.add(itemData);
@@ -235,7 +253,7 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
                       return AlertDialog(
                         title: Text(
                           'Delivery Order',
-                          style: TextStyle(fontSize: 11.sp),
+                          // style: TextStyle(fontSize: 11.sp),
                         ),
                         content: SingleChildScrollView(
                           child: Column(
