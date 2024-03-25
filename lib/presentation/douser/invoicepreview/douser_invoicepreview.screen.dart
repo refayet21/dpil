@@ -35,15 +35,32 @@ class DouserInvoicepreviewScreen
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
+            // Expanded(
+            //   child: PdfPreview(
+            //     build: (format) => doc!.save(),
+            //     allowSharing: false,
+            //     allowPrinting: false,
+            //     dynamicLayout: true,
+            //     useActions: false,
+            //     initialPageFormat: PdfPageFormat.a4,
+            //     pdfFileName: "$pdfname.pdf",
+            //   ),
+            // ),
+
             Expanded(
-              child: PdfPreview(
-                build: (format) => doc!.save(),
-                allowSharing: false,
-                allowPrinting: false,
-                dynamicLayout: true,
-                useActions: false,
-                initialPageFormat: PdfPageFormat.a4,
-                pdfFileName: "$pdfname.pdf",
+              child: InteractiveViewer(
+                boundaryMargin: EdgeInsets.all(20),
+                minScale: 0.5,
+                maxScale: 3.5,
+                child: PdfPreview(
+                  build: (format) => doc!.save(),
+                  allowSharing: false,
+                  allowPrinting: false,
+                  dynamicLayout: true,
+                  useActions: false,
+                  initialPageFormat: PdfPageFormat.a4,
+                  pdfFileName: "$pdfname.pdf",
+                ),
               ),
             ),
           ],
