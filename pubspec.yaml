@@ -35,6 +35,9 @@ dependencies:
   flutter_launcher_icons: ^0.13.1
   flutter_svg: ^2.0.10+1
   number_to_words_english: ^2.0.2
+  spelling_number: ^0.0.4
+  money_formatter: ^0.0.5
+  num_to_words: ^1.1.0
 flutter_icons:
   android: true
   # ios: true

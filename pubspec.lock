@@ -653,6 +653,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.4"
+  money_formatter:
+    dependency: "direct main"
+    description:
+      name: money_formatter
+      sha256: "485ec13dced43238018108201a8229c531fd9270e6b2e601e42b4095dd9ac625"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.5"
   month_year_picker:
     dependency: "direct main"
     description:
@@ -661,6 +669,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.3.0+1"
+  num_to_words:
+    dependency: "direct main"
+    description:
+      name: num_to_words
+      sha256: a095b8fe7afcc09fd3263b492476e11f81f12b34367d80e074e9b3fc0d8a2a64
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.0"
   number_to_words_english:
     dependency: "direct main"
     description:
@@ -874,6 +890,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.10.0"
+  spelling_number:
+    dependency: "direct main"
+    description:
+      name: spelling_number
+      sha256: "86076b2726abd51d7e63fcbd5193672d0b177adbf9f49df128d38c51be57adee"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.4"
   stack_trace:
     dependency: transitive
     description:

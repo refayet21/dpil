@@ -281,8 +281,8 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
                                 contactPerson,
                                 vendorMobile,
                                 invoiceData,
-                                // totalAmount,
-                                25,
+                                totalAmount,
+                                // 25.5,
                                 dateController.text,
                               );
 

@@ -6,6 +6,7 @@ import 'package:dpil/model/product.dart';
 import 'package:dpil/model/vendor.dart';
 import 'package:dpil/presentation/admin/addvendor/controllers/admin_addvendor.controller.dart';
 import 'package:dpil/presentation/douser/invoicepreview/douser_invoicepreview.screen.dart';
+import 'package:dpil/presentation/widgets/number_to_word.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -15,6 +16,7 @@ import 'package:intl/intl.dart';
 import 'package:number_to_words_english/number_to_words_english.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
+import 'package:num_to_words/num_to_words.dart';
 
 class DouserProductcartController extends GetxController {
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
@@ -164,7 +166,7 @@ class DouserProductcartController extends GetxController {
       String vendorMobile,
       List<List<dynamic>> data,
       // double? totalAmount,
-      int? totalinword,
+      var totalinword,
       String? deliveryDate) async {
     String currentDates = DateFormat('yyyy-MM-dd').format(DateTime.now());
     DoUserModel? marketingperson = await getDoUserById(box.read('employeeId'));
@@ -299,9 +301,12 @@ class DouserProductcartController extends GetxController {
               pw.Table.fromTextArray(
                 headers: tableHeaders,
                 data: data,
+                cellStyle: pw.TextStyle(
+                  fontSize: 7.sp,
+                ),
                 border: pw.TableBorder.all(),
                 headerStyle: pw.TextStyle(
-                  fontSize: 9.sp,
+                  fontSize: 7.sp,
                 ),
               ),
               pw.SizedBox(height: 10.h),
@@ -309,7 +314,7 @@ class DouserProductcartController extends GetxController {
                 mainAxisAlignment: pw.MainAxisAlignment.end,
                 children: [
                   pw.Text(
-                    'In words: ${NumberToWordsEnglish.convert(totalinword!)}',
+                    'In words: ${NumberToWords.convert(totalinword)}',
                     style: pw.TextStyle(
                       fontSize: 11.0,
                     ),
