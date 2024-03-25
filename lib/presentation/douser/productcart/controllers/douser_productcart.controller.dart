@@ -301,10 +301,10 @@ class DouserProductcartController extends GetxController {
                 data: data,
                 border: pw.TableBorder.all(),
                 headerStyle: pw.TextStyle(
-                  fontSize: 9.0,
+                  fontSize: 9.sp,
                 ),
               ),
-              pw.SizedBox(height: 10),
+              pw.SizedBox(height: 10.h),
               pw.Row(
                 mainAxisAlignment: pw.MainAxisAlignment.end,
                 children: [
