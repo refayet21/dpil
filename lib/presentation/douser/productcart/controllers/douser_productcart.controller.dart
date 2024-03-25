@@ -337,17 +337,60 @@ class DouserProductcartController extends GetxController {
               ),
               pw.SizedBox(height: 10),
               pw.Divider(),
-              pw.SizedBox(height: 10),
+              pw.SizedBox(height: 20.h),
               pw.Container(
-                alignment: pw.Alignment.centerRight,
+                // alignment: pw.Alignment.centerRight,
                 child: pw.Column(
-                  crossAxisAlignment: pw.CrossAxisAlignment.end,
+                  crossAxisAlignment: pw.CrossAxisAlignment.start,
                   children: [
                     pw.Text(
                       'Authorized Signature',
                       style: pw.TextStyle(
                         fontSize: 11.0,
                         fontWeight: pw.FontWeight.bold,
+                      ),
+                    ),
+                    pw.SizedBox(height: 10.h),
+                    pw.Text(
+                      'Copy to:',
+                      style: pw.TextStyle(
+                        fontSize: 11.0,
+                        fontWeight: pw.FontWeight.bold,
+                      ),
+                    ),
+                    pw.SizedBox(height: 5.h),
+                    pw.Text(
+                      '01 Honorable Chairrman (DPIL)',
+                      style: pw.TextStyle(
+                        fontSize: 11.0,
+                      ),
+                    ),
+                    pw.SizedBox(height: 5.h),
+                    pw.Text(
+                      '02 Controller Accounts (Head Office)',
+                      style: pw.TextStyle(
+                        fontSize: 11.0,
+                      ),
+                    ),
+                    pw.SizedBox(height: 5.h),
+                    pw.Text(
+                      '03 Head Of Operation (DPIL)',
+                      style: pw.TextStyle(
+                        fontSize: 11.0,
+                      ),
+                    ),
+                    pw.SizedBox(height: 5.h),
+                    pw.Text(
+                      '04 Head Of HR & Admin (DPIL)',
+                      style: pw.TextStyle(
+                        fontSize: 11.0,
+                      ),
+                    ),
+                    pw.SizedBox(height: 5.h),
+                    pw.Text(
+                      '05 In-Charge (Store)',
+                      style: pw.TextStyle(
+                        fontSize: 11.0,
                       ),
                     ),
                   ],

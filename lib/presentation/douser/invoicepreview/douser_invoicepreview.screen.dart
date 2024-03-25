@@ -40,7 +40,7 @@ class DouserInvoicepreviewScreen
                 build: (format) => doc!.save(),
                 allowSharing: false,
                 allowPrinting: false,
-                dynamicLayout: false,
+                dynamicLayout: true,
                 useActions: false,
                 initialPageFormat: PdfPageFormat.a4,
                 pdfFileName: "$pdfname.pdf",
