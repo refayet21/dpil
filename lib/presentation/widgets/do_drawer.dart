@@ -15,14 +15,14 @@ class DoDrawer extends StatelessWidget {
         title: 'Preview Attendence',
         routeName: Routes.DOUSER_ATTENDENCE,
         icon: Icons.inventory),
-    // DrawerMenuItem(
-    //     title: 'Delivery Order',
-    //     routeName: Routes.DOUSER_INVOICE,
-    //     icon: Icons.print),
     DrawerMenuItem(
         title: 'Delivery Order',
         routeName: Routes.DOUSER_PRODUCTCART,
         icon: Icons.delivery_dining),
+    DrawerMenuItem(
+        title: 'Preview DO',
+        routeName: Routes.DOUSER_INVOICE,
+        icon: Icons.print),
   ];
   DoDrawer({
     super.key,
