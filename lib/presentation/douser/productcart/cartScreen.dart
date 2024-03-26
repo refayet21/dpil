@@ -333,6 +333,8 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
                                 deliverydateController.text,
                               );
 
+                              print('invoiceData is $invoiceData');
+
                               Navigator.of(context).pop();
                             },
                             child: Text('Confirm'),
