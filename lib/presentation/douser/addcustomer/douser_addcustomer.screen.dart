@@ -23,14 +23,14 @@ class DouserAddcustomerScreen extends GetView<DouserAddcustomerController> {
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: EdgeInsets.all(8.0.r),
             child: TextField(
               onChanged: (value) => controller.searchVendor(value),
               decoration: InputDecoration(
                 hintText: "Search",
                 prefixIcon: Icon(Icons.search),
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                  borderRadius: BorderRadius.all(Radius.circular(25.0.r)),
                 ),
               ),
             ),
@@ -114,7 +114,7 @@ class DouserAddcustomerScreen extends GetView<DouserAddcustomerController> {
                       controller.addressController.text =
                           controller.foundVendor[index].address!;
                       controller.contactpersonController.text =
-                          controller.foundVendor[index].address!;
+                          controller.foundVendor[index].contactperson!;
                       controller.mobileController.text =
                           controller.foundVendor[index].mobile!;
 

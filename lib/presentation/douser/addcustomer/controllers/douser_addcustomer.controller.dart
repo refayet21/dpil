@@ -79,8 +79,8 @@ class DouserAddcustomerController extends GetxController {
         Get.back();
         CustomSnackBar.showSnackBar(
             context: Get.context,
-            title: "Vendor Added",
-            message: "Vendor added successfully",
+            title: "Customer Added",
+            message: "Customer added successfully",
             backgroundColor: Colors.green);
         // ignore: body_might_complete_normally_catch_error
       }).catchError((error) {
@@ -105,8 +105,8 @@ class DouserAddcustomerController extends GetxController {
         Get.back();
         CustomSnackBar.showSnackBar(
             context: Get.context,
-            title: "Vendor Updated",
-            message: "Vendor updated successfully",
+            title: "Customer Updated",
+            message: "Customer updated successfully",
             backgroundColor: Colors.green);
       }).catchError((error) {
         CustomFullScreenDialog.cancelDialog();
@@ -150,8 +150,8 @@ class DouserAddcustomerController extends GetxController {
       Get.back();
       CustomSnackBar.showSnackBar(
           context: Get.context,
-          title: "Vendor Deleted",
-          message: "Vendor deleted successfully",
+          title: "Customer Deleted",
+          message: "Customer deleted successfully",
           backgroundColor: Colors.green);
     }).catchError((error) {
       CustomFullScreenDialog.cancelDialog();
