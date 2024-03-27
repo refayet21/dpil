@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dpil/model/do_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
@@ -38,21 +39,9 @@ class DouserInvoicepreviewScreen
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            // Expanded(
-            //   child: PdfPreview(
-            //     build: (format) => doc!.save(),
-            //     allowSharing: false,
-            //     allowPrinting: false,
-            //     dynamicLayout: true,
-            //     useActions: false,
-            //     initialPageFormat: PdfPageFormat.a4,
-            //     pdfFileName: "$pdfname.pdf",
-            //   ),
-            // ),
-
             Expanded(
               child: InteractiveViewer(
-                boundaryMargin: EdgeInsets.all(20),
+                boundaryMargin: EdgeInsets.all(20.r),
                 minScale: 0.5,
                 maxScale: 3.5,
                 child: PdfPreview(
@@ -102,10 +91,13 @@ class DouserInvoicepreviewScreen
             controller.sendEmail(to, cc, bcc, subject, body, [pdfPath]);
           } else {
             // Handle the case where saving the delivery order failed
-            print('Failed to save delivery order');
+            // print('Failed to save delivery order');
           }
         },
-        child: Text('Send Email'),
+        child: Text(
+          'Send Email',
+          style: TextStyle(fontSize: 14.sp),
+        ),
       ),
     );
   }
