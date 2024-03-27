@@ -111,5 +111,10 @@ class Nav {
       page: () => AdminPreviewattendanceScreen(),
       binding: AdminPreviewattendanceControllerBinding(),
     ),
+    GetPage(
+      name: Routes.DOUSER_ADDCUSTOMER,
+      page: () => const DouserAddcustomerScreen(),
+      binding: DouserAddcustomerControllerBinding(),
+    ),
   ];
 }
