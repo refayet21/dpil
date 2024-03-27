@@ -1,6 +1,7 @@
 import 'package:dpil/presentation/douser/productcart/cartScreen.dart';
 import 'package:dpil/presentation/widgets/do_drawer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
 
@@ -13,7 +14,10 @@ class DouserProductcartScreen extends GetView<DouserProductcartController> {
     return Scaffold(
       drawer: DoDrawer(),
       appBar: AppBar(
-        title: const Text('DPIL'),
+        title: Text(
+          'Select Product',
+          style: TextStyle(fontSize: 25.sp),
+        ),
         centerTitle: true,
       ),
       body: Obx(
@@ -28,17 +32,16 @@ class DouserProductcartScreen extends GetView<DouserProductcartController> {
               color: Colors.blue.shade200,
               child: ListTile(
                 title: Text(
-                  'Name : ${controller.productModel[index].name ?? "N/A"}',
+                  'Product Name : ${controller.productModel[index].name ?? "N/A"}',
+                  style:
+                      TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w700),
                 ),
                 subtitle: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Text(
-                    //   'Unit : ${controller.productModel[index].unit ?? "N/A"}',
-                    // ),
-                    // Text(
-                    //   'quantity  : ${controller.productModel[index].quantity.toString() ?? "N/A"}',
-                    // ),
+                    SizedBox(
+                      height: 5.h,
+                    ),
                     Text(
                       'Stock : ${controller.productModel[index].stock?.toString() ?? "N/A"}',
                     ),

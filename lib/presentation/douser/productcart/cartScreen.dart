@@ -34,7 +34,8 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('DPIL', style: TextStyle(fontSize: 22.sp)),
+        title: Text('Selected Product (${controller.cartItems.length})',
+            style: TextStyle(fontSize: 25.sp)),
         centerTitle: true,
       ),
       body: Column(
@@ -62,8 +63,10 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
             child: TextField(
               controller: deliverydateController,
               decoration: InputDecoration(
-                icon: Icon(Icons.calendar_today),
-                labelText: "Delivery Date",
+                icon: Icon(
+                  Icons.calendar_today,
+                ),
+                hintText: "Delivery Date",
               ),
               readOnly: true,
               onTap: () {
@@ -72,7 +75,7 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
             ),
           ),
           Expanded(
-            flex: 5,
+            flex: 8,
             child: ListView.builder(
               itemCount: controller.cartItems.length,
               itemBuilder: (context, index) {
@@ -86,7 +89,9 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
                   child: ListTile(
                     leading: Text('SL: $displayIndex',
                         style: TextStyle(
-                            fontSize: 16.sp, fontWeight: FontWeight.w700)),
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w700,
+                        )),
                     title: Text(
                         'Description: ${controller.cartItems[index].name ?? "N/A"}',
                         style: TextStyle(
