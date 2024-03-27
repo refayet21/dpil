@@ -11,14 +11,14 @@ class DouserInvoicepreviewController extends GetxController {
   late CollectionReference collectionReference;
   final box = GetStorage();
   RxList<EmailModel> emailModel = RxList<EmailModel>([]);
-  // RxList<EmailModel> email = RxList<EmailModel>([]);
+  RxList<EmailModel> email = RxList<EmailModel>([]);
 
   @override
   void onInit() {
     super.onInit();
     collectionReference = _firestore.collection("email");
     emailModel.bindStream(getEmail());
-    print(emailModel);
+    email = emailModel;
   }
 
   @override
@@ -62,6 +62,9 @@ class DouserInvoicepreviewController extends GetxController {
       return false;
     }
   }
+
+  // Stream<List<EmailModel>> getEmail() => collectionReference.snapshots().map(
+  //     (query) => query.docs.map((item) => EmailModel.fromJson(item)).toList());
 
   Stream<List<EmailModel>> getEmail() => collectionReference.snapshots().map(
       (query) => query.docs.map((item) => EmailModel.fromJson(item)).toList());

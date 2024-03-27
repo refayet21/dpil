@@ -30,6 +30,7 @@ class DouserAddcustomerController extends GetxController {
     collectionReference = firebaseFirestore.collection("Vendors");
     vendors.bindStream(getAllVendors());
     foundVendor = vendors;
+    print('foundVendor is ${foundVendor.value}');
   }
 
   String? validateName(String value) {

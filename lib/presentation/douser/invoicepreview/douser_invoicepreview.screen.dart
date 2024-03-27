@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dpil/model/do_model.dart';
+import 'package:dpil/model/email_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -60,16 +61,24 @@ class DouserInvoicepreviewScreen
       ),
       floatingActionButton: ElevatedButton(
         onPressed: () async {
-          // Fetch your recipients, subject, and body as needed
-          List<String> to = ['mosarof.del@gmail.com', 'sanzid.dpil@gmail.com'];
+          List<EmailModel> emails = await controller.getEmail().first;
+
+          // Extract email addresses from the email data
+          List<String> toEmails = emails.map((e) => e.to!).toList();
+          List<String> ccEmails = emails.map((e) => e.cc!).toList();
+          List<String> subjectEmail = emails.map((e) => e.subject!).toList();
+          List<String> bodyEmail = emails.map((e) => e.body!).toList();
+          // print('to email ${ccEmails[0]}');
+
+          List<String> to = toEmails;
           // List<String> to = [
           //   'refayet94@gmail.com',
           // ];
-          List<String> cc = [];
+          List<String> cc = ccEmails;
           List<String> bcc = [];
 
-          String subject = '$pdfname';
-          String body = 'Delivery Order Send by $pdfname';
+          String subject = '${subjectEmail[0]} $pdfname';
+          String body = '${bodyEmail[0]} $pdfname';
 
           // Get the directory path for documents
           String dir = (await getApplicationDocumentsDirectory()).path;
