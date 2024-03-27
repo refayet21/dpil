@@ -21,7 +21,7 @@ class AdminDashboardScreen extends GetView<AdminDashboardController> {
       appBar: AppBar(
         title: Text(
           'DPIL',
-          style: TextStyle(fontSize: 30.sp, fontWeight: FontWeight.w700),
+          style: TextStyle(fontSize: 25.sp, fontWeight: FontWeight.w700),
         ),
         centerTitle: true,
         actions: [
