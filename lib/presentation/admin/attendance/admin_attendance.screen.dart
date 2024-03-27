@@ -131,22 +131,22 @@ class AdminAttendanceScreen extends GetView<AdminAttendanceController> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'DPIL',
-          style: TextStyle(fontSize: 30.sp, fontWeight: FontWeight.w700),
+          'DO User Attendence',
+          style: TextStyle(fontSize: 25.sp, fontWeight: FontWeight.w700),
         ),
         centerTitle: true,
       ),
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: EdgeInsets.all(8.0.r),
             child: TextField(
               onChanged: (value) => controller.searchdouser(value),
               decoration: InputDecoration(
                 hintText: "Search",
                 prefixIcon: Icon(Icons.search),
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                  borderRadius: BorderRadius.all(Radius.circular(25.0.r)),
                 ),
               ),
             ),
