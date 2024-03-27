@@ -43,54 +43,57 @@ class DouserInvoiceScreen extends GetView<DouserInvoiceController> {
                 convertedList.add(items);
               }
 
-              return Card(
-                child: ListTile(
-                  title: Text(
-                    'Do No: ${controller.dousers[index]['doNo']}',
-                    style: TextStyle(
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.black),
-                  ),
-                  subtitle: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        height: 3.h,
-                      ),
-                      Text(
-                        'Customer Name :${controller.dousers[index]['vendorName']}',
-                        style: TextStyle(
+              return Padding(
+                padding: EdgeInsets.all(8.0.r),
+                child: Card(
+                  child: ListTile(
+                    title: Text(
+                      'Do No: ${controller.dousers[index]['doNo']}',
+                      style: TextStyle(
                           fontSize: 14.sp,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.black),
+                    ),
+                    subtitle: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          height: 3.h,
                         ),
-                      ),
-                      SizedBox(
-                        height: 3.h,
-                      ),
-                      Text(
-                        'Delivery Date : ${controller.dousers[index]['deliveryDate']}',
-                        style: TextStyle(
-                          fontSize: 14.sp,
+                        Text(
+                          'Customer Name :${controller.dousers[index]['vendorName']}',
+                          style: TextStyle(
+                            fontSize: 14.sp,
+                          ),
                         ),
-                      ),
-                    ],
+                        SizedBox(
+                          height: 3.h,
+                        ),
+                        Text(
+                          'Delivery Date : ${controller.dousers[index]['deliveryDate']}',
+                          style: TextStyle(
+                            fontSize: 14.sp,
+                          ),
+                        ),
+                      ],
+                    ),
+                    onTap: () {
+                      douserProductcartController.generateInvoicePdf(
+                        controller.dousers[index]['doNo'],
+                        controller.dousers[index]['date'],
+                        controller.dousers[index]['userId'],
+                        controller.dousers[index]['marketingPerson'],
+                        controller.dousers[index]['vendorName'],
+                        controller.dousers[index]['vendorAddress'],
+                        controller.dousers[index]['contactPerson'],
+                        controller.dousers[index]['vendorMobile'],
+                        convertedList,
+                        controller.dousers[index]['totalInWord'],
+                        controller.dousers[index]['deliveryDate'],
+                      );
+                    },
                   ),
-                  onTap: () {
-                    douserProductcartController.generateInvoicePdf(
-                      controller.dousers[index]['doNo'],
-                      controller.dousers[index]['date'],
-                      controller.dousers[index]['userId'],
-                      controller.dousers[index]['marketingPerson'],
-                      controller.dousers[index]['vendorName'],
-                      controller.dousers[index]['vendorAddress'],
-                      controller.dousers[index]['contactPerson'],
-                      controller.dousers[index]['vendorMobile'],
-                      convertedList,
-                      controller.dousers[index]['totalInWord'],
-                      controller.dousers[index]['deliveryDate'],
-                    );
-                  },
                 ),
               );
             },
