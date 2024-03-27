@@ -27,6 +27,7 @@ class DouserDashboardScreen extends StatelessWidget {
           IconButton(
               onPressed: () {
                 box.remove('douseremail');
+                box.remove('employeeId');
                 Get.offNamed(Routes.LOGIN);
               },
               icon: Icon(Icons.logout))
