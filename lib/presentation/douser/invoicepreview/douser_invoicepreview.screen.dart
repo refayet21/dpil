@@ -32,7 +32,7 @@ class DouserInvoicepreviewScreen
           icon: Icon(Icons.arrow_back_outlined),
         ),
         centerTitle: true,
-        title: Text("Confirm Delivery Order"),
+        title: Text("Delivery Order"),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),

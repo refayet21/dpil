@@ -1,3 +1,4 @@
+import 'package:dpil/presentation/admin/previewdo/admin_previewdo.screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -100,9 +101,9 @@ class AdminDoScreen extends GetView<AdminDoController> {
                       backgroundColor: Colors.blue.shade200,
                     ),
                     onTap: () {
-                      // Get.to(() => AdminPreviewattendanceScreen(
-                      //       employeeId: controller.founddouser[index].docId!,
-                      //     ));
+                      Get.to(() => AdminPreviewdoScreen(
+                            employeeId: controller.founddouser[index].docId!,
+                          ));
                       // print(
                       //     'Doc Id is : ${controller.founddouser[index].docId!}');
                     },

@@ -116,5 +116,10 @@ class Nav {
       page: () => const DouserAddcustomerScreen(),
       binding: DouserAddcustomerControllerBinding(),
     ),
+    GetPage(
+      name: Routes.ADMIN_PREVIEWDO,
+      page: () => AdminPreviewdoScreen(),
+      binding: AdminPreviewdoControllerBinding(),
+    ),
   ];
 }
