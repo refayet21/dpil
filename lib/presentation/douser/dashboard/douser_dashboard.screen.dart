@@ -20,7 +20,7 @@ class DouserDashboardScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(
           'DPIL',
-          style: TextStyle(fontSize: 30.sp, fontWeight: FontWeight.w700),
+          style: TextStyle(fontSize: 25.sp, fontWeight: FontWeight.w700),
         ),
         centerTitle: true,
         actions: [
@@ -33,44 +33,68 @@ class DouserDashboardScreen extends StatelessWidget {
         ],
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(20),
+        padding: EdgeInsets.all(20.r),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Welcome,",
+              'Welcome,',
               style: TextStyle(
-                color: Colors.black54,
-                fontSize: 20,
+                fontSize: 22.sp,
+                fontWeight: FontWeight.bold,
               ),
             ),
-            Obx(() => Text(
-                  "Employee : ${controller.employeeName.value}",
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
+            Obx(() => Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Name : ${controller.employeeName.value}",
+                      style: TextStyle(
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      "Address: ${controller.employeeaddress.value}",
+                      style: TextStyle(
+                        fontSize: 16.sp,
+                      ),
+                    ),
+                    Text(
+                      "Mobile : ${controller.employeemobile.value}",
+                      style: TextStyle(
+                        fontSize: 16.sp,
+                      ),
+                    ),
+                    Text(
+                      "Email: ${controller.employeeemail.value}",
+                      style: TextStyle(
+                        fontSize: 16.sp,
+                      ),
+                    ),
+                  ],
                 )),
-            const SizedBox(height: 32),
+            SizedBox(height: 32.h),
             Text(
               "Today's Status",
               style: TextStyle(
-                fontSize: 18,
+                fontSize: 18.sp,
               ),
             ),
-            const SizedBox(height: 12),
+            SizedBox(height: 12.h),
             Container(
-              height: 170,
+              height: 170.h,
               decoration: BoxDecoration(
                 color: Colors.white,
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black26,
-                    blurRadius: 10,
+                    blurRadius: 10.r,
                     offset: Offset(2, 2),
                   ),
                 ],
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(20.r),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -81,14 +105,14 @@ class DouserDashboardScreen extends StatelessWidget {
                       Text(
                         "Check In",
                         style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.black54,
-                        ),
+                            fontSize: 20.sp,
+                            color: Colors.black54,
+                            fontWeight: FontWeight.w700),
                       ),
                       Obx(() => Text(
                             controller.checkIn.value,
                             style: TextStyle(
-                              fontSize: 18,
+                              fontSize: 18.sp,
                             ),
                           )),
                     ],
@@ -99,14 +123,14 @@ class DouserDashboardScreen extends StatelessWidget {
                       Text(
                         "Check Out",
                         style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.black54,
-                        ),
+                            fontSize: 20.sp,
+                            color: Colors.black54,
+                            fontWeight: FontWeight.w700),
                       ),
                       Obx(() => Text(
                             controller.checkOut.value,
                             style: TextStyle(
-                              fontSize: 18,
+                              fontSize: 18.sp,
                             ),
                           )),
                     ],
@@ -114,12 +138,12 @@ class DouserDashboardScreen extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(height: 32),
+            SizedBox(height: 32.h),
             Text(
               "${DateFormat('d MMMM yyyy').format(DateTime.now())}",
               style: TextStyle(
                 color: Colors.blue,
-                fontSize: 18,
+                fontSize: 22.sp,
               ),
             ),
             StreamBuilder(
@@ -128,13 +152,13 @@ class DouserDashboardScreen extends StatelessWidget {
                 return Text(
                   DateFormat('hh:mm:ss a').format(DateTime.now()),
                   style: TextStyle(
-                    fontSize: 20,
+                    fontSize: 20.sp,
                     color: Colors.black54,
                   ),
                 );
               },
             ),
-            const SizedBox(height: 24),
+            SizedBox(height: 24.h),
             Obx(
               () => controller.checkOut.value == "--/--"
                   ? Obx(() => SlideAction(
@@ -144,7 +168,7 @@ class DouserDashboardScreen extends StatelessWidget {
                             : "Slide to Check Out",
                         textStyle: TextStyle(
                           color: Colors.black54,
-                          fontSize: 20,
+                          fontSize: 20.h,
                         ),
                         outerColor: Colors.white,
                         innerColor: Colors.blue,
@@ -160,7 +184,7 @@ class DouserDashboardScreen extends StatelessWidget {
                       ? Text(
                           "You have completed this day!",
                           style: TextStyle(
-                            fontSize: 20,
+                            fontSize: 20.sp,
                             color: Colors.black54,
                           ),
                         )

@@ -182,6 +182,9 @@ class DouserDashboardController extends GetxController {
   var locations = " ".obs;
   var employeeId = ''.obs;
   var employeeName = ''.obs;
+  var employeeaddress = ''.obs;
+  var employeemobile = ''.obs;
+  var employeeemail = ''.obs;
   var slideActionKey = GlobalKey<SlideActionState>();
 
   @override
@@ -246,6 +249,9 @@ class DouserDashboardController extends GetxController {
       DocumentSnapshot userDoc = userSnapshot.docs.first;
       employeeId.value = userDoc.id;
       employeeName.value = userDoc['name'];
+      employeeaddress.value = userDoc['address'];
+      employeemobile.value = userDoc['mobile'];
+      employeeemail.value = userDoc['email'];
       box.write('employeeId', userDoc.id);
       _getRecord();
       print('_getUserInfoAndRecord is called');
