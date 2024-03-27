@@ -17,8 +17,8 @@ class DouserInvoiceScreen extends GetView<DouserInvoiceController> {
       drawer: DoDrawer(),
       appBar: AppBar(
         title: Text(
-          'DPIL',
-          style: TextStyle(fontSize: 30.sp, fontWeight: FontWeight.w700),
+          'DO History',
+          style: TextStyle(fontSize: 25.sp, fontWeight: FontWeight.w700),
         ),
         centerTitle: true,
       ),
@@ -35,26 +35,6 @@ class DouserInvoiceScreen extends GetView<DouserInvoiceController> {
           return ListView.builder(
             itemCount: controller.dousers.length,
             itemBuilder: (context, index) {
-              // List<dynamic> data = controller.dousers[index]['data'];
-
-              // // Convert data back into the original format
-              // List<List<dynamic>> convertedList = [];
-              // // for (var item in data) {
-              // //   // Ensure that each item is of type List<dynamic>
-              // //   if (item is List<dynamic>) {
-              // //     convertedList.add(item);
-              // //   } else {}
-              // // }
-
-              // for (var item in data) {
-              //   List<dynamic> items = item['items'];
-              //   // Now you can access each item in the 'items' list
-              //   // For example:
-              //   for (var value in items) {
-              //     print(value);
-              //   }
-              // }
-
               List<dynamic> data = controller.dousers[index]['data'];
 
               List<List<dynamic>> convertedList = [];
@@ -65,7 +45,13 @@ class DouserInvoiceScreen extends GetView<DouserInvoiceController> {
 
               return Card(
                 child: ListTile(
-                  title: Text('Do No: ${controller.dousers[index]['doNo']}'),
+                  title: Text(
+                    'Do No: ${controller.dousers[index]['doNo']}',
+                    style: TextStyle(
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.black),
+                  ),
                   subtitle: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -76,9 +62,8 @@ class DouserInvoiceScreen extends GetView<DouserInvoiceController> {
                       Text(
                         'Customer Name :${controller.dousers[index]['vendorName']}',
                         style: TextStyle(
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black),
+                          fontSize: 14.sp,
+                        ),
                       ),
                       SizedBox(
                         height: 3.h,
@@ -86,9 +71,8 @@ class DouserInvoiceScreen extends GetView<DouserInvoiceController> {
                       Text(
                         'Delivery Date : ${controller.dousers[index]['deliveryDate']}',
                         style: TextStyle(
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black),
+                          fontSize: 14.sp,
+                        ),
                       ),
                     ],
                   ),
