@@ -15,22 +15,22 @@ class AdminAddvendorScreen extends GetView<AdminAddvendorController> {
       // drawer: AdminDrawer(),
       appBar: AppBar(
         title: Text(
-          'DPIL',
-          style: TextStyle(fontSize: 30.sp, fontWeight: FontWeight.w700),
+          'Add Customer',
+          style: TextStyle(fontSize: 25.sp, fontWeight: FontWeight.w700),
         ),
         centerTitle: true,
       ),
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: EdgeInsets.all(8.0.r),
             child: TextField(
               onChanged: (value) => controller.searchVendor(value),
               decoration: InputDecoration(
                 hintText: "Search",
                 prefixIcon: Icon(Icons.search),
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                  borderRadius: BorderRadius.all(Radius.circular(25.0.r)),
                 ),
               ),
             ),
@@ -46,7 +46,7 @@ class AdminAddvendorScreen extends GetView<AdminAddvendorController> {
                   color: Colors.grey.shade200,
                   child: ListTile(
                     title: Text(
-                      'Name : ${controller.foundVendor[index].name!}',
+                      'Name: ${controller.foundVendor[index].name!}',
                       style: TextStyle(
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w600,
@@ -60,7 +60,7 @@ class AdminAddvendorScreen extends GetView<AdminAddvendorController> {
                           height: 3.h,
                         ),
                         Text(
-                          'Address :${controller.foundVendor[index].address!}',
+                          'Address: ${controller.foundVendor[index].address!}',
                           style: TextStyle(
                               fontSize: 14.sp,
                               fontWeight: FontWeight.w600,
@@ -70,7 +70,7 @@ class AdminAddvendorScreen extends GetView<AdminAddvendorController> {
                           height: 3.h,
                         ),
                         Text(
-                          'Contact Person :${controller.foundVendor[index].contactperson!}',
+                          'Contact Person: ${controller.foundVendor[index].contactperson!}',
                           style: TextStyle(
                               fontSize: 14.sp,
                               fontWeight: FontWeight.w600,
@@ -80,7 +80,7 @@ class AdminAddvendorScreen extends GetView<AdminAddvendorController> {
                           height: 3.h,
                         ),
                         Text(
-                          'Mobile : ${controller.foundVendor[index].mobile!}',
+                          'Mobile: ${controller.foundVendor[index].mobile!}',
                           style: TextStyle(
                               fontSize: 14.sp,
                               fontWeight: FontWeight.w600,
@@ -114,7 +114,7 @@ class AdminAddvendorScreen extends GetView<AdminAddvendorController> {
                       controller.addressController.text =
                           controller.foundVendor[index].address!;
                       controller.contactpersonController.text =
-                          controller.foundVendor[index].address!;
+                          controller.foundVendor[index].contactperson!;
                       controller.mobileController.text =
                           controller.foundVendor[index].mobile!;
 
