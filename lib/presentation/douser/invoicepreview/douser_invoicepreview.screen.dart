@@ -24,14 +24,12 @@ class DouserInvoicepreviewScreen
   final pw.Document? doc;
   final String? pdfname;
   final DeliveryOrder? deliveryOrder;
-  // final List<List<dynamic>>? stockdata;
 
   DouserInvoicepreviewScreen({
     Key? key,
     this.doc,
     this.pdfname,
     this.deliveryOrder,
-    // this.stockdata
   }) : super(key: key);
 
   @override
@@ -69,21 +67,34 @@ class DouserInvoicepreviewScreen
           ],
         ),
       ),
-      floatingActionButton: ElevatedButton(
-        onPressed: () async {
-          bool updateSuccessfully = await updateStock(deliveryOrder!.data);
-          if (updateSuccessfully) {
-            bool savedSuccessfully =
-                await controller.saveDeliveryOrder(deliveryOrder!);
-            if (savedSuccessfully) {
-              sendEmail();
+      floatingActionButton: FutureBuilder<bool>(
+        future: updateStock(deliveryOrder!.data),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return FloatingActionButton(
+              onPressed: null,
+              child: CircularProgressIndicator(),
+            );
+          } else {
+            if (snapshot.hasError) {
+              return FloatingActionButton(
+                onPressed: () {},
+                child: Icon(Icons.error),
+              );
+            } else {
+              return FloatingActionButton(
+                onPressed: () async {
+                  bool savedSuccessfully =
+                      await controller.saveDeliveryOrder(deliveryOrder!);
+                  if (savedSuccessfully) {
+                    sendEmail();
+                  }
+                },
+                child: Icon(Icons.email),
+              );
             }
           }
         },
-        child: Text(
-          'Send Email',
-          style: TextStyle(fontSize: 14.sp),
-        ),
       ),
     );
   }
@@ -105,99 +116,72 @@ class DouserInvoicepreviewScreen
     controller.sendEmail(toEmails, ccEmails, [], subject, body, [pdfPath]);
   }
 
-  // Future<bool> updateStock() async {
-  //   // final List<List<dynamic>> stocdata = stockdata!;
-  //   final List<List<dynamic>> inoutdata = deliveryOrder!.data;
-  //   // print('stocdata $stocdata');
-  //   print('inoutdata $inoutdata');
-  //   final Map<String, double> resultMapping = {};
-
-  //   for (final List<dynamic> inoutEntry in inoutdata) {
-  //     final String inoutDescription = inoutEntry[1].toString();
-  //     final double valueToSubtract =
-  //         double.tryParse(inoutEntry[2].toString()) ?? 0.0;
-
-  //     for (final List<dynamic> stockEntry in stocdata) {
-  //       final String stockDescription = stockEntry[1].toString();
-
-  //       if (inoutDescription == stockDescription) {
-  //         final int stockQuantity = stockEntry[2] as int;
-  //         final double result = stockQuantity.toDouble() - valueToSubtract;
-
-  //         resultMapping[inoutDescription] = result;
-
-  //         await updateStockValue(inoutDescription, result.toInt());
-  //         break;
-  //       }
-  //     }
-  //   }
-
-  //   resultMapping.forEach((key, value) {
-  //     print('Result for $key: $value');
-  //   });
-
-  //   return true;
-  // }
-
-  // Future<void> updateStockValue(String productName, ) async {
-  //   collectionReference = firebaseFirestore.collection("products");
-
-  //   try {
-  //     final QuerySnapshot querySnapshot =
-  //         await collectionReference.where('name', isEqualTo: productName).get();
-
-  //     querySnapshot.docs.forEach((doc) {
-  //       collectionReference.doc(doc.id).update({
-  //         'stock': newStockValue,
-  //       });
-  //     });
-  //   } catch (error) {
-  //     print('Error updating stock value: $error');
-  //   }
-  // }
   Future<bool> updateStock(List<List<dynamic>> inputData) async {
-    // Initialize collectionReference
-    final CollectionReference<Map<String, dynamic>> collectionReference =
-        FirebaseFirestore.instance.collection("products");
+    try {
+      // Initialize collection reference
+      final CollectionReference<Map<String, dynamic>> collectionReference =
+          FirebaseFirestore.instance.collection("products");
 
-    // Iterate through each entry in the input data
-    for (final List<dynamic> entry in inputData) {
-      final String productName =
-          entry[1].toString(); // Assuming product name is at index 1
-      final double quantityToSubtract = double.tryParse(entry[2].toString()) ??
-          0.0; // Assuming quantity to subtract is at index 2
+      // Iterate through each entry in the input data
+      for (final List<dynamic> entry in inputData) {
+        final String productName =
+            entry[1].toString(); // Assuming product name is at index 1
+        final double quantityToSubtract =
+            double.tryParse(entry[2].toString()) ??
+                0.0; // Assuming quantity to subtract is at index 2
 
-      print(
-          'Input Data: Product Name: $productName, Quantity to Subtract: $quantityToSubtract');
+        bool success = false;
+        int retryCount = 0;
+        dynamic lastError;
 
-      try {
-        // Fetch product data from Firebase
-        final QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-            .collection("products")
-            .where('name', isEqualTo: productName)
-            .get();
+        // Retry loop for optimistic locking
+        while (!success && retryCount < 3) {
+          // You can adjust the number of retries as needed
+          try {
+            // Fetch product document
+            final QuerySnapshot querySnapshot = await collectionReference
+                .where('name', isEqualTo: productName)
+                .get();
 
-        // Iterate through each document (product) fetched
-        querySnapshot.docs.forEach((doc) async {
-          // Get the current stock quantity
-          final int currentStock = doc['stock'] as int;
-          print('Current Stock for $productName: $currentStock');
+            if (querySnapshot.docs.isNotEmpty) {
+              final DocumentSnapshot doc = querySnapshot.docs.first;
+              final int currentStock = doc['stock'] as int;
 
-          // Calculate new stock quantity after subtraction
-          final int newStock = currentStock - quantityToSubtract.toInt();
-          print('New Stock for $productName: $newStock');
+              // Calculate new stock quantity after subtraction
+              final int newStock = currentStock - quantityToSubtract.toInt();
 
-          // Update the stock value in Firebase using initialized collectionReference
-          await collectionReference.doc(doc.id).update({
-            'stock': newStock,
-          });
-          print('Stock updated for $productName');
-        });
-      } catch (error) {
-        print('Error updating stock for product $productName: $error');
+              // Attempt to update stock
+              await collectionReference.doc(doc.id).update({'stock': newStock});
+              print('Stock updated for $productName');
+              success = true;
+            } else {
+              print('Product $productName not found');
+              success =
+                  true; // Mark success even if product not found (optional)
+            }
+          } catch (error) {
+            print('Error updating stock for $productName: $error');
+            lastError = error;
+            retryCount++;
+            await Future.delayed(Duration(seconds: 1)); // Delay before retrying
+          }
+        }
+
+        if (!success) {
+          print(
+              'Failed to update stock for $productName after $retryCount attempts');
+          if (lastError != null) {
+            throw lastError; // Throw the last encountered error if all retries fail
+          }
+          return false;
+        }
       }
-    }
 
-    return true; // Return true after all updates are done
+      print('All stock updates completed successfully');
+      return true;
+    } catch (error) {
+      print('Error updating stock: $error');
+      return false;
+    }
   }
 }
