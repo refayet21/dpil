@@ -109,6 +109,9 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
                           keyboardType: TextInputType.number,
                           decoration:
                               InputDecoration(labelText: 'Roll/PCS/Bag'),
+                          initialValue:
+                              itemDataList[index]['rollPcsBag']?.toString() ??
+                                  '',
                           onChanged: (value) {
                             itemDataList[index]['rollPcsBag'] =
                                 double.tryParse(value) ?? 0;
@@ -119,6 +122,9 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
                           keyboardType: TextInputType.number,
                           decoration:
                               InputDecoration(labelText: 'Per roll/PCS/Bag'),
+                          initialValue: itemDataList[index]['perRollPcsBag']
+                                  ?.toString() ??
+                              '',
                           onChanged: (value) {
                             itemDataList[index]['perRollPcsBag'] =
                                 double.tryParse(value) ?? 0;
@@ -127,6 +133,8 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
                         SizedBox(height: 10.h),
                         TextFormField(
                           decoration: InputDecoration(labelText: 'Unit'),
+                          initialValue:
+                              itemDataList[index]['unit']?.toString() ?? '',
                           onChanged: (value) {
                             itemDataList[index]['unit'] = value;
                           },
@@ -136,6 +144,9 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
                           keyboardType: TextInputType.number,
                           decoration:
                               InputDecoration(labelText: 'Per Unit Price'),
+                          initialValue:
+                              itemDataList[index]['perUnitPrice']?.toString() ??
+                                  '',
                           onChanged: (value) {
                             itemDataList[index]['perUnitPrice'] =
                                 double.tryParse(value) ?? 0.0;
@@ -145,6 +156,8 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
                         TextFormField(
                           keyboardType: TextInputType.text,
                           decoration: InputDecoration(labelText: 'Remarks'),
+                          initialValue:
+                              itemDataList[index]['remarks']?.toString() ?? '',
                           onChanged: (value) {
                             itemDataList[index]['remarks'] = value;
                           },
