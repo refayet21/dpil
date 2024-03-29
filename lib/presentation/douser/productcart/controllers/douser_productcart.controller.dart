@@ -401,7 +401,7 @@ class DouserProductcartController extends GetxController {
               totalInWord: totalinword,
               deliveryDate: deliveryDate,
             ),
-            stockdata: stockdata,
+            // stockdata: stockdata,
           ));
     } catch (e) {
       print('Error: $e');
