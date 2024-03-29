@@ -176,6 +176,8 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
 
                   List<List<dynamic>> invoiceData = [];
 
+                  List<List<dynamic>> stockData = [];
+
                   for (var index = 0;
                       index < controller.cartItems.length;
                       index++) {
@@ -223,8 +225,14 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
                       formatedamount,
                       remarks
                     ];
+                    List<dynamic> stockItemData = [
+                      item.docId ?? '',
+                      item.name ?? '',
+                      item.stock ?? '',
+                    ];
 
                     invoiceData.add(itemData);
+                    stockData.add(stockItemData);
 
                     String itemInfo = '';
                     itemInfo += 'SL: $serialNo\n';
@@ -334,6 +342,7 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
                                 contactPerson,
                                 vendorMobile,
                                 invoiceData,
+                                stockData,
                                 totalAmount,
                                 deliverydateController.text,
                               );

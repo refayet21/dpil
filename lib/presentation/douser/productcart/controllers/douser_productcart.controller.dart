@@ -168,6 +168,7 @@ class DouserProductcartController extends GetxController {
       String contactPerson,
       String vendorMobile,
       List<List<dynamic>> data,
+      List<List<dynamic>> stockdata,
       // List<dynamic> data,
       var totalinword,
       String? deliveryDate) async {
@@ -400,6 +401,7 @@ class DouserProductcartController extends GetxController {
               totalInWord: totalinword,
               deliveryDate: deliveryDate,
             ),
+            stockdata: stockdata,
           ));
     } catch (e) {
       print('Error: $e');

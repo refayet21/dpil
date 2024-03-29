@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dpil/model/do_model.dart';
 import 'package:dpil/model/email_model.dart';
 import 'package:flutter/material.dart';
@@ -14,14 +15,17 @@ import 'controllers/douser_invoicepreview.controller.dart';
 
 class DouserInvoicepreviewScreen
     extends GetView<DouserInvoicepreviewController> {
+  FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+
+  late CollectionReference collectionReference;
   DouserInvoicepreviewController controller =
       Get.put(DouserInvoicepreviewController());
   final pw.Document? doc;
   String? pdfname;
   DeliveryOrder? deliveryOrder;
-
+  final List<List<dynamic>>? stockdata;
   DouserInvoicepreviewScreen(
-      {Key? key, this.doc, this.pdfname, this.deliveryOrder})
+      {Key? key, this.doc, this.pdfname, this.deliveryOrder, this.stockdata})
       : super(key: key);
 
   @override
@@ -61,47 +65,40 @@ class DouserInvoicepreviewScreen
       ),
       floatingActionButton: ElevatedButton(
         onPressed: () async {
-          List<EmailModel> emails = await controller.getEmail().first;
+          Future<void> sendEmail() async {
+            List<EmailModel> emails = await controller.getEmail().first;
+            List<String> toEmails = emails.map((e) => e.to!).toList();
+            List<String> ccEmails = emails.map((e) => e.cc!).toList();
+            List<String> subjectEmail = emails.map((e) => e.subject!).toList();
+            List<String> bodyEmail = emails.map((e) => e.body!).toList();
+            // // print('to email ${ccEmails[0]}');
 
-          // Extract email addresses from the email data
-          List<String> toEmails = emails.map((e) => e.to!).toList();
-          List<String> ccEmails = emails.map((e) => e.cc!).toList();
-          List<String> subjectEmail = emails.map((e) => e.subject!).toList();
-          List<String> bodyEmail = emails.map((e) => e.body!).toList();
-          // print('to email ${ccEmails[0]}');
+            // // List<String> to = toEmails;
+            // // List<String> cc = ccEmails;
+            List<String> bcc = [];
 
-          List<String> to = toEmails;
-          // List<String> to = [
-          //   'refayet94@gmail.com',
-          // ];
-          List<String> cc = ccEmails;
-          List<String> bcc = [];
+            String subject = '${subjectEmail[0]} $pdfname';
+            String body = '${bodyEmail[0]} $pdfname';
+            String dir = (await getApplicationDocumentsDirectory()).path;
+            String pdfPath = '$dir/$pdfname.pdf';
+            final File file = File(pdfPath);
+            await file.writeAsBytes(await doc!.save());
 
-          String subject = '${subjectEmail[0]} $pdfname';
-          String body = '${bodyEmail[0]} $pdfname';
-
-          // Get the directory path for documents
-          String dir = (await getApplicationDocumentsDirectory()).path;
-
-          // Define the path for the PDF file
-          String pdfPath = '$dir/$pdfname.pdf';
-
-          // Write the PDF document to a file
-          final File file = File(pdfPath);
-          await file.writeAsBytes(await doc!.save());
-
-          // Call the sendEmail method from your controller
-// Call the saveDeliveryOrder method to save the delivery order to Firestore
-          bool savedSuccessfully =
-              await controller.saveDeliveryOrder(deliveryOrder!);
-
-          if (savedSuccessfully) {
-            // Delivery order saved successfully, now send the email
-            controller.sendEmail(to, cc, bcc, subject, body, [pdfPath]);
-          } else {
-            // Handle the case where saving the delivery order failed
-            // print('Failed to save delivery order');
+            controller
+                .sendEmail(toEmails, ccEmails, bcc, subject, body, [pdfPath]);
           }
+
+          // updateStock();
+          bool updateSuccessfully = await updateStock();
+          if (updateSuccessfully) {
+            bool savedSuccessfully =
+                await controller.saveDeliveryOrder(deliveryOrder!);
+            if (savedSuccessfully) {
+              sendEmail();
+            }
+          }
+
+          // Iterate over inoutdata
         },
         child: Text(
           'Send Email',
@@ -109,5 +106,68 @@ class DouserInvoicepreviewScreen
         ),
       ),
     );
+  }
+
+  Future<bool> updateStock() async {
+    List<List<dynamic>> stocdata = stockdata!;
+    List<List<dynamic>> inoutdata = deliveryOrder!.data;
+    print('stocdata $stocdata');
+    print('inoutdata $inoutdata');
+    Map<String, double> resultMapping = {};
+
+    for (List<dynamic> inoutEntry in inoutdata) {
+      // Extract description and value from inoutEntry
+      String inoutDescription = inoutEntry[1].toString();
+      double valueToSubtract = double.tryParse(inoutEntry[2].toString()) ?? 0.0;
+
+      // Search for a matching description in stocdata
+      for (List<dynamic> stockEntry in stocdata) {
+        String stockDescription = stockEntry[1].toString();
+
+        // If descriptions match, update the stock value
+        if (inoutDescription == stockDescription) {
+          // Extract the current stock quantity
+          int stockQuantity = stockEntry[2] as int;
+
+          // Subtract stockQuantity from the value to subtract
+          double result = stockQuantity.toDouble() - valueToSubtract;
+
+          // Store the result in the map
+          resultMapping[inoutDescription] = result;
+
+          // Update the stock value in the database
+          await updateStockValue(inoutDescription, result.toInt());
+
+          // Break the inner loop as we found the match
+          break;
+        }
+      }
+    }
+
+    // Print the results
+    resultMapping.forEach((key, value) {
+      print('Result for $key: $value');
+    });
+
+    return true;
+  }
+
+  Future<void> updateStockValue(String productName, int newStockValue) async {
+    collectionReference = firebaseFirestore.collection("products");
+
+    try {
+      // Query the stock collection for documents with the given product name
+      QuerySnapshot querySnapshot =
+          await collectionReference.where('name', isEqualTo: productName).get();
+
+      // Update the stock value for all matching documents
+      querySnapshot.docs.forEach((doc) {
+        collectionReference.doc(doc.id).update({
+          'stock': newStockValue,
+        });
+      });
+    } catch (error) {
+      print('Error updating stock value: $error');
+    }
   }
 }
