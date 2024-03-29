@@ -60,18 +60,18 @@ class AdminAddproductScreen extends GetView<AdminAddproductController> {
                         SizedBox(
                           height: 7.h,
                         ),
+                        Text(
+                          'category : ${controller.foundProduct[index].category!}',
+                          style: TextStyle(
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black),
+                        ),
+                        SizedBox(
+                          height: 7.h,
+                        ),
                         // Text(
-                        //   'Unit : ${controller.foundProduct[index].unit!}',
-                        //   style: TextStyle(
-                        //       fontSize: 14.sp,
-                        //       fontWeight: FontWeight.w600,
-                        //       color: Colors.black),
-                        // ),
-                        // SizedBox(
-                        //   height: 7.h,
-                        // ),
-                        // Text(
-                        //   'TotalUnit : ${controller.foundProduct[index].totalunit!}',
+                        //   'Totalcategory : ${controller.foundProduct[index].totalcategory!}',
                         //   style: TextStyle(
                         //       fontSize: 14.sp,
                         //       fontWeight: FontWeight.w600,
@@ -81,7 +81,7 @@ class AdminAddproductScreen extends GetView<AdminAddproductController> {
                         //   height: 3.h,
                         // ),
                         // Text(
-                        //   'unitqty : ${controller.foundProduct[index].unitqty!}',
+                        //   'categoryqty : ${controller.foundProduct[index].categoryqty!}',
                         //   style: TextStyle(
                         //       fontSize: 14.sp,
                         //       fontWeight: FontWeight.w600,
@@ -132,12 +132,12 @@ class AdminAddproductScreen extends GetView<AdminAddproductController> {
                     onTap: () {
                       controller.nameController.text =
                           controller.foundProduct[index].name!;
-                      // controller.unitController.text =
-                      //     controller.foundProduct[index].unit!;
-                      // controller.totalunitController.text =
-                      //     controller.foundProduct[index].totalunit!;
-                      // controller.unitqtyController.text =
-                      //     controller.foundProduct[index].unitqty!.toString();
+                      controller.categoryController.text =
+                          controller.foundProduct[index].category!;
+                      // controller.totalcategoryController.text =
+                      //     controller.foundProduct[index].totalcategory!;
+                      // controller.categoryqtyController.text =
+                      //     controller.foundProduct[index].categoryqty!.toString();
                       // controller.rateController.text =
                       //     controller.foundProduct[index].rate!.toString();
                       controller.stockController.text =
@@ -207,28 +207,28 @@ class AdminAddproductScreen extends GetView<AdminAddproductController> {
                   SizedBox(
                     height: 10.h,
                   ),
+                  TextFormField(
+                    keyboardType: TextInputType.text,
+                    decoration: InputDecoration(
+                      hintText: 'category',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8.r),
+                      ),
+                    ),
+                    controller: controller.categoryController,
+                  ),
+                  SizedBox(
+                    height: 10.h,
+                  ),
                   // TextFormField(
                   //   keyboardType: TextInputType.text,
                   //   decoration: InputDecoration(
-                  //     hintText: 'Unit',
+                  //     hintText: 'Totalcategory',
                   //     border: OutlineInputBorder(
                   //       borderRadius: BorderRadius.circular(8.r),
                   //     ),
                   //   ),
-                  //   controller: controller.unitController,
-                  // ),
-                  // SizedBox(
-                  //   height: 10.h,
-                  // ),
-                  // TextFormField(
-                  //   keyboardType: TextInputType.text,
-                  //   decoration: InputDecoration(
-                  //     hintText: 'TotalUnit',
-                  //     border: OutlineInputBorder(
-                  //       borderRadius: BorderRadius.circular(8.r),
-                  //     ),
-                  //   ),
-                  //   controller: controller.totalunitController,
+                  //   controller: controller.totalcategoryController,
                   // ),
                   // SizedBox(
                   //   height: 10.h,
@@ -236,12 +236,12 @@ class AdminAddproductScreen extends GetView<AdminAddproductController> {
                   // TextFormField(
                   //   keyboardType: TextInputType.number,
                   //   decoration: InputDecoration(
-                  //     hintText: 'unitqty',
+                  //     hintText: 'categoryqty',
                   //     border: OutlineInputBorder(
                   //       borderRadius: BorderRadius.circular(8.r),
                   //     ),
                   //   ),
-                  //   controller: controller.unitqtyController,
+                  //   controller: controller.categoryqtyController,
                   // ),
                   // SizedBox(
                   //   height: 10.h,
@@ -284,10 +284,10 @@ class AdminAddproductScreen extends GetView<AdminAddproductController> {
                         final productModel = ProductModel(
                           docId: docId,
                           name: controller.nameController.text,
-                          // unit: controller.unitController.text,
-                          // totalunit: controller.totalunitController.text,
-                          // unitqty:
-                          //     int.tryParse(controller.unitqtyController.text),
+                          category: controller.categoryController.text,
+                          // totalcategory: controller.totalcategoryController.text,
+                          // categoryqty:
+                          //     int.tryParse(controller.categoryqtyController.text),
                           // rate: double.tryParse(controller.rateController.text),
                           stock: int.tryParse(controller.stockController.text),
                         );

@@ -8,9 +8,9 @@ import 'package:get/get.dart';
 class AdminAddproductController extends GetxController {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   late TextEditingController nameController,
-      //   unitController,
-      //    totalunitController,
-      //   unitqtyController,
+      categoryController,
+      //    totalcategoryController,
+      //   categoryqtyController,
       //  rateController,
       stockController;
   RxList<ProductModel> foundProduct = RxList<ProductModel>([]);
@@ -26,9 +26,9 @@ class AdminAddproductController extends GetxController {
   void onInit() {
     super.onInit();
     nameController = TextEditingController();
-    //   unitController = TextEditingController();
-    //   totalunitController = TextEditingController();
-    //   unitqtyController = TextEditingController();
+    categoryController = TextEditingController();
+    //   totalcategoryController = TextEditingController();
+    //   categoryqtyController = TextEditingController();
     //  rateController = TextEditingController();
     stockController = TextEditingController();
     collectionReference = firebaseFirestore.collection("products");
@@ -43,9 +43,9 @@ class AdminAddproductController extends GetxController {
     return null;
   }
 
-  String? validateunit(String value) {
+  String? validatecategory(String value) {
     if (value.isEmpty) {
-      return "unit can not be empty";
+      return "category can not be empty";
     }
     return null;
   }
@@ -177,18 +177,18 @@ class AdminAddproductController extends GetxController {
   @override
   void onClose() {
     nameController.dispose();
-    //   unitController.dispose();
-    //   totalunitController.dispose();
-    //   unitqtyController.dispose();
+    categoryController.dispose();
+    //   totalcategoryController.dispose();
+    //   categoryqtyController.dispose();
     //  rateController.dispose();
     stockController.dispose();
   }
 
   void clearEditingControllers() {
     nameController.clear();
-    //   unitController.clear();
-    //      totalunitController.clear();
-    //   unitqtyController.clear();
+    categoryController.clear();
+    //      totalcategoryController.clear();
+    //   categoryqtyController.clear();
     //  rateController.clear();
     stockController.clear();
   }

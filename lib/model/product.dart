@@ -3,9 +3,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class ProductModel {
   String? docId;
   String? name;
-  // String? unit;
-  // String? totalunit;
-  // int? unitqty;
+  String? category;
+  // String? totalcategory;
+  // int? categoryqty;
   // double? rate;
   int? stock;
   int quantity;
@@ -13,9 +13,9 @@ class ProductModel {
   ProductModel({
     this.docId,
     this.name,
-    // this.unit,
-    // this.totalunit,
-    // this.unitqty,
+    this.category,
+    // this.totalcategory,
+    // this.categoryqty,
     // this.rate,
     this.stock,
     this.quantity = 1,
@@ -25,9 +25,9 @@ class ProductModel {
   ProductModel.fromJson(DocumentSnapshot data)
       : docId = data.id,
         name = data["name"] as String?,
-        // unit = data["unit"] as String?,
-        // totalunit = data["totalunit"] as String?,
-        // unitqty = data["unitqty"] as int?,
+        category = data["category"] as String?,
+        // totalcategory = data["totalcategory"] as String?,
+        // categoryqty = data["categoryqty"] as int?,
         // rate = data["rate"] as double?,
         stock = data["stock"] as int?,
         quantity = 1;
@@ -37,9 +37,9 @@ class ProductModel {
     return {
       'docId': docId,
       'name': name,
-      // 'unit': unit,
-      // 'totalunit': totalunit,
-      // 'unitqty': unitqty,
+      'category': category,
+      // 'totalcategory': totalcategory,
+      // 'categoryqty': categoryqty,
       // 'rate': rate,
       'stock': stock,
       'quantity': quantity,
