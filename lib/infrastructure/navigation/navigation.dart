@@ -58,17 +58,17 @@ class Nav {
     ),
     GetPage(
       name: Routes.ADMIN_ADDDOUSER,
-      page: () => const AdminAdddouserScreen(),
+      page: () => AdminAdddouserScreen(),
       binding: AdminAdddouserControllerBinding(),
     ),
     GetPage(
       name: Routes.ADMIN_ADDGENUSER,
-      page: () => const AdminAddgenuserScreen(),
+      page: () => AdminAddgenuserScreen(),
       binding: AdminAddgenuserControllerBinding(),
     ),
     GetPage(
       name: Routes.ADMIN_ADDPRODUCT,
-      page: () => const AdminAddproductScreen(),
+      page: () => AdminAddproductScreen(),
       binding: AdminAddproductControllerBinding(),
     ),
     GetPage(
@@ -88,22 +88,22 @@ class Nav {
     ),
     GetPage(
       name: Routes.DOUSER_PRODUCTCART,
-      page: () => const DouserProductcartScreen(),
+      page: () => DouserProductcartScreen(),
       binding: DouserProductcartControllerBinding(),
     ),
     GetPage(
       name: Routes.ADMIN_ATTENDANCE,
-      page: () => const AdminAttendanceScreen(),
+      page: () => AdminAttendanceScreen(),
       binding: AdminAttendanceControllerBinding(),
     ),
     GetPage(
       name: Routes.ADMIN_DO,
-      page: () => const AdminDoScreen(),
+      page: () => AdminDoScreen(),
       binding: AdminDoControllerBinding(),
     ),
     GetPage(
       name: Routes.ADMIN_EMAIL,
-      page: () => const AdminEmailScreen(),
+      page: () => AdminEmailScreen(),
       binding: AdminEmailControllerBinding(),
     ),
     GetPage(
@@ -113,7 +113,7 @@ class Nav {
     ),
     GetPage(
       name: Routes.DOUSER_ADDCUSTOMER,
-      page: () => const DouserAddcustomerScreen(),
+      page: () => DouserAddcustomerScreen(),
       binding: DouserAddcustomerControllerBinding(),
     ),
     GetPage(
@@ -123,7 +123,7 @@ class Nav {
     ),
     GetPage(
       name: Routes.GENUSER_GENATTENDENCE,
-      page: () => const GenuserGenattendenceScreen(),
+      page: () => GenuserGenattendenceScreen(),
       binding: GenuserGenattendenceControllerBinding(),
     ),
   ];

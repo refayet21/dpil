@@ -86,7 +86,7 @@ class GenuserDashboardController extends GetxController {
       employeeaddress.value = userDoc['address'];
       employeemobile.value = userDoc['mobile'];
       employeeemail.value = userDoc['email'];
-      // box.write('employeeId', userDoc.id);
+      box.write('genemployeeId', userDoc.id);
       _getRecord();
       // print('_getUserInfoAndRecord is called');
     } catch (e) {
