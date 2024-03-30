@@ -126,5 +126,10 @@ class Nav {
       page: () => GenuserGenattendenceScreen(),
       binding: GenuserGenattendenceControllerBinding(),
     ),
+    GetPage(
+      name: Routes.ALLINVOICEPREVIEW,
+      page: () => AllinvoicepreviewScreen(),
+      binding: AllinvoicepreviewControllerBinding(),
+    ),
   ];
 }

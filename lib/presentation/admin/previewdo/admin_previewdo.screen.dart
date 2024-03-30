@@ -1,3 +1,4 @@
+import 'package:dpil/presentation/admin/do/controllers/admin_do.controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -7,8 +8,7 @@ import '../../douser/productcart/controllers/douser_productcart.controller.dart'
 import 'controllers/admin_previewdo.controller.dart';
 
 class AdminPreviewdoScreen extends GetView<AdminPreviewdoController> {
-  DouserProductcartController douserProductcartController =
-      Get.put(DouserProductcartController());
+  AdminDoController douserProductcartController = Get.put(AdminDoController());
   final String? employeeId;
   AdminPreviewdoController _calendarController;
 

@@ -1,3 +1,4 @@
+import 'package:dpil/presentation/admin/do/controllers/admin_do.controller.dart';
 import 'package:dpil/presentation/douser/productcart/controllers/douser_productcart.controller.dart';
 import 'package:dpil/presentation/widgets/do_drawer.dart';
 import 'package:flutter/material.dart';
@@ -7,8 +8,7 @@ import 'package:get/get.dart';
 import 'controllers/douser_invoice.controller.dart';
 
 class DouserInvoiceScreen extends GetView<DouserInvoiceController> {
-  DouserProductcartController douserProductcartController =
-      Get.put(DouserProductcartController());
+  AdminDoController douserProductcartController = Get.put(AdminDoController());
   DouserInvoiceScreen({Key? key}) : super(key: key);
 
   @override

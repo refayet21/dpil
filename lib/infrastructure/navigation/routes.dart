@@ -20,7 +20,8 @@ class Routes {
   static const DOUSER_INVOICEPREVIEW = '/douser-invoicepreview';
   static const DOUSER_PRODUCTCART = '/douser-productcart';
   static const GENUSER_DASHBOARD = '/genuser-dashboard';
+  static const GENUSER_GENATTENDENCE = '/genuser-genattendence';
   static const LOGIN = '/login';
   static const SPLASH = '/splash';
-  static const GENUSER_GENATTENDENCE = '/genuser-genattendence';
+  static const ALLINVOICEPREVIEW = '/allinvoicepreview';
 }

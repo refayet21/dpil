@@ -8,6 +8,7 @@ export 'package:dpil/presentation/admin/do/admin_do.screen.dart';
 export 'package:dpil/presentation/admin/email/admin_email.screen.dart';
 export 'package:dpil/presentation/admin/previewattendance/admin_previewattendance.screen.dart';
 export 'package:dpil/presentation/admin/previewdo/admin_previewdo.screen.dart';
+export 'package:dpil/presentation/allinvoicepreview/allinvoicepreview.screen.dart';
 export 'package:dpil/presentation/douser/addcustomer/douser_addcustomer.screen.dart';
 export 'package:dpil/presentation/douser/attendence/douser_attendence.screen.dart';
 export 'package:dpil/presentation/douser/dashboard/douser_dashboard.screen.dart';
