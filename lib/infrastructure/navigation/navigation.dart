@@ -121,5 +121,10 @@ class Nav {
       page: () => AdminPreviewdoScreen(),
       binding: AdminPreviewdoControllerBinding(),
     ),
+    GetPage(
+      name: Routes.GENUSER_GENATTENDENCE,
+      page: () => const GenuserGenattendenceScreen(),
+      binding: GenuserGenattendenceControllerBinding(),
+    ),
   ];
 }

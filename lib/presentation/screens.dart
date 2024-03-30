@@ -15,5 +15,6 @@ export 'package:dpil/presentation/douser/invoice/douser_invoice.screen.dart';
 export 'package:dpil/presentation/douser/invoicepreview/douser_invoicepreview.screen.dart';
 export 'package:dpil/presentation/douser/productcart/douser_productcart.screen.dart';
 export 'package:dpil/presentation/genuser/dashboard/genuser_dashboard.screen.dart';
+export 'package:dpil/presentation/genuser/genattendence/genuser_genattendence.screen.dart';
 export 'package:dpil/presentation/login/login.screen.dart';
 export 'package:dpil/presentation/splash/splash.screen.dart';
