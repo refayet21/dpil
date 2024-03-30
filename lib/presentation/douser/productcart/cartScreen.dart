@@ -101,6 +101,11 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
                       children: [
                         SizedBox(height: 5.h),
                         Text(
+                            'Category: ${controller.cartItems[index].category?.toString()}',
+                            style: TextStyle(
+                                fontSize: 14.sp, fontWeight: FontWeight.w600)),
+                        SizedBox(height: 5.h),
+                        Text(
                             'Stock: ${controller.cartItems[index].stock?.toString()}',
                             style: TextStyle(
                                 fontSize: 14.sp, fontWeight: FontWeight.w600)),
