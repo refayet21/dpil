@@ -1,7 +1,7 @@
-import 'package:grouped_list/grouped_list.dart';
 import 'package:dpil/model/product.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import 'package:get/get.dart';
 
 import 'controllers/admin_addproduct.controller.dart';
@@ -39,61 +39,51 @@ class AdminAddproductScreen extends GetView<AdminAddproductController> {
           ),
           Expanded(
             child: Obx(
-              () => GroupedListView<ProductModel, String>(
-                elements: controller.foundProduct,
-                groupBy: (element) => element.category!,
-                groupSeparatorBuilder: (String category) => Padding(
-                  padding: EdgeInsets.all(8.0.r),
-                  child: Text(
-                    category,
-                    style: TextStyle(
-                      fontSize: 20.sp,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                itemBuilder: (context, ProductModel element) => Card(
+              () => ListView.builder(
+                itemCount: controller.foundProduct.length,
+                itemBuilder: (context, index) => Card(
                   color: Colors.grey.shade200,
                   child: ListTile(
                     title: Text(
-                      'Name : ${element.name!}',
+                      'Name : ${controller.foundProduct[index].name!}',
                       style: TextStyle(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black,
-                      ),
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black),
                     ),
                     subtitle: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(height: 7.h),
-                        Text(
-                          'category : ${element.category!}',
-                          style: TextStyle(
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black,
-                          ),
+                        SizedBox(
+                          height: 7.h,
                         ),
-                        SizedBox(height: 7.h),
                         Text(
-                          'Stock : ${element.stock!}',
+                          'category : ${controller.foundProduct[index].category!}',
                           style: TextStyle(
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black,
-                          ),
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black),
+                        ),
+                        SizedBox(
+                          height: 7.h,
+                        ),
+                        Text(
+                          'Stock : ${controller.foundProduct[index].stock!}',
+                          style: TextStyle(
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black),
                         ),
                       ],
                     ),
                     leading: CircleAvatar(
                       child: Text(
-                        element.name!.substring(0, 1).capitalize!,
+                        controller.foundProduct[index].name!
+                            .substring(0, 1)
+                            .capitalize!,
                         style: TextStyle(
-                          fontWeight: FontWeight.w700,
-                          color: Colors.black,
-                        ),
+                            fontWeight: FontWeight.w700, color: Colors.black),
                       ),
                       backgroundColor: Colors.blue.shade200,
                     ),
@@ -103,19 +93,22 @@ class AdminAddproductScreen extends GetView<AdminAddproductController> {
                         color: Colors.red,
                       ),
                       onPressed: () {
-                        displayDeleteDialog(element.docId!);
+                        displayDeleteDialog(
+                            controller.foundProduct[index].docId!);
                       },
                     ),
                     onTap: () {
-                      controller.nameController.text = element.name!;
-                      controller.categoryController.text = element.category!;
+                      controller.nameController.text =
+                          controller.foundProduct[index].name!;
+                      controller.categoryController.text =
+                          controller.foundProduct[index].category!;
+
                       controller.stockController.text =
-                          element.stock!.toString();
+                          controller.foundProduct[index].stock!.toString();
                       _buildAddEditProductView(
-                        text: 'UPDATE',
-                        addEditFlag: 2,
-                        docId: element.docId!,
-                      );
+                          text: 'UPDATE',
+                          addEditFlag: 2,
+                          docId: controller.foundProduct[index].docId!);
                     },
                   ),
                 ),
@@ -125,11 +118,10 @@ class AdminAddproductScreen extends GetView<AdminAddproductController> {
         ],
       ),
       floatingActionButton: ElevatedButton(
-        onPressed: () {
-          _buildAddEditProductView(text: 'ADD', addEditFlag: 1, docId: '');
-        },
-        child: Text('Add Product'),
-      ),
+          onPressed: () {
+            _buildAddEditProductView(text: 'ADD', addEditFlag: 1, docId: '');
+          },
+          child: Text('Add Product')),
     );
   }
 
@@ -137,19 +129,14 @@ class AdminAddproductScreen extends GetView<AdminAddproductController> {
     Get.bottomSheet(
       Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.only(
-            topRight: Radius.circular(16.r),
-            topLeft: Radius.circular(16.r),
-          ),
-          color: Colors.blue.shade200,
-        ),
+            borderRadius: BorderRadius.only(
+              topRight: Radius.circular(16.r),
+              topLeft: Radius.circular(16.r),
+            ),
+            color: Colors.blue.shade200),
         child: Padding(
-          padding: EdgeInsets.only(
-            left: 16.w,
-            right: 16.w,
-            top: 16.h,
-            bottom: 16.h,
-          ),
+          padding:
+              EdgeInsets.only(left: 16.w, right: 16.w, top: 16.h, bottom: 16.h),
           child: Form(
             key: controller.formKey,
             autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -160,12 +147,13 @@ class AdminAddproductScreen extends GetView<AdminAddproductController> {
                   Text(
                     '${text} Product',
                     style: TextStyle(
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    ),
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black),
                   ),
-                  SizedBox(height: 8.h),
+                  SizedBox(
+                    height: 8.h,
+                  ),
                   TextFormField(
                     keyboardType: TextInputType.text,
                     decoration: InputDecoration(
@@ -176,7 +164,9 @@ class AdminAddproductScreen extends GetView<AdminAddproductController> {
                     ),
                     controller: controller.nameController,
                   ),
-                  SizedBox(height: 10.h),
+                  SizedBox(
+                    height: 10.h,
+                  ),
                   TextFormField(
                     keyboardType: TextInputType.text,
                     decoration: InputDecoration(
@@ -187,7 +177,12 @@ class AdminAddproductScreen extends GetView<AdminAddproductController> {
                     ),
                     controller: controller.categoryController,
                   ),
-                  SizedBox(height: 10.h),
+                  SizedBox(
+                    height: 10.h,
+                  ),
+                  SizedBox(
+                    height: 10.h,
+                  ),
                   TextFormField(
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
@@ -198,19 +193,16 @@ class AdminAddproductScreen extends GetView<AdminAddproductController> {
                     ),
                     controller: controller.stockController,
                   ),
-                  SizedBox(height: 8.h),
+                  SizedBox(
+                    height: 8.h,
+                  ),
                   ConstrainedBox(
                     constraints: BoxConstraints.tightFor(
-                      width: Get.context!.width,
-                      height: 45.h,
-                    ),
+                        width: Get.context!.width, height: 45.h),
                     child: ElevatedButton(
                       child: Text(
                         text!,
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16.sp,
-                        ),
+                        style: TextStyle(color: Colors.black, fontSize: 16.sp),
                       ),
                       onPressed: () {
                         final productModel = ProductModel(
@@ -221,10 +213,7 @@ class AdminAddproductScreen extends GetView<AdminAddproductController> {
                         );
 
                         controller.saveUpdateProduct(
-                          productModel,
-                          docId!,
-                          addEditFlag!,
-                        );
+                            productModel, docId!, addEditFlag!);
                       },
                     ),
                   ),

@@ -38,7 +38,7 @@ dependencies:
   spelling_number: ^0.0.4
   money_formatter: ^0.0.5
   num_to_words: ^1.1.0
-  grouped_list: ^5.1.2
+  # grouped_list: ^5.1.2
 flutter_icons:
   android: true
   # ios: true
