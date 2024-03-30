@@ -34,6 +34,20 @@ class DouserProductcartController extends GetxController {
       collectionReference.snapshots().map((query) =>
           query.docs.map((item) => ProductModel.fromJson(item)).toList());
 
+  Stream<Map<String, List<ProductModel>>> getAllProductsGroupedByCategory() =>
+      collectionReference.snapshots().map((query) {
+        Map<String, List<ProductModel>> groupedProducts = {};
+        query.docs.forEach((doc) {
+          ProductModel product = ProductModel.fromJson(doc);
+          String category = product.category ?? "Other";
+          if (!groupedProducts.containsKey(category)) {
+            groupedProducts[category] = [];
+          }
+          groupedProducts[category]!.add(product);
+        });
+        return groupedProducts;
+      });
+
   @override
   void onInit() {
     super.onInit();
