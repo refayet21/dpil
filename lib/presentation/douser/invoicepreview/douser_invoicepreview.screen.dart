@@ -53,10 +53,15 @@ class DouserInvoicepreviewScreen
                 maxScale: 3.5,
                 child: PdfPreview(
                   build: (format) => doc!.save(),
-                  allowSharing: false,
+                  allowSharing: true,
                   allowPrinting: false,
-                  dynamicLayout: true,
-                  useActions: false,
+                  dynamicLayout: false,
+                  useActions: true,
+                  canChangeOrientation: false,
+                  canChangePageFormat: false,
+                  canDebug: true,
+                  shouldRepaint: true,
+                  enableScrollToPage: true,
                   initialPageFormat: PdfPageFormat.a4,
                   pdfFileName: "$pdfname.pdf",
                 ),
@@ -65,7 +70,10 @@ class DouserInvoicepreviewScreen
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: ElevatedButton(
+        // style: ElevatedButton.styleFrom(
+        //   primary: Colors.amber,
+        // ),
         onPressed: () async {
           bool bookedSuccessfully =
               await controller.updateBooking(deliveryOrder!.data);
@@ -83,7 +91,7 @@ class DouserInvoicepreviewScreen
               ? CircularProgressIndicator(
                   color: Colors.white,
                 )
-              : Icon(Icons.email),
+              : Text('Send Email'),
         ),
       ),
     );
