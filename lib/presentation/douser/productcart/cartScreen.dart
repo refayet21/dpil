@@ -106,7 +106,15 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
                                 fontSize: 14.sp, fontWeight: FontWeight.w600)),
                         SizedBox(height: 5.h),
                         Text(
-                            'Stock: ${controller.cartItems[index].stock?.toString()}',
+                            'Checkin: ${controller.cartItems[index].checkin?.toString()}',
+                            style: TextStyle(
+                                fontSize: 14.sp, fontWeight: FontWeight.w600)),
+                        Text(
+                            'Checkout: ${controller.cartItems[index].checkout?.toString()}',
+                            style: TextStyle(
+                                fontSize: 14.sp, fontWeight: FontWeight.w600)),
+                        Text(
+                            'Booked: ${controller.cartItems[index].booked?.toString()}',
                             style: TextStyle(
                                 fontSize: 14.sp, fontWeight: FontWeight.w600)),
                         SizedBox(height: 10.h),
@@ -194,7 +202,7 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
 
                   List<List<dynamic>> invoiceData = [];
 
-                  List<List<dynamic>> stockData = [];
+                  // List<List<dynamic>> stockData = [];
 
                   for (var index = 0;
                       index < controller.cartItems.length;
@@ -243,19 +251,22 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
                       formatedamount,
                       remarks
                     ];
-                    List<dynamic> stockItemData = [
-                      item.docId ?? '',
-                      item.name ?? '',
-                      item.stock ?? '',
-                    ];
+                    // List<dynamic> stockItemData = [
+                    //   item.docId ?? '',
+                    //   item.name ?? '',
+                    //   item.stock ?? '',
+                    // ];
 
                     invoiceData.add(itemData);
-                    stockData.add(stockItemData);
+                    // stockData.add(stockItemData);
 
                     String itemInfo = '';
                     itemInfo += 'SL: $serialNo\n';
                     itemInfo += 'Description: ${item.name ?? ""}\n';
-                    itemInfo += 'Stock: ${item.stock?.toString() ?? ""}\n';
+                    itemInfo += 'Checkin: ${item.checkin?.toString() ?? ""}\n';
+                    itemInfo +=
+                        'Checkout: ${item.checkout?.toString() ?? ""}\n';
+                    itemInfo += 'Booked: ${item.booked?.toString() ?? ""}\n';
                     itemInfo += 'Roll/PCS/Bag: $rollPcsBag\n';
                     itemInfo += 'Per Roll/PCS/Bag: $perRollPcsBag\n';
                     itemInfo += 'Unit: $unit\n';
@@ -360,7 +371,7 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
                                 contactPerson,
                                 vendorMobile,
                                 invoiceData,
-                                stockData,
+                                // stockData,
                                 totalAmount,
                                 deliverydateController.text,
                               );

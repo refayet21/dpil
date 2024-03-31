@@ -4,15 +4,18 @@ class ProductModel {
   String? docId;
   String? name;
   String? category;
-
-  int? stock;
+  int? checkin;
+  int? checkout;
+  int? booked;
   int quantity;
 
   ProductModel({
     this.docId,
     this.name,
     this.category,
-    this.stock,
+    this.checkin,
+    this.checkout,
+    this.booked,
     this.quantity = 1,
   });
 
@@ -21,7 +24,9 @@ class ProductModel {
       : docId = data.id,
         name = data["name"] as String?,
         category = data["category"] as String?,
-        stock = data["stock"] as int?,
+        checkin = data["checkin"] as int?,
+        checkout = data["checkout"] as int?,
+        booked = data["booked"] as int?,
         quantity = 1;
 
   Map<String, dynamic> toJson() {
@@ -29,7 +34,9 @@ class ProductModel {
       'docId': docId,
       'name': name,
       'category': category,
-      'stock': stock,
+      'checkin': checkin,
+      'checkout': checkout,
+      'booked': booked,
       'quantity': quantity,
     };
   }

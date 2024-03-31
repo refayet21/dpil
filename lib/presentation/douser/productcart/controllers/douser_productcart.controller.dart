@@ -182,7 +182,7 @@ class DouserProductcartController extends GetxController {
       String contactPerson,
       String vendorMobile,
       List<List<dynamic>> data,
-      List<List<dynamic>> stockdata,
+      // List<List<dynamic>> stockdata,
       // List<dynamic> data,
       var totalinword,
       String? deliveryDate) async {

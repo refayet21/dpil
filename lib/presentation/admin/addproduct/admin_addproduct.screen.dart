@@ -437,7 +437,25 @@ class AdminAddproductScreen extends GetView<AdminAddproductController> {
                                 ),
                                 SizedBox(height: 7.h),
                                 Text(
-                                  'Stock : ${product.stock!}',
+                                  'Checkin : ${product.checkin!}',
+                                  style: TextStyle(
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                SizedBox(height: 7.h),
+                                Text(
+                                  'Checkout : ${product.checkout!}',
+                                  style: TextStyle(
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                SizedBox(height: 7.h),
+                                Text(
+                                  'Booked : ${product.booked!}',
                                   style: TextStyle(
                                     fontSize: 14.sp,
                                     fontWeight: FontWeight.w600,
@@ -469,8 +487,12 @@ class AdminAddproductScreen extends GetView<AdminAddproductController> {
                               controller.nameController.text = product.name!;
                               controller.categoryController.text =
                                   product.category!;
-                              controller.stockController.text =
-                                  product.stock!.toString();
+                              controller.checkinController.text =
+                                  product.checkin!.toString();
+                              controller.checkoutController.text =
+                                  product.checkout!.toString();
+                              controller.bookedController.text =
+                                  product.booked!.toString();
                               _buildAddEditProductView(
                                 text: 'UPDATE',
                                 addEditFlag: 2,
@@ -552,18 +574,41 @@ class AdminAddproductScreen extends GetView<AdminAddproductController> {
                   SizedBox(
                     height: 10.h,
                   ),
+                  TextFormField(
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                      hintText: 'Checkin',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8.r),
+                      ),
+                    ),
+                    controller: controller.checkinController,
+                  ),
                   SizedBox(
                     height: 10.h,
                   ),
                   TextFormField(
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
-                      hintText: 'Stock',
+                      hintText: 'Checkout',
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8.r),
                       ),
                     ),
-                    controller: controller.stockController,
+                    controller: controller.checkoutController,
+                  ),
+                  SizedBox(
+                    height: 10.h,
+                  ),
+                  TextFormField(
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                      hintText: 'Booked',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8.r),
+                      ),
+                    ),
+                    controller: controller.bookedController,
                   ),
                   SizedBox(
                     height: 8.h,
@@ -581,7 +626,12 @@ class AdminAddproductScreen extends GetView<AdminAddproductController> {
                           docId: docId,
                           name: controller.nameController.text,
                           category: controller.categoryController.text,
-                          stock: int.tryParse(controller.stockController.text),
+                          checkin:
+                              int.tryParse(controller.checkinController.text),
+                          checkout:
+                              int.tryParse(controller.checkoutController.text),
+                          booked:
+                              int.tryParse(controller.bookedController.text),
                         );
 
                         controller.saveUpdateProduct(

@@ -35,68 +35,73 @@ class DouserInvoicepreviewScreen
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          onPressed: () => Get.offAllNamed(Routes.DOUSER_INVOICE),
-          icon: Icon(Icons.arrow_back_outlined),
+        appBar: AppBar(
+          leading: IconButton(
+            onPressed: () => Get.offAllNamed(Routes.DOUSER_INVOICE),
+            icon: Icon(Icons.arrow_back_outlined),
+          ),
+          centerTitle: true,
+          title: Text("Delivery Order"),
         ),
-        centerTitle: true,
-        title: Text("Delivery Order"),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-              child: InteractiveViewer(
-                boundaryMargin: EdgeInsets.all(20.r),
-                minScale: 0.5,
-                maxScale: 3.5,
-                child: PdfPreview(
-                  build: (format) => doc!.save(),
-                  allowSharing: false,
-                  allowPrinting: false,
-                  dynamicLayout: true,
-                  useActions: false,
-                  initialPageFormat: PdfPageFormat.a4,
-                  pdfFileName: "$pdfname.pdf",
+        body: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: InteractiveViewer(
+                  boundaryMargin: EdgeInsets.all(20.r),
+                  minScale: 0.5,
+                  maxScale: 3.5,
+                  child: PdfPreview(
+                    build: (format) => doc!.save(),
+                    allowSharing: false,
+                    allowPrinting: false,
+                    dynamicLayout: true,
+                    useActions: false,
+                    initialPageFormat: PdfPageFormat.a4,
+                    pdfFileName: "$pdfname.pdf",
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
-      floatingActionButton: FutureBuilder<bool>(
-        future: updateStock(deliveryOrder!.data),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return FloatingActionButton(
-              onPressed: null,
-              child: CircularProgressIndicator(),
-            );
-          } else {
-            if (snapshot.hasError) {
-              return FloatingActionButton(
-                onPressed: () {},
-                child: Icon(Icons.error),
-              );
-            } else {
-              return FloatingActionButton(
-                onPressed: () async {
-                  bool savedSuccessfully =
-                      await controller.saveDeliveryOrder(deliveryOrder!);
-                  if (savedSuccessfully) {
-                    sendEmail();
-                  }
-                },
-                child: Icon(Icons.email),
-              );
+        // floatingActionButton: FutureBuilder<bool>(
+        //   future:
+        //   builder: (context, snapshot) {
+        //     if (snapshot.connectionState == ConnectionState.waiting) {
+        //       return FloatingActionButton(
+        //         onPressed: null,
+        //         child: CircularProgressIndicator(),
+        //       );
+        //     } else {
+        //       if (snapshot.hasError) {
+        //         return FloatingActionButton(
+        //           onPressed: () {},
+        //           child: Icon(Icons.error),
+        //         );
+        //       } else {
+        //         return
+        floatingActionButton: FloatingActionButton(
+          onPressed: () async {
+            bool bookedSuccessfully = await updateBooking(deliveryOrder!.data);
+
+            if (bookedSuccessfully) {
+              bool savedSuccessfully =
+                  await controller.saveDeliveryOrder(deliveryOrder!);
+              if (savedSuccessfully) {
+                sendEmail();
+              }
             }
-          }
-        },
-      ),
-    );
+          },
+          child: Icon(Icons.email),
+        )
+        //     }
+        //   }
+        //       },
+        //     ),
+        );
   }
 
   Future<void> sendEmail() async {
@@ -116,7 +121,7 @@ class DouserInvoicepreviewScreen
     controller.sendEmail(toEmails, ccEmails, [], subject, body, [pdfPath]);
   }
 
-  Future<bool> updateStock(List<List<dynamic>> inputData) async {
+  Future<bool> updateBooking(List<List<dynamic>> inputData) async {
     try {
       // Initialize collection reference
       final CollectionReference<Map<String, dynamic>> collectionReference =
@@ -145,14 +150,16 @@ class DouserInvoicepreviewScreen
 
             if (querySnapshot.docs.isNotEmpty) {
               final DocumentSnapshot doc = querySnapshot.docs.first;
-              final int currentStock = doc['stock'] as int;
+              final int currentbooked = doc['booked'] as int;
 
-              // Calculate new stock quantity after subtraction
-              final int newStock = currentStock - quantityToSubtract.toInt();
+              // Calculate new booked quantity after subtraction
+              final int newbooked = currentbooked + quantityToSubtract.toInt();
 
-              // Attempt to update stock
-              await collectionReference.doc(doc.id).update({'stock': newStock});
-              print('Stock updated for $productName');
+              // Attempt to update booked
+              await collectionReference
+                  .doc(doc.id)
+                  .update({'booked': newbooked});
+              print('booked updated for $productName');
               success = true;
             } else {
               print('Product $productName not found');
@@ -160,7 +167,7 @@ class DouserInvoicepreviewScreen
                   true; // Mark success even if product not found (optional)
             }
           } catch (error) {
-            print('Error updating stock for $productName: $error');
+            print('Error updating booked for $productName: $error');
             lastError = error;
             retryCount++;
             await Future.delayed(Duration(seconds: 1)); // Delay before retrying
@@ -169,7 +176,7 @@ class DouserInvoicepreviewScreen
 
         if (!success) {
           print(
-              'Failed to update stock for $productName after $retryCount attempts');
+              'Failed to update booked for $productName after $retryCount attempts');
           if (lastError != null) {
             throw lastError; // Throw the last encountered error if all retries fail
           }
@@ -177,10 +184,10 @@ class DouserInvoicepreviewScreen
         }
       }
 
-      print('All stock updates completed successfully');
+      print('All booked updates completed successfully');
       return true;
     } catch (error) {
-      print('Error updating stock: $error');
+      print('Error updating booked: $error');
       return false;
     }
   }

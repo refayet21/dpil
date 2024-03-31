@@ -235,7 +235,9 @@ class AdminAddproductController extends GetxController {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   late TextEditingController nameController,
       categoryController,
-      stockController;
+      checkinController,
+      checkoutController,
+      bookedController;
   RxList<ProductModel> foundProduct = RxList<ProductModel>([]);
 
   // Firestore operation
@@ -251,7 +253,9 @@ class AdminAddproductController extends GetxController {
     nameController = TextEditingController();
     categoryController = TextEditingController();
 
-    stockController = TextEditingController();
+    checkinController = TextEditingController();
+    checkoutController = TextEditingController();
+    bookedController = TextEditingController();
     collectionReference = firebaseFirestore.collection("products");
     Products.bindStream(getAllProducts());
     foundProduct = Products;
@@ -270,6 +274,74 @@ class AdminAddproductController extends GetxController {
     }
     return null;
   }
+
+  // void saveUpdateProduct(
+  //     ProductModel productModel, String docId, int addEditFlag) {
+  //   final currentState = formKey.currentState;
+  //   if (currentState == null) return;
+
+  //   final isValid = currentState.validate();
+  //   if (!isValid) return;
+
+  //   currentState.save();
+
+  //   final isAdding = addEditFlag == 1;
+  //   final isUpdating = addEditFlag == 2;
+
+  //   if (isAdding || isUpdating) {
+  //     final dialogMessage = isAdding ? "Product Added" : "Product Updated";
+  //     final successMessage = isAdding
+  //         ? "Product added successfully"
+  //         : "Product updated successfully";
+
+  //     CustomFullScreenDialog.showDialog();
+
+  //     Future<void> operation;
+  //     if (isAdding) {
+  //       // For adding, simply add the new product
+  //       operation = collectionReference.add(productModel.toJson());
+  //     } else {
+  //       // For updating, fetch the current document and update its stock value
+  //       operation = collectionReference.doc(docId).get().then((docSnapshot) {
+  //         if (docSnapshot.exists) {
+  //           // Fetch previous stock value
+  //           final data = docSnapshot.data()
+  //               as Map<String, dynamic>?; // Cast to Map<String, dynamic>
+  //           int previousStock = data?['stock'] as int? ?? 0;
+  //           // Calculate new stock value
+  //           int newStock = previousStock + (productModel.stock ?? 0);
+  //           // Update the stock value in the productModel
+  //           productModel.stock = newStock;
+  //           // Update the document with the updated productModel
+  //           return collectionReference.doc(docId).update(productModel.toJson());
+  //         } else {
+  //           // Handle case where document doesn't exist
+  //           return Future.error("Document does not exist");
+  //         }
+  //       });
+  //     }
+
+  //     operation.then((_) {
+  //       CustomFullScreenDialog.cancelDialog();
+  //       clearEditingControllers();
+  //       Get.back();
+  //       CustomSnackBar.showSnackBar(
+  //         context: Get.context,
+  //         title: dialogMessage,
+  //         message: successMessage,
+  //         backgroundColor: Colors.green,
+  //       );
+  //     }).catchError((error) {
+  //       CustomFullScreenDialog.cancelDialog();
+  //       CustomSnackBar.showSnackBar(
+  //         context: Get.context,
+  //         title: "Error",
+  //         message: "Something went wrong: $error",
+  //         backgroundColor: Colors.red,
+  //       );
+  //     });
+  //   }
+  // }
 
   void saveUpdateProduct(
       ProductModel productModel, String docId, int addEditFlag) {
@@ -294,27 +366,10 @@ class AdminAddproductController extends GetxController {
 
       Future<void> operation;
       if (isAdding) {
-        // For adding, simply add the new product
         operation = collectionReference.add(productModel.toJson());
       } else {
-        // For updating, fetch the current document and update its stock value
-        operation = collectionReference.doc(docId).get().then((docSnapshot) {
-          if (docSnapshot.exists) {
-            // Fetch previous stock value
-            final data = docSnapshot.data()
-                as Map<String, dynamic>?; // Cast to Map<String, dynamic>
-            int previousStock = data?['stock'] as int? ?? 0;
-            // Calculate new stock value
-            int newStock = previousStock + (productModel.stock ?? 0);
-            // Update the stock value in the productModel
-            productModel.stock = newStock;
-            // Update the document with the updated productModel
-            return collectionReference.doc(docId).update(productModel.toJson());
-          } else {
-            // Handle case where document doesn't exist
-            return Future.error("Document does not exist");
-          }
-        });
+        operation =
+            collectionReference.doc(docId).update(productModel.toJson());
       }
 
       operation.then((_) {
@@ -349,14 +404,18 @@ class AdminAddproductController extends GetxController {
     nameController.dispose();
     categoryController.dispose();
 
-    stockController.dispose();
+    checkinController.dispose();
+    checkoutController.dispose();
+    bookedController.dispose();
   }
 
   void clearEditingControllers() {
     nameController.clear();
     categoryController.clear();
 
-    stockController.clear();
+    checkinController.clear();
+    checkoutController.clear();
+    bookedController.clear();
   }
 
   Stream<List<ProductModel>> getAllProducts() =>
