@@ -12,12 +12,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
-import 'package:number_to_words_english/number_to_words_english.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
-import 'package:num_to_words/num_to_words.dart';
 
 class DouserProductcartController extends GetxController {
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
@@ -51,7 +48,7 @@ class DouserProductcartController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    print('oninit called');
+    // print('oninit called');
     collectionReference = firebaseFirestore.collection("products");
     productModel.bindStream(getAllVendors());
     vendors = vendorAddController.vendors;
@@ -81,36 +78,36 @@ class DouserProductcartController extends GetxController {
     return cartItems.any((item) => item.docId == product.docId);
   }
 
-  void removeFromCart(ProductModel product) {
-    cartItems.remove(product);
-  }
+  // void removeFromCart(ProductModel product) {
+  //   cartItems.remove(product);
+  // }
 
-  void increaseQuantity(ProductModel product) {
-    final index = cartItems.indexWhere((item) => item.docId == product.docId);
-    if (index != -1) {
-      cartItems[index].quantity++;
-    }
-  }
+  // void increaseQuantity(ProductModel product) {
+  //   final index = cartItems.indexWhere((item) => item.docId == product.docId);
+  //   if (index != -1) {
+  //     cartItems[index].quantity++;
+  //   }
+  // }
 
-  void decreaseQuantity(ProductModel product) {
-    final index = cartItems.indexWhere((item) => item.docId == product.docId);
-    if (index != -1 && cartItems[index].quantity > 1) {
-      cartItems[index].quantity--;
-    } else {
-      cartItems.remove(product);
-    }
-  }
+  // void decreaseQuantity(ProductModel product) {
+  //   final index = cartItems.indexWhere((item) => item.docId == product.docId);
+  //   if (index != -1 && cartItems[index].quantity > 1) {
+  //     cartItems[index].quantity--;
+  //   } else {
+  //     cartItems.remove(product);
+  //   }
+  // }
 
-  void updateQuantity(ProductModel product, int newQuantity) {
-    final index = cartItems.indexWhere((item) => item.docId == product.docId);
-    if (index != -1) {
-      if (newQuantity > 0) {
-        cartItems[index].quantity = newQuantity;
-      } else {
-        cartItems.remove(product);
-      }
-    }
-  }
+  // void updateQuantity(ProductModel product, int newQuantity) {
+  //   final index = cartItems.indexWhere((item) => item.docId == product.docId);
+  //   if (index != -1) {
+  //     if (newQuantity > 0) {
+  //       cartItems[index].quantity = newQuantity;
+  //     } else {
+  //       cartItems.remove(product);
+  //     }
+  //   }
+  // }
 
   selectdate(BuildContext context) async {
     DateTime? pickedDate = await showDatePicker(
@@ -124,30 +121,6 @@ class DouserProductcartController extends GetxController {
       String formattedDate = DateFormat('dd-MM-yyyy').format(pickedDate);
 
       return formattedDate;
-    }
-  }
-
-  // add purchase product
-
-  Future<void> addPurchaseData({
-    String? vendorDocId,
-    required String date,
-    required List<Map<String, dynamic>> cartItems,
-  }) async {
-    try {
-      CollectionReference purchasesCollection =
-          _firestore.collection('purchases');
-
-      // Add a new document with a generated ID
-      await purchasesCollection.add({
-        'vendorDocId': vendorDocId,
-        'date': date,
-        'cartItems': cartItems,
-      });
-
-      print('Purchase data added to Firestore');
-    } catch (e) {
-      print('Error adding purchase data: $e');
     }
   }
 
