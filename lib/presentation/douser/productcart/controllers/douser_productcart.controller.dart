@@ -25,33 +25,41 @@ class DouserProductcartController extends GetxController {
   RxList<VendorModel> vendors = RxList<VendorModel>([]);
   late CollectionReference collectionReference;
   RxList<ProductModel> productModel = RxList<ProductModel>([]);
-  var quantity = 0.obs;
+  RxList<ProductModel> productModel2 = RxList<ProductModel>([]);
+  RxList<ProductModel> foundProduct = RxList<ProductModel>([]);
+
+  // var quantity = 0.obs;
 
   Stream<List<ProductModel>> getAllVendors() =>
       collectionReference.snapshots().map((query) =>
           query.docs.map((item) => ProductModel.fromJson(item)).toList());
 
-  Stream<Map<String, List<ProductModel>>> getAllProductsGroupedByCategory() =>
-      collectionReference.snapshots().map((query) {
-        Map<String, List<ProductModel>> groupedProducts = {};
-        query.docs.forEach((doc) {
-          ProductModel product = ProductModel.fromJson(doc);
-          String category = product.category ?? "Other";
-          if (!groupedProducts.containsKey(category)) {
-            groupedProducts[category] = [];
-          }
-          groupedProducts[category]!.add(product);
-        });
-        return groupedProducts;
-      });
+  // Stream<Map<String, List<ProductModel>>> getAllProductsGroupedByCategory() =>
+  //     collectionReference.snapshots().map((query) {
+  //       Map<String, List<ProductModel>> groupedProducts = {};
+  //       query.docs.forEach((doc) {
+  //         ProductModel product = ProductModel.fromJson(doc);
+  //         String category = product.category ?? "Other";
+  //         if (!groupedProducts.containsKey(category)) {
+  //           groupedProducts[category] = [];
+  //         }
+  //         groupedProducts[category]!.add(product);
+  //       });
+  //       return groupedProducts;
+  //     });
 
+  Stream<List<ProductModel>> getAllProducts() =>
+      collectionReference.snapshots().map((query) =>
+          query.docs.map((item) => ProductModel.fromJson(item)).toList());
   @override
   void onInit() {
     super.onInit();
     // print('oninit called');
     collectionReference = firebaseFirestore.collection("products");
     productModel.bindStream(getAllVendors());
+    productModel2.bindStream(getAllProducts());
     vendors = vendorAddController.vendors;
+    foundProduct = productModel2;
   }
 
   @override
@@ -392,6 +400,30 @@ class DouserProductcartController extends GetxController {
           ));
     } catch (e) {
       print('Error: $e');
+    }
+  }
+
+  // void searchProduct(String searchQuery) {
+  //   if (searchQuery.isEmpty) {
+  //     foundProduct.assignAll(productModel2.toList());
+  //   } else {
+  //     List<ProductModel> results = productModel2
+  //         .where((element) =>
+  //             element.name!.toLowerCase().contains(searchQuery.toLowerCase()))
+  //         .toList();
+  //     foundProduct.assignAll(results);
+  //   }
+  // }
+  void searchProduct(String searchQuery) {
+    if (searchQuery.isEmpty) {
+      // Corrected the typo here
+      foundProduct.assignAll(productModel2.toList());
+    } else {
+      List<ProductModel> results = productModel2
+          .where((element) =>
+              element.name!.toLowerCase().contains(searchQuery.toLowerCase()))
+          .toList();
+      foundProduct.assignAll(results);
     }
   }
 }
