@@ -42,6 +42,8 @@ class LoginController extends GetxController {
         bool isDoUser = await checkUserCredentials('do_users', email, password);
         bool isGeneralUser =
             await checkUserCredentials('general_users', email, password);
+        bool isstockUser =
+            await checkUserCredentials('stock_users', email, password);
 
         if (isDoUser) {
           // DoUser, redirect to DoUser dashboard
@@ -53,6 +55,11 @@ class LoginController extends GetxController {
           // General user, redirect to General user dashboard
           box.write('generalemail', email);
           Get.offNamed(Routes.GENUSER_DASHBOARD);
+          return null; // No need to return User object for General user
+        } else if (isstockUser) {
+          // General user, redirect to General user dashboard
+          box.write('stockemail', email);
+          Get.offNamed(Routes.STOCK_USER_DASHBOARD);
           return null; // No need to return User object for General user
         } else {
           // User not found in any collection

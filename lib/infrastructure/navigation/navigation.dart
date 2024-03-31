@@ -131,5 +131,15 @@ class Nav {
       page: () => AllinvoicepreviewScreen(),
       binding: AllinvoicepreviewControllerBinding(),
     ),
+    GetPage(
+      name: Routes.ADMIN_ADDSTOCKUSER,
+      page: () => const AdminAddstockuserScreen(),
+      binding: AdminAddstockuserControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.STOCK_USER_DASHBOARD,
+      page: () => const StockUserDashboardScreen(),
+      binding: StockUserDashboardControllerBinding(),
+    ),
   ];
 }

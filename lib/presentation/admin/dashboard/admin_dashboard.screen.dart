@@ -137,12 +137,12 @@ class AdminDashboardScreen extends GetView<AdminDashboardController> {
               children: [
                 CustomShape(
                   imageurl: ImageConstant.other,
-                  title: 'OTHERS',
+                  title: 'Stock User',
                   onTap: () {
-                    // Get.toNamed(
-                    //   // Routes.ALL_INPUT_FIELD,
-                    //   Routes.ADMIN_ATTENDANCE,
-                    // );
+                    Get.toNamed(
+                      // Routes.ALL_INPUT_FIELD,
+                      Routes.ADMIN_ADDSTOCKUSER,
+                    );
                   },
                 ),
                 CustomShape(

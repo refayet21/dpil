@@ -6,6 +6,7 @@ class Routes {
   static const ADMIN_ADDDOUSER = '/admin-adddouser';
   static const ADMIN_ADDGENUSER = '/admin-addgenuser';
   static const ADMIN_ADDPRODUCT = '/admin-addproduct';
+  static const ADMIN_ADDSTOCKUSER = '/admin-addstockuser';
   static const ADMIN_ADDVENDOR = '/admin-addvendor';
   static const ADMIN_ATTENDANCE = '/admin-attendance';
   static const ADMIN_DASHBOARD = '/admin-dashboard';
@@ -13,6 +14,7 @@ class Routes {
   static const ADMIN_EMAIL = '/admin-email';
   static const ADMIN_PREVIEWATTENDANCE = '/admin-previewattendance';
   static const ADMIN_PREVIEWDO = '/admin-previewdo';
+  static const ALLINVOICEPREVIEW = '/allinvoicepreview';
   static const DOUSER_ADDCUSTOMER = '/douser-addcustomer';
   static const DOUSER_ATTENDENCE = '/douser-attendence';
   static const DOUSER_DASHBOARD = '/douser-dashboard';
@@ -23,5 +25,5 @@ class Routes {
   static const GENUSER_GENATTENDENCE = '/genuser-genattendence';
   static const LOGIN = '/login';
   static const SPLASH = '/splash';
-  static const ALLINVOICEPREVIEW = '/allinvoicepreview';
+  static const STOCK_USER_DASHBOARD = '/stock-user-dashboard';
 }
