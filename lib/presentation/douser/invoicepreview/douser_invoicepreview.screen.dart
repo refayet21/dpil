@@ -33,52 +33,59 @@ class DouserInvoicepreviewScreen
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-            onPressed: () => Get.offAllNamed(Routes.DOUSER_INVOICE),
-            icon: Icon(Icons.arrow_back_outlined),
-          ),
-          centerTitle: true,
-          title: Text("Delivery Order"),
+      appBar: AppBar(
+        leading: IconButton(
+          onPressed: () => Get.offAllNamed(Routes.DOUSER_INVOICE),
+          icon: Icon(Icons.arrow_back_outlined),
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: InteractiveViewer(
-                  boundaryMargin: EdgeInsets.all(20.r),
-                  minScale: 0.5,
-                  maxScale: 3.5,
-                  child: PdfPreview(
-                    build: (format) => doc!.save(),
-                    allowSharing: false,
-                    allowPrinting: false,
-                    dynamicLayout: true,
-                    useActions: false,
-                    initialPageFormat: PdfPageFormat.a4,
-                    pdfFileName: "$pdfname.pdf",
-                  ),
+        centerTitle: true,
+        title: Text("Delivery Order"),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: InteractiveViewer(
+                boundaryMargin: EdgeInsets.all(20.r),
+                minScale: 0.5,
+                maxScale: 3.5,
+                child: PdfPreview(
+                  build: (format) => doc!.save(),
+                  allowSharing: false,
+                  allowPrinting: false,
+                  dynamicLayout: true,
+                  useActions: false,
+                  initialPageFormat: PdfPageFormat.a4,
+                  pdfFileName: "$pdfname.pdf",
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () async {
-            bool bookedSuccessfully =
-                await controller.updateBooking(deliveryOrder!.data);
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          bool bookedSuccessfully =
+              await controller.updateBooking(deliveryOrder!.data);
 
-            if (bookedSuccessfully) {
-              bool savedSuccessfully =
-                  await controller.saveDeliveryOrder(deliveryOrder!);
-              if (savedSuccessfully) {
-                controller.sendFinalEmail(pdfname!, doc);
-              }
+          if (bookedSuccessfully) {
+            bool savedSuccessfully =
+                await controller.saveDeliveryOrder(deliveryOrder!);
+            if (savedSuccessfully) {
+              controller.sendFinalEmail(pdfname!, doc);
             }
-          },
-          child: Icon(Icons.email),
-        ));
+          }
+        },
+        child: Obx(
+          () => controller.isSendingEmail.value
+              ? CircularProgressIndicator(
+                  color: Colors.white,
+                )
+              : Icon(Icons.email),
+        ),
+      ),
+    );
   }
 }

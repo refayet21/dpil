@@ -15,6 +15,7 @@ class DouserInvoicepreviewController extends GetxController {
   final box = GetStorage();
   RxList<EmailModel> emailModel = RxList<EmailModel>([]);
   RxList<EmailModel> email = RxList<EmailModel>([]);
+  RxBool isSendingEmail = false.obs;
 
   @override
   void onInit() {
@@ -35,6 +36,7 @@ class DouserInvoicepreviewController extends GetxController {
   }
 
   Future<bool> saveDeliveryOrder(DeliveryOrder? deliveryOrder) async {
+    isSendingEmail.value = true;
     try {
       await FirebaseFirestore.instance
           .collection("do_users")
@@ -44,7 +46,7 @@ class DouserInvoicepreviewController extends GetxController {
           .set(deliveryOrder.toMap());
       return true;
     } catch (e) {
-      print(e.toString());
+      // print(e.toString());
       return false;
     }
   }
@@ -84,12 +86,14 @@ class DouserInvoicepreviewController extends GetxController {
 
     try {
       await FlutterEmailSender.send(email);
+      isSendingEmail.value = false;
     } catch (error) {
-      print('Error sending email: $error');
+      // print('Error sending email: $error');
     }
   }
 
   Future<bool> updateBooking(List<List<dynamic>> inputData) async {
+    isSendingEmail.value = true;
     try {
       // Initialize collection reference
       final CollectionReference<Map<String, dynamic>> collectionReference =
@@ -127,15 +131,15 @@ class DouserInvoicepreviewController extends GetxController {
               await collectionReference
                   .doc(doc.id)
                   .update({'booked': newbooked});
-              print('booked updated for $productName');
+              // print('booked updated for $productName');
               success = true;
             } else {
-              print('Product $productName not found');
+              // print('Product $productName not found');
               success =
                   true; // Mark success even if product not found (optional)
             }
           } catch (error) {
-            print('Error updating booked for $productName: $error');
+            // print('Error updating booked for $productName: $error');
             lastError = error;
             retryCount++;
             await Future.delayed(Duration(seconds: 1)); // Delay before retrying
@@ -143,8 +147,8 @@ class DouserInvoicepreviewController extends GetxController {
         }
 
         if (!success) {
-          print(
-              'Failed to update booked for $productName after $retryCount attempts');
+          // print(
+          //     'Failed to update booked for $productName after $retryCount attempts');
           if (lastError != null) {
             throw lastError; // Throw the last encountered error if all retries fail
           }
@@ -152,10 +156,10 @@ class DouserInvoicepreviewController extends GetxController {
         }
       }
 
-      print('All booked updates completed successfully');
+      // print('All booked updates completed successfully');
       return true;
     } catch (error) {
-      print('Error updating booked: $error');
+      // print('Error updating booked: $error');
       return false;
     }
   }
