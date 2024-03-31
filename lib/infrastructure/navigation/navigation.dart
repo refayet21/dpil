@@ -138,7 +138,7 @@ class Nav {
     ),
     GetPage(
       name: Routes.STOCK_USER_DASHBOARD,
-      page: () => const StockUserDashboardScreen(),
+      page: () => StockUserDashboardScreen(),
       binding: StockUserDashboardControllerBinding(),
     ),
   ];
