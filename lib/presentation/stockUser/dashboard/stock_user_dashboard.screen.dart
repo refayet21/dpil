@@ -12,6 +12,157 @@ class StockUserDashboardScreen extends GetView<StockUserDashboardController> {
   StockUserDashboardScreen({Key? key}) : super(key: key);
   final box = GetStorage();
 
+  // @override
+  // Widget build(BuildContext context) {
+  //   return Scaffold(
+  //     appBar: AppBar(
+  //       title: Text(
+  //         'Update Stock',
+  //         style: TextStyle(fontSize: 25.sp, fontWeight: FontWeight.w700),
+  //       ),
+  //       centerTitle: true,
+  //       actions: [
+  //         IconButton(
+  //             onPressed: () {
+  //               box.remove('stockemail');
+
+  //               Get.offNamed(Routes.LOGIN);
+  //             },
+  //             icon: Icon(Icons.logout))
+  //       ],
+  //     ),
+  //     body: StreamBuilder<Map<String, List<ProductModel>>>(
+  //       stream: controller.getAllProductsGroupedByCategory(),
+  //       builder: (context, snapshot) {
+  //         if (snapshot.connectionState == ConnectionState.waiting) {
+  //           return Center(child: CircularProgressIndicator());
+  //         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+  //           return Center(child: Text("No products found."));
+  //         } else {
+  //           return ListView.builder(
+  //             itemCount: snapshot.data!.length,
+  //             itemBuilder: (context, index) {
+  //               String category = snapshot.data!.keys.toList()[index];
+  //               List<ProductModel> products = snapshot.data![category]!;
+  //               return Column(
+  //                 crossAxisAlignment: CrossAxisAlignment.start,
+  //                 children: [
+  //                   Padding(
+  //                     padding: EdgeInsets.all(8.0.r),
+  //                     child: Text(
+  //                       category,
+  //                       style: TextStyle(
+  //                         fontSize: 20.sp,
+  //                         fontWeight: FontWeight.bold,
+  //                       ),
+  //                     ),
+  //                   ),
+  //                   ListView.builder(
+  //                     shrinkWrap: true,
+  //                     physics: NeverScrollableScrollPhysics(),
+  //                     itemCount: products.length,
+  //                     itemBuilder: (context, index) {
+  //                       ProductModel product = products[index];
+  //                       return Card(
+  //                         color: Colors.grey.shade200,
+  //                         child: ListTile(
+  //                           title: Text(
+  //                             'Name : ${product.name!}',
+  //                             style: TextStyle(
+  //                               fontSize: 16.sp,
+  //                               fontWeight: FontWeight.w600,
+  //                               color: Colors.black,
+  //                             ),
+  //                           ),
+  //                           subtitle: Column(
+  //                             mainAxisAlignment: MainAxisAlignment.start,
+  //                             crossAxisAlignment: CrossAxisAlignment.start,
+  //                             children: [
+  //                               SizedBox(height: 7.h),
+  //                               Text(
+  //                                 'Category : ${product.category!}',
+  //                                 style: TextStyle(
+  //                                   fontSize: 14.sp,
+  //                                   fontWeight: FontWeight.w600,
+  //                                   color: Colors.black,
+  //                                 ),
+  //                               ),
+  //                               SizedBox(height: 7.h),
+  //                               Text(
+  //                                 'Checkin : ${product.checkin!}',
+  //                                 style: TextStyle(
+  //                                   fontSize: 14.sp,
+  //                                   fontWeight: FontWeight.w600,
+  //                                   color: Colors.black,
+  //                                 ),
+  //                               ),
+  //                               SizedBox(height: 7.h),
+  //                               Text(
+  //                                 'Checkout : ${product.checkout!}',
+  //                                 style: TextStyle(
+  //                                   fontSize: 14.sp,
+  //                                   fontWeight: FontWeight.w600,
+  //                                   color: Colors.black,
+  //                                 ),
+  //                               ),
+  //                               SizedBox(height: 7.h),
+  //                               Text(
+  //                                 'Booked : ${product.booked!}',
+  //                                 style: TextStyle(
+  //                                   fontSize: 14.sp,
+  //                                   fontWeight: FontWeight.w600,
+  //                                   color: Colors.black,
+  //                                 ),
+  //                               ),
+  //                             ],
+  //                           ),
+  //                           leading: CircleAvatar(
+  //                             child: Text(
+  //                               product.name!.substring(0, 1).toUpperCase(),
+  //                               style: TextStyle(
+  //                                 fontWeight: FontWeight.w700,
+  //                                 color: Colors.black,
+  //                               ),
+  //                             ),
+  //                             backgroundColor: Colors.blue.shade200,
+  //                           ),
+  //                           // trailing: IconButton(
+  //                           //   icon: Icon(
+  //                           //     Icons.delete_forever,
+  //                           //     color: Colors.red,
+  //                           //   ),
+  //                           //   onPressed: () {
+  //                           //     displayDeleteDialog(product.docId!);
+  //                           //   },
+  //                           // ),
+  //                           onTap: () {
+  //                             controller.nameController.text = product.name!;
+  //                             controller.categoryController.text =
+  //                                 product.category!;
+  //                             controller.checkinController.text =
+  //                                 product.checkin!.toString();
+  //                             controller.checkoutController.text =
+  //                                 product.checkout!.toString();
+  //                             controller.bookedController.text =
+  //                                 product.booked!.toString();
+  //                             _buildAddEditProductView(
+  //                               text: 'UPDATE',
+  //                               addEditFlag: 2,
+  //                               docId: product.docId!,
+  //                             );
+  //                           },
+  //                         ),
+  //                       );
+  //                     },
+  //                   ),
+  //                 ],
+  //               );
+  //             },
+  //           );
+  //         }
+  //       },
+  //     ),
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,136 +182,126 @@ class StockUserDashboardScreen extends GetView<StockUserDashboardController> {
               icon: Icon(Icons.logout))
         ],
       ),
-      body: StreamBuilder<Map<String, List<ProductModel>>>(
-        stream: controller.getAllProductsGroupedByCategory(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return Center(child: Text("No products found."));
-          } else {
-            return ListView.builder(
-              itemCount: snapshot.data!.length,
-              itemBuilder: (context, index) {
-                String category = snapshot.data!.keys.toList()[index];
-                List<ProductModel> products = snapshot.data![category]!;
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.all(8.0.r),
-                      child: Text(
-                        category,
-                        style: TextStyle(
-                          fontSize: 20.sp,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+      body: Column(
+        children: [
+          Padding(
+            padding: EdgeInsets.all(8.0.r),
+            child: TextField(
+              onChanged: (value) => controller.searchProduct(value),
+              decoration: InputDecoration(
+                hintText: "Search",
+                prefixIcon: Icon(Icons.search),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(25.0.r)),
+                ),
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 10.h,
+          ),
+          Expanded(
+            child: Obx(
+              () => ListView.builder(
+                itemCount: controller.foundProduct.length,
+                itemBuilder: (context, index) => Card(
+                  color: Colors.grey.shade200,
+                  child: ListTile(
+                    title: Text(
+                      'Name : ${controller.foundProduct[index].name!}',
+                      style: TextStyle(
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black),
                     ),
-                    ListView.builder(
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: products.length,
-                      itemBuilder: (context, index) {
-                        ProductModel product = products[index];
-                        return Card(
-                          color: Colors.grey.shade200,
-                          child: ListTile(
-                            title: Text(
-                              'Name : ${product.name!}',
-                              style: TextStyle(
-                                fontSize: 16.sp,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.black,
-                              ),
-                            ),
-                            subtitle: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                SizedBox(height: 7.h),
-                                Text(
-                                  'Category : ${product.category!}',
-                                  style: TextStyle(
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                                SizedBox(height: 7.h),
-                                Text(
-                                  'Checkin : ${product.checkin!}',
-                                  style: TextStyle(
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                                SizedBox(height: 7.h),
-                                Text(
-                                  'Checkout : ${product.checkout!}',
-                                  style: TextStyle(
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                                SizedBox(height: 7.h),
-                                Text(
-                                  'Booked : ${product.booked!}',
-                                  style: TextStyle(
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            leading: CircleAvatar(
-                              child: Text(
-                                product.name!.substring(0, 1).toUpperCase(),
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.black,
-                                ),
-                              ),
-                              backgroundColor: Colors.blue.shade200,
-                            ),
-                            // trailing: IconButton(
-                            //   icon: Icon(
-                            //     Icons.delete_forever,
-                            //     color: Colors.red,
-                            //   ),
-                            //   onPressed: () {
-                            //     displayDeleteDialog(product.docId!);
-                            //   },
-                            // ),
-                            onTap: () {
-                              controller.nameController.text = product.name!;
-                              controller.categoryController.text =
-                                  product.category!;
-                              controller.checkinController.text =
-                                  product.checkin!.toString();
-                              controller.checkoutController.text =
-                                  product.checkout!.toString();
-                              controller.bookedController.text =
-                                  product.booked!.toString();
-                              _buildAddEditProductView(
-                                text: 'UPDATE',
-                                addEditFlag: 2,
-                                docId: product.docId!,
-                              );
-                            },
+                    subtitle: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          height: 7.h,
+                        ),
+                        Text(
+                          'category : ${controller.foundProduct[index].category!}',
+                          style: TextStyle(
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black),
+                        ),
+                        SizedBox(
+                          height: 7.h,
+                        ),
+                        Text(
+                          'Checkin : ${controller.foundProduct[index].checkin!}',
+                          style: TextStyle(
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black,
                           ),
-                        );
+                        ),
+                        SizedBox(height: 7.h),
+                        Text(
+                          'Checkout : ${controller.foundProduct[index].checkout!}',
+                          style: TextStyle(
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black,
+                          ),
+                        ),
+                        SizedBox(height: 7.h),
+                        Text(
+                          'Booked : ${controller.foundProduct[index].booked!}',
+                          style: TextStyle(
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ],
+                    ),
+                    leading: CircleAvatar(
+                      child: Text(
+                        controller.foundProduct[index].name!
+                            .substring(0, 1)
+                            .capitalize!,
+                        style: TextStyle(
+                            fontWeight: FontWeight.w700, color: Colors.black),
+                      ),
+                      backgroundColor: Colors.blue.shade200,
+                    ),
+                    trailing: IconButton(
+                      icon: Icon(
+                        Icons.delete_forever,
+                        color: Colors.red,
+                      ),
+                      onPressed: () {
+                        displayDeleteDialog(
+                            controller.foundProduct[index].docId!);
                       },
                     ),
-                  ],
-                );
-              },
-            );
-          }
-        },
+                    onTap: () {
+                      controller.nameController.text =
+                          controller.foundProduct[index].name!;
+                      controller.categoryController.text =
+                          controller.foundProduct[index].category!;
+
+                      controller.checkinController.text =
+                          controller.foundProduct[index].checkin!.toString();
+                      controller.checkoutController.text =
+                          controller.foundProduct[index].checkout!.toString();
+                      controller.bookedController.text =
+                          controller.foundProduct[index].booked!.toString();
+                      _buildAddEditProductView(
+                          text: 'UPDATE',
+                          addEditFlag: 2,
+                          docId: controller.foundProduct[index].docId!);
+                    },
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
       // floatingActionButton: ElevatedButton(
       //   onPressed: () {
