@@ -420,8 +420,9 @@ class DouserProductcartController extends GetxController {
       foundProduct.assignAll(productModel2.toList());
     } else {
       List<ProductModel> results = productModel2
-          .where((element) =>
-              element.name!.toLowerCase().contains(searchQuery.toLowerCase()))
+          .where((element) => element.category!
+              .toLowerCase()
+              .contains(searchQuery.toLowerCase()))
           .toList();
       foundProduct.assignAll(results);
     }
