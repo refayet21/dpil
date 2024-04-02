@@ -2,6 +2,7 @@ import 'package:dpil/model/do_model.dart';
 import 'package:dpil/model/douser_model.dart';
 import 'package:dpil/model/vendor.dart';
 import 'package:dpil/presentation/douser/productcart/controllers/douser_productcart.controller.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -12,6 +13,8 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
   DouserProductcartController controller =
       Get.put(DouserProductcartController());
   TextEditingController deliverydateController = TextEditingController();
+  VendorModel? selectedValue;
+  final TextEditingController textEditingController = TextEditingController();
 
   VendorModel? selectedVendor;
 
@@ -41,23 +44,117 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          // Expanded(
+          //   flex: 1,
+          //   child: DropdownButtonFormField<VendorModel>(
+          //     onChanged: (value) {
+          //       selectedVendor = value;
+          //     },
+          //     hint: Text('Select Customer', style: TextStyle(fontSize: 14.sp)),
+          //     isExpanded: true,
+          //     value: selectedVendor,
+          //     items: controller.vendors
+          //         .map((vendor) => DropdownMenuItem<VendorModel>(
+          //               value: vendor,
+          //               child: Text(vendor.name ?? ''),
+          //             ))
+          //         .toList(),
+          //   ),
+          // ),
+
           Expanded(
             flex: 1,
-            child: DropdownButtonFormField<VendorModel>(
-              onChanged: (value) {
-                selectedVendor = value;
-              },
-              hint: Text('Select Customer', style: TextStyle(fontSize: 14.sp)),
-              isExpanded: true,
-              value: selectedVendor,
-              items: controller.vendors
-                  .map((vendor) => DropdownMenuItem<VendorModel>(
-                        value: vendor,
-                        child: Text(vendor.name ?? ''),
-                      ))
-                  .toList(),
+            child: DropdownButtonHideUnderline(
+              child: Obx(
+                () => DropdownButton2<VendorModel>(
+                  isExpanded: true,
+                  hint: Text(
+                    'Select Item',
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Theme.of(context).hintColor,
+                    ),
+                  ),
+                  items: controller.vendors
+                      .map((item) => DropdownMenuItem<VendorModel>(
+                            value: item,
+                            child: Text(
+                              item.name!, // Assuming name is the property representing the vendor's name
+                              style: TextStyle(
+                                fontSize: 14,
+                              ),
+                            ),
+                          ))
+                      .toList(),
+                  value: controller.selectedVendor.value,
+                  // Inside the onChanged callback of DropdownButton2
+                  onChanged: (value) {
+                    print('Selected value: $value');
+                    controller.updateSelectedVendor(value);
+                  },
+
+                  buttonStyleData: ButtonStyleData(
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    height: 40,
+                    width: 200,
+                  ),
+                  dropdownStyleData: DropdownStyleData(
+                    maxHeight: 200,
+                  ),
+                  menuItemStyleData: MenuItemStyleData(
+                    height: 40,
+                  ),
+                  dropdownSearchData: DropdownSearchData(
+                    searchController: textEditingController,
+                    searchInnerWidgetHeight: 50,
+                    searchInnerWidget: Container(
+                      height: 50,
+                      padding: const EdgeInsets.only(
+                        top: 8,
+                        bottom: 4,
+                        right: 8,
+                        left: 8,
+                      ),
+                      child: TextFormField(
+                        expands: true,
+                        maxLines: null,
+                        controller: textEditingController,
+                        decoration: InputDecoration(
+                          isDense: true,
+                          contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 8,
+                          ),
+                          hintText: 'Search for an item...',
+                          hintStyle: const TextStyle(fontSize: 12),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                      ),
+                    ),
+                    // searchMatchFn: (item, searchValue) {
+                    //   return item.value.toString().contains(searchValue);
+                    // },
+
+                    searchMatchFn: (item, searchValue) {
+                      // Check if the item's name contains the search value
+                      return item.value!.name!
+                          .toLowerCase()
+                          .contains(searchValue.toLowerCase());
+                    },
+                  ),
+                  //This to clear the search value when you close the menu
+                  onMenuStateChange: (isOpen) {
+                    if (!isOpen) {
+                      textEditingController.clear();
+                    }
+                  },
+                ),
+              ),
             ),
           ),
+
           Expanded(
             flex: 1,
             child: TextField(
@@ -187,14 +284,34 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
               flex: 1,
               child: ElevatedButton(
                 onPressed: () async {
+                  if (selectedVendor != null) {
+                    List<String> purchaseInfoList = [];
+                    double totalAmount = 0.0;
+                    var formatedtotalAmount;
+
+                    // Get vendor info
+                    String vendorName =
+                        'Customer Name: ${selectedVendor!.name ?? ""}';
+                    String vendorAddress =
+                        'Customer address: ${selectedVendor!.address ?? ""}';
+                    String dateInfo =
+                        'Delivery Date: ${deliverydateController.text}';
+                    purchaseInfoList
+                        .add('$vendorName\n$vendorAddress\n$dateInfo\n');
+
+                    // Rest of your code...
+                  } else {
+                    // If no vendor is selected, show an error message or handle it accordingly
+                    print('No vendor selected');
+                  }
                   List<String> purchaseInfoList = [];
                   double totalAmount = 0.0;
                   var formatedtotalAmount;
 
                   String vendorName =
-                      'Customer Name: ${selectedVendor?.name ?? ""}';
+                      'Customer Name: ${controller.selectedVendor.value!.name ?? ""}';
                   String vendorAddress =
-                      'Customer address: ${selectedVendor?.address ?? ""}';
+                      'Customer address: ${controller.selectedVendor.value!.address ?? ""}';
                   String dateInfo =
                       'Delivery Date: ${deliverydateController.text}';
                   purchaseInfoList
@@ -353,13 +470,13 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
                               final String date =
                                   '$currentDate-$currentMonth-$currentYear';
                               String vendorName =
-                                  '${selectedVendor?.name ?? ""}';
+                                  '${controller.selectedVendor.value!.name ?? ""}';
                               String vendorAddress =
-                                  '${selectedVendor?.address ?? ""}';
+                                  '${controller.selectedVendor.value!.address ?? ""}';
                               String contactPerson =
-                                  '${selectedVendor?.contactperson ?? ""}';
+                                  '${controller.selectedVendor.value!.contactperson ?? ""}';
                               String vendorMobile =
-                                  '${selectedVendor?.mobile ?? ""}';
+                                  '${controller.selectedVendor.value!.mobile ?? ""}';
 
                               controller.generateInvoicePdf(
                                 doNo,

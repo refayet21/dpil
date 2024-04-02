@@ -18,35 +18,29 @@ import 'package:pdf/widgets.dart' as pw;
 
 class DouserProductcartController extends GetxController {
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   RxList<ProductModel> cartItems = RxList<ProductModel>([]);
   AdminAddvendorController vendorAddController =
       Get.put(AdminAddvendorController());
   RxList<VendorModel> vendors = RxList<VendorModel>([]);
+  RxList<VendorModel> findvendors = RxList<VendorModel>([]);
   late CollectionReference collectionReference;
+  late CollectionReference vendorcollectionReference;
   RxList<ProductModel> productModel = RxList<ProductModel>([]);
   RxList<ProductModel> productModel2 = RxList<ProductModel>([]);
   RxList<ProductModel> foundProduct = RxList<ProductModel>([]);
+  Rx<VendorModel?> selectedVendor = Rx<VendorModel?>(null);
+
+  // Method to update the selected vendor
+  void updateSelectedVendor(VendorModel? value) {
+    print('Updating selected vendor: $value');
+    selectedVendor.value = value;
+  }
 
   // var quantity = 0.obs;
 
-  Stream<List<ProductModel>> getAllVendors() =>
-      collectionReference.snapshots().map((query) =>
-          query.docs.map((item) => ProductModel.fromJson(item)).toList());
-
-  // Stream<Map<String, List<ProductModel>>> getAllProductsGroupedByCategory() =>
-  //     collectionReference.snapshots().map((query) {
-  //       Map<String, List<ProductModel>> groupedProducts = {};
-  //       query.docs.forEach((doc) {
-  //         ProductModel product = ProductModel.fromJson(doc);
-  //         String category = product.category ?? "Other";
-  //         if (!groupedProducts.containsKey(category)) {
-  //           groupedProducts[category] = [];
-  //         }
-  //         groupedProducts[category]!.add(product);
-  //       });
-  //       return groupedProducts;
-  //     });
+  Stream<List<VendorModel>> getAllVendors() =>
+      vendorcollectionReference.snapshots().map((query) =>
+          query.docs.map((item) => VendorModel.fromJson(item)).toList());
 
   Stream<List<ProductModel>> getAllProducts() =>
       collectionReference.snapshots().map((query) =>
@@ -56,16 +50,19 @@ class DouserProductcartController extends GetxController {
     super.onInit();
     // print('oninit called');
     collectionReference = firebaseFirestore.collection("products");
-    productModel.bindStream(getAllVendors());
-    // productModel2.bindStream(getAllProducts());
-    vendors = vendorAddController.vendors;
+    vendorcollectionReference = firebaseFirestore.collection("Vendors");
+    getAllVendors().listen((vendor) {
+      vendors.assignAll(vendor);
+      findvendors.assignAll(vendors);
+      print(findvendors);
+    });
 
     getAllProducts().listen((products) {
       productModel2.assignAll(products);
       foundProduct.assignAll(productModel2);
 
       // Print foundProduct after it's assigned
-      print(foundProduct);
+      // print(foundProduct);
     });
   }
 
@@ -287,7 +284,7 @@ class DouserProductcartController extends GetxController {
                 mainAxisAlignment: pw.MainAxisAlignment.end,
                 children: [
                   pw.Text(
-                    'In words: ${NumberToWords.convert(totalinword)}',
+                    'In words: ${NumberToWords.convert(totalinword)} taka',
                     style: pw.TextStyle(
                       fontSize: 11.0,
                     ),
@@ -448,5 +445,20 @@ class DouserProductcartController extends GetxController {
           .toList();
     }
     foundProduct.value = results;
+  }
+
+  void filterVendors(String vendor) {
+    List<VendorModel> results;
+    if (vendor.isEmpty) {
+      results = vendors;
+    } else {
+      results = vendors
+          .where((element) => element.name
+              .toString()
+              .toLowerCase()
+              .contains(vendor.toLowerCase()))
+          .toList();
+    }
+    findvendors.value = results;
   }
 }
