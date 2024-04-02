@@ -124,7 +124,7 @@ class DouserProductcartScreen extends GetView<DouserProductcartController> {
             child: TextFormField(
               onChanged: (value) => controller.searchProduct(value),
               decoration: InputDecoration(
-                hintText: "Search  By Category",
+                hintText: "Search  By Product Name",
                 prefixIcon: Icon(Icons.search),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(25.0.r)),
