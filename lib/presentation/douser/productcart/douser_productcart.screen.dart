@@ -93,15 +93,120 @@
 //     );
 //   }
 // }
-
+// // worked code
+import 'package:dpil/model/product.dart';
 import 'package:dpil/presentation/douser/productcart/cartScreen.dart';
+import 'package:dpil/presentation/douser/productcart/controllers/douser_productcart.controller.dart';
 import 'package:dpil/presentation/widgets/do_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
 
-import 'controllers/douser_productcart.controller.dart';
+// import 'controllers/douser_productcart.controller.dart';
+
+// class DouserProductcartScreen extends GetView<DouserProductcartController> {
+//   const DouserProductcartScreen({Key? key}) : super(key: key);
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       drawer: DoDrawer(),
+//       appBar: AppBar(
+//         title: Text(
+//           'Select Product',
+//           style: TextStyle(fontSize: 25.sp),
+//         ),
+//         centerTitle: true,
+//       ),
+//       body: Column(
+//         children: [
+//           Padding(
+//             padding: EdgeInsets.all(8.0.r),
+//             child: TextFormField(
+//               onChanged: (value) => controller.searchProduct(value),
+//               decoration: InputDecoration(
+//                 hintText: "Search  By Product Name",
+//                 prefixIcon: Icon(Icons.search),
+//                 border: OutlineInputBorder(
+//                   borderRadius: BorderRadius.all(Radius.circular(25.0.r)),
+//                 ),
+//               ),
+//             ),
+//           ),
+//           Expanded(
+//             child: Obx(
+//               () => ListView.builder(
+//                 itemCount: controller.foundProduct.length,
+//                 itemBuilder: (context, index) {
+//                   bool isInCart = controller
+//                       .isProductInCart(controller.foundProduct[index]);
+//                   return Card(
+//                     color: Colors.blue.shade200,
+//                     child: ListTile(
+//                       title: Text(
+//                         'Product Name : ${controller.foundProduct[index].name ?? "N/A"}',
+//                         style: TextStyle(
+//                             fontSize: 12.sp, fontWeight: FontWeight.w700),
+//                       ),
+//                       subtitle: Column(
+//                         crossAxisAlignment: CrossAxisAlignment.start,
+//                         children: [
+//                           SizedBox(
+//                             height: 5.h,
+//                           ),
+//                           Text(
+//                             'Category : ${controller.foundProduct[index].category?.toString() ?? "N/A"}',
+//                           ),
+//                           Text(
+//                             'Checkin : ${controller.foundProduct[index].checkin ?? "N/A"}',
+//                           ),
+//                           SizedBox(
+//                             height: 5.h,
+//                           ),
+//                           Text(
+//                             'Checkout : ${controller.foundProduct[index].checkout ?? "N/A"}',
+//                           ),
+//                           SizedBox(
+//                             height: 5.h,
+//                           ),
+//                           Text(
+//                             'Booked : ${controller.foundProduct[index].booked ?? "N/A"}',
+//                           ),
+//                         ],
+//                       ),
+//                       trailing: IconButton(
+//                         icon: isInCart
+//                             ? Icon(Icons.shopping_cart)
+//                             : Icon(Icons.add_shopping_cart),
+//                         onPressed: () {
+//                           if (!isInCart) {
+//                             controller
+//                                 .addToCart(controller.foundProduct[index]);
+//                           } else {
+//                             // Optionally, you can handle removing from the cart
+//                             // controller.removeFromCart(controller.filteredProducts[index]);
+//                           }
+//                         },
+//                       ),
+//                     ),
+//                   );
+//                 },
+//               ),
+//             ),
+//           ),
+//         ],
+//       ),
+//       floatingActionButton: FloatingActionButton.extended(
+//         onPressed: () {
+//           Get.to(() => CartItemsScreen());
+//         },
+//         label: Obx(
+//             () => Text('Selected Product (${controller.cartItems.length})')),
+//       ),
+//     );
+//   }
+// }
 
 class DouserProductcartScreen extends GetView<DouserProductcartController> {
   const DouserProductcartScreen({Key? key}) : super(key: key);
@@ -124,7 +229,7 @@ class DouserProductcartScreen extends GetView<DouserProductcartController> {
             child: TextFormField(
               onChanged: (value) => controller.searchProduct(value),
               decoration: InputDecoration(
-                hintText: "Search  By Product Name",
+                hintText: "Search By Product Name",
                 prefixIcon: Icon(Icons.search),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(25.0.r)),
@@ -134,63 +239,92 @@ class DouserProductcartScreen extends GetView<DouserProductcartController> {
           ),
           Expanded(
             child: Obx(
-              () => ListView.builder(
-                itemCount: controller.foundProduct.length,
-                itemBuilder: (context, index) {
-                  bool isInCart = controller
-                      .isProductInCart(controller.foundProduct[index]);
-                  return Card(
-                    color: Colors.blue.shade200,
-                    child: ListTile(
-                      title: Text(
-                        'Product Name : ${controller.foundProduct[index].name ?? "N/A"}',
-                        style: TextStyle(
-                            fontSize: 12.sp, fontWeight: FontWeight.w700),
-                      ),
-                      subtitle: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            height: 5.h,
+              () {
+                // Group products by category
+                Map<String, List<ProductModel>> groupedProducts = {};
+                for (var product in controller.foundProduct) {
+                  if (!groupedProducts.containsKey(product.category)) {
+                    groupedProducts[product.category!] = [];
+                  }
+                  groupedProducts[product.category!]!.add(product);
+                }
+
+                return ListView.builder(
+                  itemCount: groupedProducts.length,
+                  itemBuilder: (context, categoryIndex) {
+                    var category =
+                        groupedProducts.keys.elementAt(categoryIndex);
+                    var products = groupedProducts[category]!;
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 16.0),
+                          child: Text(
+                            category,
+                            style: TextStyle(
+                              fontSize: 20.sp,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                          Text(
-                            'Category : ${controller.foundProduct[index].category?.toString() ?? "N/A"}',
-                          ),
-                          Text(
-                            'Checkin : ${controller.foundProduct[index].checkin ?? "N/A"}',
-                          ),
-                          SizedBox(
-                            height: 5.h,
-                          ),
-                          Text(
-                            'Checkout : ${controller.foundProduct[index].checkout ?? "N/A"}',
-                          ),
-                          SizedBox(
-                            height: 5.h,
-                          ),
-                          Text(
-                            'Booked : ${controller.foundProduct[index].booked ?? "N/A"}',
-                          ),
-                        ],
-                      ),
-                      trailing: IconButton(
-                        icon: isInCart
-                            ? Icon(Icons.shopping_cart)
-                            : Icon(Icons.add_shopping_cart),
-                        onPressed: () {
-                          if (!isInCart) {
-                            controller
-                                .addToCart(controller.foundProduct[index]);
-                          } else {
-                            // Optionally, you can handle removing from the cart
-                            // controller.removeFromCart(controller.filteredProducts[index]);
-                          }
-                        },
-                      ),
-                    ),
-                  );
-                },
-              ),
+                        ),
+                        ListView.builder(
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemCount: products.length,
+                          itemBuilder: (context, index) {
+                            bool isInCart = controller.isProductInCart(
+                                controller.foundProduct[index]);
+                            // itemBuilder: (context, index) {
+                            //   var product = products[index];
+                            return Card(
+                              color: Colors.blue.shade200,
+                              child: ListTile(
+                                title: Text(
+                                  // 'Product Name: ${product.name ?? "N/A"}',
+                                  'Product Name: ${controller.foundProduct[index].name ?? "N/A"}',
+                                  style: TextStyle(
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                                subtitle: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    SizedBox(height: 5.h),
+                                    Text(
+                                        // 'Checkin: ${product.checkin ?? "N/A"}'),
+                                        'Checkin: ${controller.foundProduct[index].checkin ?? "N/A"}'),
+                                    Text(
+                                        'Checkout: ${controller.foundProduct[index].checkout ?? "N/A"}'),
+                                    // SizedBox(height: 5.h),
+                                    Text(
+                                        'Booked: ${controller.foundProduct[index].booked ?? "N/A"}'),
+                                  ],
+                                ),
+                                trailing: IconButton(
+                                  icon: isInCart
+                                      ? Icon(Icons.shopping_cart)
+                                      : Icon(Icons.add_shopping_cart),
+                                  onPressed: () {
+                                    if (!isInCart) {
+                                      controller.addToCart(
+                                          controller.foundProduct[index]);
+                                    } else {
+                                      // Optionally, you can handle removing from the cart
+                                      // controller.removeFromCart(controller.filteredProducts[index]);
+                                    }
+                                  },
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
             ),
           ),
         ],
@@ -208,7 +342,7 @@ class DouserProductcartScreen extends GetView<DouserProductcartController> {
 
 
 
-// previous code 
+// previous code
 
 // import 'package:dpil/model/product.dart';
 // import 'package:dpil/presentation/douser/productcart/cartScreen.dart';

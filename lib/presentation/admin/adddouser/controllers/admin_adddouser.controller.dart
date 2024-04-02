@@ -19,7 +19,11 @@ class AdminAdddouserController extends GetxController {
 
   late CollectionReference collectionReference;
 
+  // RxList<DoUserModel> dousers = RxList<DoUserModel>([]);
   RxList<DoUserModel> dousers = RxList<DoUserModel>([]);
+  Stream<List<DoUserModel>> getAlldoUsers() =>
+      collectionReference.snapshots().map((query) =>
+          query.docs.map((item) => DoUserModel.fromJson(item)).toList());
 
   @override
   void onInit() {
@@ -30,8 +34,15 @@ class AdminAdddouserController extends GetxController {
     emailController = TextEditingController();
     passwordController = TextEditingController();
     collectionReference = firebaseFirestore.collection("do_users");
-    dousers.bindStream(getAlldoUsers());
-    founddouser = dousers;
+    // dousers.bindStream(getAlldoUsers());
+    // founddouser = dousers;
+    getAlldoUsers().listen((douser) {
+      dousers.assignAll(douser);
+      founddouser.assignAll(douser);
+
+      // Print foundProduct after it's assigned
+      // print(foundProduct);
+    });
   }
 
   String? validateName(String value) {
@@ -146,9 +157,9 @@ class AdminAdddouserController extends GetxController {
     passwordController.clear();
   }
 
-  Stream<List<DoUserModel>> getAlldoUsers() =>
-      collectionReference.snapshots().map((query) =>
-          query.docs.map((item) => DoUserModel.fromJson(item)).toList());
+  // Stream<List<DoUserModel>> getAlldoUsers() =>
+  //     collectionReference.snapshots().map((query) =>
+  //         query.docs.map((item) => DoUserModel.fromJson(item)).toList());
 
   void deleteData(String docId) {
     CustomFullScreenDialog.showDialog();
@@ -170,15 +181,30 @@ class AdminAdddouserController extends GetxController {
     });
   }
 
+  // void searchdouser(String searchQuery) {
+  //   if (searchQuery.isEmpty) {
+  //     founddouser.assignAll(dousers.toList());
+  //   } else {
+  //     List<DoUserModel> results = dousers
+  //         .where((element) =>
+  //             element.name!.toLowerCase().contains(searchQuery.toLowerCase()))
+  //         .toList();
+  //     founddouser.assignAll(results);
+  //   }
+  // }
+
   void searchdouser(String searchQuery) {
+    List<DoUserModel> results;
     if (searchQuery.isEmpty) {
-      founddouser.assignAll(dousers.toList());
+      results = dousers;
     } else {
-      List<DoUserModel> results = dousers
-          .where((element) =>
-              element.name!.toLowerCase().contains(searchQuery.toLowerCase()))
+      results = dousers
+          .where((element) => element.name
+              .toString()
+              .toLowerCase()
+              .contains(searchQuery.toLowerCase()))
           .toList();
-      founddouser.assignAll(results);
     }
+    founddouser.value = results;
   }
 }
