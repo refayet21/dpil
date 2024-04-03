@@ -154,79 +154,164 @@ class AdminAttendanceScreen extends GetView<AdminAttendanceController> {
           SizedBox(
             height: 10.h,
           ),
+          // Expanded(
+          //   child: Obx(
+          //     () => ListView.builder(
+          //       itemCount: controller.founddouser.length,
+          //       itemBuilder: (context, index) => Card(
+          //         color: Colors.grey.shade200,
+          //         child: ListTile(
+          //           title: Text(
+          //             'Name : ${controller.founddouser[index].name!}',
+          //             style: TextStyle(
+          //                 fontSize: 16.sp,
+          //                 fontWeight: FontWeight.w600,
+          //                 color: Colors.black),
+          //           ),
+          //           subtitle: Column(
+          //             mainAxisAlignment: MainAxisAlignment.start,
+          //             crossAxisAlignment: CrossAxisAlignment.start,
+          //             children: [
+          //               SizedBox(
+          //                 height: 3.h,
+          //               ),
+          //               Text(
+          //                 'Address :${controller.founddouser[index].address!}',
+          //                 style: TextStyle(
+          //                     fontSize: 14.sp,
+          //                     fontWeight: FontWeight.w600,
+          //                     color: Colors.black),
+          //               ),
+          //               SizedBox(
+          //                 height: 3.h,
+          //               ),
+          //               Text(
+          //                 'Mobile : ${controller.founddouser[index].mobile!}',
+          //                 style: TextStyle(
+          //                     fontSize: 14.sp,
+          //                     fontWeight: FontWeight.w600,
+          //                     color: Colors.black),
+          //               ),
+          //               SizedBox(
+          //                 height: 3.h,
+          //               ),
+          //               Text(
+          //                 'Email : ${controller.founddouser[index].email!}',
+          //                 style: TextStyle(
+          //                     fontSize: 14.sp,
+          //                     fontWeight: FontWeight.w600,
+          //                     color: Colors.black),
+          //               ),
+          //               SizedBox(
+          //                 height: 3.h,
+          //               ),
+          //             ],
+          //           ),
+          //           leading: CircleAvatar(
+          //             child: Text(
+          //               controller.founddouser[index].name!
+          //                   .substring(0, 1)
+          //                   .capitalize!,
+          //               style: TextStyle(
+          //                   fontWeight: FontWeight.w700, color: Colors.black),
+          //             ),
+          //             backgroundColor: Colors.blue.shade200,
+          //           ),
+          //           onTap: () {
+          //             Get.to(() => AdminPreviewattendanceScreen(
+          //                   employeeId: controller.founddouser[index].docId!,
+          //                 ));
+          //             print(
+          //                 'Doc Id is : ${controller.founddouser[index].docId!}');
+          //           },
+          //         ),
+          //       ),
+          //     ),
+          //   ),
+          // ),
           Expanded(
             child: Obx(
-              () => ListView.builder(
-                itemCount: controller.founddouser.length,
-                itemBuilder: (context, index) => Card(
-                  color: Colors.grey.shade200,
-                  child: ListTile(
-                    title: Text(
-                      'Name : ${controller.founddouser[index].name!}',
-                      style: TextStyle(
+              () {
+                // Sort founddouser list by name
+                controller.founddouser
+                    .sort((a, b) => a.name!.compareTo(b.name!));
+
+                return ListView.builder(
+                  itemCount: controller.founddouser.length,
+                  itemBuilder: (context, index) => Card(
+                    color: Colors.grey.shade200,
+                    child: ListTile(
+                      title: Text(
+                        'Name : ${controller.founddouser[index].name!}',
+                        style: TextStyle(
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w600,
-                          color: Colors.black),
-                    ),
-                    subtitle: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          height: 3.h,
+                          color: Colors.black,
                         ),
-                        Text(
-                          'Address :${controller.founddouser[index].address!}',
-                          style: TextStyle(
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.black),
-                        ),
-                        SizedBox(
-                          height: 3.h,
-                        ),
-                        Text(
-                          'Mobile : ${controller.founddouser[index].mobile!}',
-                          style: TextStyle(
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.black),
-                        ),
-                        SizedBox(
-                          height: 3.h,
-                        ),
-                        Text(
-                          'Email : ${controller.founddouser[index].email!}',
-                          style: TextStyle(
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.black),
-                        ),
-                        SizedBox(
-                          height: 3.h,
-                        ),
-                      ],
-                    ),
-                    leading: CircleAvatar(
-                      child: Text(
-                        controller.founddouser[index].name!
-                            .substring(0, 1)
-                            .capitalize!,
-                        style: TextStyle(
-                            fontWeight: FontWeight.w700, color: Colors.black),
                       ),
-                      backgroundColor: Colors.blue.shade200,
+                      subtitle: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(height: 3.h),
+                          Text(
+                            'Address :${controller.founddouser[index].address!}',
+                            style: TextStyle(
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black,
+                            ),
+                          ),
+                          SizedBox(height: 3.h),
+                          Text(
+                            'Mobile : ${controller.founddouser[index].mobile!}',
+                            style: TextStyle(
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black,
+                            ),
+                          ),
+                          SizedBox(height: 3.h),
+                          Text(
+                            'Email : ${controller.founddouser[index].email!}',
+                            style: TextStyle(
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black,
+                            ),
+                          ),
+                          // SizedBox(height: 3.h),
+                          // Text(
+                          //   'Password : ${controller.founddouser[index].password!}',
+                          //   style: TextStyle(
+                          //     fontSize: 14.sp,
+                          //     fontWeight: FontWeight.w600,
+                          //     color: Colors.black,
+                          //   ),
+                          // ),
+                        ],
+                      ),
+                      leading: CircleAvatar(
+                        child: Text(
+                          controller.founddouser[index].name!
+                              .substring(0, 1)
+                              .capitalize!,
+                          style: TextStyle(
+                              fontWeight: FontWeight.w700, color: Colors.black),
+                        ),
+                        backgroundColor: Colors.blue.shade200,
+                      ),
+                      onTap: () {
+                        Get.to(() => AdminPreviewattendanceScreen(
+                              employeeId: controller.founddouser[index].docId!,
+                            ));
+                        print(
+                            'Doc Id is : ${controller.founddouser[index].docId!}');
+                      },
                     ),
-                    onTap: () {
-                      Get.to(() => AdminPreviewattendanceScreen(
-                            employeeId: controller.founddouser[index].docId!,
-                          ));
-                      print(
-                          'Doc Id is : ${controller.founddouser[index].docId!}');
-                    },
                   ),
-                ),
-              ),
+                );
+              },
             ),
           ),
         ],

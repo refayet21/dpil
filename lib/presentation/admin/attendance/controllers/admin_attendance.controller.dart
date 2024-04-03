@@ -19,8 +19,10 @@ class AdminAttendanceController extends GetxController {
   void onInit() {
     super.onInit();
     collectionReference = firebaseFirestore.collection("do_users");
-    dousers.bindStream(getAlldoUsers());
-    founddouser = dousers;
+    getAlldoUsers().listen((vendor) {
+      dousers.assignAll(vendor);
+      founddouser.assignAll(dousers);
+    });
   }
 
   @override

@@ -27,8 +27,10 @@ class AdminDoController extends GetxController {
   void onInit() {
     super.onInit();
     collectionReference = firebaseFirestore.collection("do_users");
-    dousers.bindStream(getAlldoUsers());
-    founddouser = dousers;
+    getAlldoUsers().listen((dos) {
+      dousers.assignAll(dos);
+      founddouser.assignAll(dousers);
+    });
   }
 
   @override
@@ -52,17 +54,30 @@ class AdminDoController extends GetxController {
   //     founddouser.assignAll(results);
   //   }
   // }
-  void searchdouser(String searchQuery) {
-    if (searchQuery.isEmpty) {
-      founddouser.assignAll(dousers.toList());
+  // void searchdouser(String searchQuery) {
+  //   if (searchQuery.isEmpty) {
+  //     founddouser.assignAll(dousers.toList());
+  //   } else {
+  //     List<DoUserModel> results = dousers
+  //         .where((element) =>
+  //             element.name!.toLowerCase().contains(searchQuery.toLowerCase()))
+  //         .toList();
+  //     founddouser.clear(); // Clear the previous search results
+  //     founddouser.addAll(results); // Add new search results
+  //   }
+  // }
+
+  void searchdouser(String dos) {
+    List<DoUserModel> results;
+    if (dos.isEmpty) {
+      results = dousers;
     } else {
-      List<DoUserModel> results = dousers
+      results = dousers
           .where((element) =>
-              element.name!.toLowerCase().contains(searchQuery.toLowerCase()))
+              element.name.toString().toLowerCase().contains(dos.toLowerCase()))
           .toList();
-      founddouser.clear(); // Clear the previous search results
-      founddouser.addAll(results); // Add new search results
     }
+    founddouser.value = results;
   }
 
   String generateddate = DateFormat('dd.MM.yyyy').format(DateTime.now());
