@@ -208,6 +208,9 @@ import 'package:get/get.dart';
 //   }
 // }
 
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
 class DouserProductcartScreen extends GetView<DouserProductcartController> {
   const DouserProductcartScreen({Key? key}) : super(key: key);
 
@@ -249,12 +252,19 @@ class DouserProductcartScreen extends GetView<DouserProductcartController> {
                   groupedProducts[product.category!]!.add(product);
                 }
 
+                // Sort groupedProducts by category
+                var sortedEntries = groupedProducts.entries.toList()
+                  ..sort((a, b) => a.key.compareTo(b.key));
+
                 return ListView.builder(
-                  itemCount: groupedProducts.length,
+                  itemCount: sortedEntries.length,
                   itemBuilder: (context, categoryIndex) {
-                    var category =
-                        groupedProducts.keys.elementAt(categoryIndex);
-                    var products = groupedProducts[category]!;
+                    var category = sortedEntries[categoryIndex].key;
+                    var products = sortedEntries[categoryIndex].value;
+
+                    // Sort products by name
+                    products.sort((a, b) => a.name!.compareTo(b.name!));
+
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -273,16 +283,13 @@ class DouserProductcartScreen extends GetView<DouserProductcartController> {
                           physics: NeverScrollableScrollPhysics(),
                           itemCount: products.length,
                           itemBuilder: (context, index) {
-                            bool isInCart = controller.isProductInCart(
-                                controller.foundProduct[index]);
-                            // itemBuilder: (context, index) {
-                            //   var product = products[index];
+                            bool isInCart =
+                                controller.isProductInCart(products[index]);
                             return Card(
                               color: Colors.blue.shade200,
                               child: ListTile(
                                 title: Text(
-                                  // 'Product Name: ${product.name ?? "N/A"}',
-                                  'Product Name: ${controller.foundProduct[index].name ?? "N/A"}',
+                                  'Product Name: ${products[index].name ?? "N/A"}',
                                   style: TextStyle(
                                     fontSize: 12.sp,
                                     fontWeight: FontWeight.w700,
@@ -293,13 +300,11 @@ class DouserProductcartScreen extends GetView<DouserProductcartController> {
                                   children: [
                                     SizedBox(height: 5.h),
                                     Text(
-                                        // 'Checkin: ${product.checkin ?? "N/A"}'),
-                                        'Checkin: ${controller.foundProduct[index].checkin ?? "N/A"}'),
+                                        'Checkin: ${products[index].checkin ?? "N/A"}'),
                                     Text(
-                                        'Checkout: ${controller.foundProduct[index].checkout ?? "N/A"}'),
-                                    // SizedBox(height: 5.h),
+                                        'Checkout: ${products[index].checkout ?? "N/A"}'),
                                     Text(
-                                        'Booked: ${controller.foundProduct[index].booked ?? "N/A"}'),
+                                        'Booked: ${products[index].booked ?? "N/A"}'),
                                   ],
                                 ),
                                 trailing: IconButton(
@@ -308,11 +313,10 @@ class DouserProductcartScreen extends GetView<DouserProductcartController> {
                                       : Icon(Icons.add_shopping_cart),
                                   onPressed: () {
                                     if (!isInCart) {
-                                      controller.addToCart(
-                                          controller.foundProduct[index]);
+                                      controller.addToCart(products[index]);
                                     } else {
                                       // Optionally, you can handle removing from the cart
-                                      // controller.removeFromCart(controller.filteredProducts[index]);
+                                      // controller.removeFromCart(products[index]);
                                     }
                                   },
                                 ),
@@ -339,6 +343,7 @@ class DouserProductcartScreen extends GetView<DouserProductcartController> {
     );
   }
 }
+
 
 
 

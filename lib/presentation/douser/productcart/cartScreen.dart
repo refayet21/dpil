@@ -66,91 +66,95 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
             flex: 1,
             child: DropdownButtonHideUnderline(
               child: Obx(
-                () => DropdownButton2<VendorModel>(
-                  isExpanded: true,
-                  hint: Text(
-                    'Select Item',
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Theme.of(context).hintColor,
-                    ),
-                  ),
-                  items: controller.vendors
-                      .map((item) => DropdownMenuItem<VendorModel>(
-                            value: item,
-                            child: Text(
-                              item.name!, // Assuming name is the property representing the vendor's name
-                              style: TextStyle(
-                                fontSize: 14,
-                              ),
-                            ),
-                          ))
-                      .toList(),
-                  value: controller.selectedVendor.value,
-                  // Inside the onChanged callback of DropdownButton2
-                  onChanged: (value) {
-                    print('Selected value: $value');
-                    controller.updateSelectedVendor(value);
-                  },
+                () {
+                  // Sort vendors by name
+                  controller.vendors.sort((a, b) => a.name!.compareTo(b.name!));
 
-                  buttonStyleData: ButtonStyleData(
-                    padding: EdgeInsets.symmetric(horizontal: 16),
-                    height: 40,
-                    width: 200,
-                  ),
-                  dropdownStyleData: DropdownStyleData(
-                    maxHeight: 200,
-                  ),
-                  menuItemStyleData: MenuItemStyleData(
-                    height: 40,
-                  ),
-                  dropdownSearchData: DropdownSearchData(
-                    searchController: textEditingController,
-                    searchInnerWidgetHeight: 50,
-                    searchInnerWidget: Container(
-                      height: 50,
-                      padding: const EdgeInsets.only(
-                        top: 8,
-                        bottom: 4,
-                        right: 8,
-                        left: 8,
+                  return DropdownButton2<VendorModel>(
+                    isExpanded: true,
+                    hint: Text(
+                      'Select Item',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Theme.of(context).hintColor,
                       ),
-                      child: TextFormField(
-                        expands: true,
-                        maxLines: null,
-                        controller: textEditingController,
-                        decoration: InputDecoration(
-                          isDense: true,
-                          contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 10,
-                            vertical: 8,
-                          ),
-                          hintText: 'Search for an item...',
-                          hintStyle: const TextStyle(fontSize: 12),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
+                    ),
+                    items: controller.vendors
+                        .map((item) => DropdownMenuItem<VendorModel>(
+                              value: item,
+                              child: Text(
+                                item.name!, // Assuming name is the property representing the vendor's name
+                                style: TextStyle(
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ))
+                        .toList(),
+                    value: controller.selectedVendor.value,
+                    // Inside the onChanged callback of DropdownButton2
+                    onChanged: (value) {
+                      print('Selected value: $value');
+                      controller.updateSelectedVendor(value);
+                    },
+                    buttonStyleData: ButtonStyleData(
+                      padding: EdgeInsets.symmetric(horizontal: 16),
+                      height: 40,
+                      width: 200,
+                    ),
+                    dropdownStyleData: DropdownStyleData(
+                      maxHeight: 200,
+                    ),
+                    menuItemStyleData: MenuItemStyleData(
+                      height: 40,
+                    ),
+                    dropdownSearchData: DropdownSearchData(
+                      searchController: textEditingController,
+                      searchInnerWidgetHeight: 50,
+                      searchInnerWidget: Container(
+                        height: 50,
+                        padding: const EdgeInsets.only(
+                          top: 8,
+                          bottom: 4,
+                          right: 8,
+                          left: 8,
+                        ),
+                        child: TextFormField(
+                          expands: true,
+                          maxLines: null,
+                          controller: textEditingController,
+                          decoration: InputDecoration(
+                            isDense: true,
+                            contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 10,
+                              vertical: 8,
+                            ),
+                            hintText: 'Search for an item...',
+                            hintStyle: const TextStyle(fontSize: 12),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    // searchMatchFn: (item, searchValue) {
-                    //   return item.value.toString().contains(searchValue);
-                    // },
+                      // searchMatchFn: (item, searchValue) {
+                      //   return item.value.toString().contains(searchValue);
+                      // },
 
-                    searchMatchFn: (item, searchValue) {
-                      // Check if the item's name contains the search value
-                      return item.value!.name!
-                          .toLowerCase()
-                          .contains(searchValue.toLowerCase());
+                      searchMatchFn: (item, searchValue) {
+                        // Check if the item's name contains the search value
+                        return item.value!.name!
+                            .toLowerCase()
+                            .contains(searchValue.toLowerCase());
+                      },
+                    ),
+                    //This to clear the search value when you close the menu
+                    onMenuStateChange: (isOpen) {
+                      if (!isOpen) {
+                        textEditingController.clear();
+                      }
                     },
-                  ),
-                  //This to clear the search value when you close the menu
-                  onMenuStateChange: (isOpen) {
-                    if (!isOpen) {
-                      textEditingController.clear();
-                    }
-                  },
-                ),
+                  );
+                },
               ),
             ),
           ),
