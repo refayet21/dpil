@@ -12,7 +12,6 @@ class AdminAddgenuserController extends GetxController {
       mobileController,
       emailController,
       passwordController;
-  RxList<GeneralUserModel> foundgeneraluser = RxList<GeneralUserModel>([]);
 
   // Firestore operation
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
@@ -20,6 +19,7 @@ class AdminAddgenuserController extends GetxController {
   late CollectionReference collectionReference;
 
   RxList<GeneralUserModel> generalusers = RxList<GeneralUserModel>([]);
+  RxList<GeneralUserModel> foundgeneraluser = RxList<GeneralUserModel>([]);
 
   @override
   void onInit() {
@@ -30,9 +30,20 @@ class AdminAddgenuserController extends GetxController {
     emailController = TextEditingController();
     passwordController = TextEditingController();
     collectionReference = firebaseFirestore.collection("general_users");
-    generalusers.bindStream(getAllgeneralUsers());
-    foundgeneraluser = generalusers;
+    // generalusers.bindStream(getAllgeneralUsers());
+    // foundgeneraluser = generalusers;
+    getAllgeneralUsers().listen((genuser) {
+      generalusers.assignAll(genuser);
+      foundgeneraluser.assignAll(genuser);
+
+      // Print foundProduct after it's assigned
+      // print(foundProduct);
+    });
   }
+
+  Stream<List<GeneralUserModel>> getAllgeneralUsers() =>
+      collectionReference.snapshots().map((query) =>
+          query.docs.map((item) => GeneralUserModel.fromJson(item)).toList());
 
   String? validateName(String value) {
     if (value.isEmpty) {
@@ -146,10 +157,6 @@ class AdminAddgenuserController extends GetxController {
     passwordController.clear();
   }
 
-  Stream<List<GeneralUserModel>> getAllgeneralUsers() =>
-      collectionReference.snapshots().map((query) =>
-          query.docs.map((item) => GeneralUserModel.fromJson(item)).toList());
-
   void deleteData(String docId) {
     CustomFullScreenDialog.showDialog();
     collectionReference.doc(docId).delete().whenComplete(() {
@@ -170,15 +177,30 @@ class AdminAddgenuserController extends GetxController {
     });
   }
 
+  // void searchgeneraluser(String searchQuery) {
+  //   if (searchQuery.isEmpty) {
+  //     foundgeneraluser.assignAll(generalusers.toList());
+  //   } else {
+  //     List<GeneralUserModel> results = generalusers
+  //         .where((element) =>
+  //             element.name!.toLowerCase().contains(searchQuery.toLowerCase()))
+  //         .toList();
+  //     foundgeneraluser.assignAll(results);
+  //   }
+  // }
+
   void searchgeneraluser(String searchQuery) {
+    List<GeneralUserModel> results;
     if (searchQuery.isEmpty) {
-      foundgeneraluser.assignAll(generalusers.toList());
+      results = generalusers;
     } else {
-      List<GeneralUserModel> results = generalusers
-          .where((element) =>
-              element.name!.toLowerCase().contains(searchQuery.toLowerCase()))
+      results = generalusers
+          .where((element) => element.name
+              .toString()
+              .toLowerCase()
+              .contains(searchQuery.toLowerCase()))
           .toList();
-      foundgeneraluser.assignAll(results);
     }
+    foundgeneraluser.value = results;
   }
 }

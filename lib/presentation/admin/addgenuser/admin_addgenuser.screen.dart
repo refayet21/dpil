@@ -38,106 +38,222 @@ class AdminAddgenuserScreen extends GetView<AdminAddgenuserController> {
           SizedBox(
             height: 10.h,
           ),
+          // Expanded(
+          //   child: Obx(
+          //     () {
+          //       // Sort the list by name
+          //       controller.foundgeneraluser
+          //           .sort((a, b) => a.name!.compareTo(b.name!));
+
+          //       return ListView.builder(
+          //         itemCount: controller.foundgeneraluser.length,
+          //         itemBuilder: (context, index) => Card(
+          //           color: Colors.grey.shade200,
+          //           child: ListTile(
+          //             title: Text(
+          //               'Name : ${controller.foundgeneraluser[index].name!}',
+          //               style: TextStyle(
+          //                   fontSize: 16.sp,
+          //                   fontWeight: FontWeight.w600,
+          //                   color: Colors.black),
+          //             ),
+          //             subtitle: Column(
+          //               mainAxisAlignment: MainAxisAlignment.start,
+          //               crossAxisAlignment: CrossAxisAlignment.start,
+          //               children: [
+          //                 SizedBox(
+          //                   height: 3.h,
+          //                 ),
+          //                 Text(
+          //                   'Address :${controller.foundgeneraluser[index].address!}',
+          //                   style: TextStyle(
+          //                       fontSize: 14.sp,
+          //                       fontWeight: FontWeight.w600,
+          //                       color: Colors.black),
+          //                 ),
+          //                 SizedBox(
+          //                   height: 3.h,
+          //                 ),
+          //                 Text(
+          //                   'Mobile : ${controller.foundgeneraluser[index].mobile!}',
+          //                   style: TextStyle(
+          //                       fontSize: 14.sp,
+          //                       fontWeight: FontWeight.w600,
+          //                       color: Colors.black),
+          //                 ),
+          //                 SizedBox(
+          //                   height: 3.h,
+          //                 ),
+          //                 Text(
+          //                   'Email : ${controller.foundgeneraluser[index].email!}',
+          //                   style: TextStyle(
+          //                       fontSize: 14.sp,
+          //                       fontWeight: FontWeight.w600,
+          //                       color: Colors.black),
+          //                 ),
+          //                 SizedBox(
+          //                   height: 3.h,
+          //                 ),
+          //                 Text(
+          //                   'Password : ${controller.foundgeneraluser[index].password!}',
+          //                   style: TextStyle(
+          //                       fontSize: 14.sp,
+          //                       fontWeight: FontWeight.w600,
+          //                       color: Colors.black),
+          //                 ),
+          //               ],
+          //             ),
+          //             leading: CircleAvatar(
+          //               child: Text(
+          //                 controller.foundgeneraluser[index].name!
+          //                     .substring(0, 1)
+          //                     .capitalize!,
+          //                 style: TextStyle(
+          //                     fontWeight: FontWeight.w700, color: Colors.black),
+          //               ),
+          //               backgroundColor: Colors.blue.shade200,
+          //             ),
+          //             trailing: IconButton(
+          //               icon: Icon(
+          //                 Icons.delete_forever,
+          //                 color: Colors.red,
+          //               ),
+          //               onPressed: () {
+          //                 displayDeleteDialog(
+          //                     controller.foundgeneraluser[index].docId!);
+          //               },
+          //             ),
+          //             onTap: () {
+          //               controller.nameController.text =
+          //                   controller.foundgeneraluser[index].name!;
+          //               controller.addressController.text =
+          //                   controller.foundgeneraluser[index].address!;
+          //               controller.mobileController.text =
+          //                   controller.foundgeneraluser[index].mobile!;
+          //               controller.emailController.text =
+          //                   controller.foundgeneraluser[index].email!;
+          //               controller.passwordController.text =
+          //                   controller.foundgeneraluser[index].password!;
+
+          //               _buildAddEditGeneralUserView(
+          //                   text: 'UPDATE',
+          //                   addEditFlag: 2,
+          //                   docId: controller.foundgeneraluser[index].docId!);
+          //             },
+          //           ),
+          //         ),
+          //       );
+          //     },
+          //   ),
+          // ),
+
           Expanded(
             child: Obx(
-              () => ListView.builder(
-                itemCount: controller.foundgeneraluser.length,
-                itemBuilder: (context, index) => Card(
-                  color: Colors.grey.shade200,
-                  child: ListTile(
-                    title: Text(
-                      'Name : ${controller.foundgeneraluser[index].name!}',
-                      style: TextStyle(
+              () {
+                // Sort founddouser list by name
+                controller.foundgeneraluser
+                    .sort((a, b) => a.name!.compareTo(b.name!));
+
+                return ListView.builder(
+                  itemCount: controller.foundgeneraluser.length,
+                  itemBuilder: (context, index) => Card(
+                    color: Colors.grey.shade200,
+                    child: ListTile(
+                      title: Text(
+                        'Name : ${controller.foundgeneraluser[index].name!}',
+                        style: TextStyle(
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w600,
-                          color: Colors.black),
-                    ),
-                    subtitle: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          height: 3.h,
+                          color: Colors.black,
                         ),
-                        Text(
-                          'Address :${controller.foundgeneraluser[index].address!}',
-                          style: TextStyle(
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.black),
-                        ),
-                        SizedBox(
-                          height: 3.h,
-                        ),
-                        Text(
-                          'Mobile : ${controller.foundgeneraluser[index].mobile!}',
-                          style: TextStyle(
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.black),
-                        ),
-                        SizedBox(
-                          height: 3.h,
-                        ),
-                        Text(
-                          'Email : ${controller.foundgeneraluser[index].email!}',
-                          style: TextStyle(
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.black),
-                        ),
-                        SizedBox(
-                          height: 3.h,
-                        ),
-                        Text(
-                          'Password : ${controller.foundgeneraluser[index].password!}',
-                          style: TextStyle(
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.black),
-                        ),
-                      ],
-                    ),
-                    leading: CircleAvatar(
-                      child: Text(
-                        controller.foundgeneraluser[index].name!
-                            .substring(0, 1)
-                            .capitalize!,
-                        style: TextStyle(
-                            fontWeight: FontWeight.w700, color: Colors.black),
                       ),
-                      backgroundColor: Colors.blue.shade200,
-                    ),
-                    trailing: IconButton(
-                      icon: Icon(
-                        Icons.delete_forever,
-                        color: Colors.red,
+                      subtitle: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(height: 3.h),
+                          Text(
+                            'Address :${controller.foundgeneraluser[index].address!}',
+                            style: TextStyle(
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black,
+                            ),
+                          ),
+                          SizedBox(height: 3.h),
+                          Text(
+                            'Mobile : ${controller.foundgeneraluser[index].mobile!}',
+                            style: TextStyle(
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black,
+                            ),
+                          ),
+                          SizedBox(height: 3.h),
+                          Text(
+                            'Email : ${controller.foundgeneraluser[index].email!}',
+                            style: TextStyle(
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black,
+                            ),
+                          ),
+                          SizedBox(height: 3.h),
+                          Text(
+                            'Password : ${controller.foundgeneraluser[index].password!}',
+                            style: TextStyle(
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ],
                       ),
-                      onPressed: () {
-                        displayDeleteDialog(
-                            controller.foundgeneraluser[index].docId!);
-                      },
-                    ),
-                    onTap: () {
-                      controller.nameController.text =
-                          controller.foundgeneraluser[index].name!;
-                      controller.addressController.text =
-                          controller.foundgeneraluser[index].address!;
-                      controller.mobileController.text =
-                          controller.foundgeneraluser[index].mobile!;
-                      controller.emailController.text =
-                          controller.foundgeneraluser[index].email!;
-                      controller.passwordController.text =
-                          controller.foundgeneraluser[index].password!;
+                      leading: CircleAvatar(
+                        child: Text(
+                          controller.foundgeneraluser[index].name!
+                              .substring(0, 1)
+                              .capitalize!,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w700,
+                            color: Colors.black,
+                          ),
+                        ),
+                        backgroundColor: Colors.blue.shade200,
+                      ),
+                      trailing: IconButton(
+                        icon: Icon(
+                          Icons.delete_forever,
+                          color: Colors.red,
+                        ),
+                        onPressed: () {
+                          displayDeleteDialog(
+                            controller.foundgeneraluser[index].docId!,
+                          );
+                        },
+                      ),
+                      onTap: () {
+                        controller.nameController.text =
+                            controller.foundgeneraluser[index].name!;
+                        controller.addressController.text =
+                            controller.foundgeneraluser[index].address!;
+                        controller.mobileController.text =
+                            controller.foundgeneraluser[index].mobile!;
+                        controller.emailController.text =
+                            controller.foundgeneraluser[index].email!;
+                        controller.passwordController.text =
+                            controller.foundgeneraluser[index].password!;
 
-                      _buildAddEditGeneralUserView(
+                        _buildAddEditGeneralUserView(
                           text: 'UPDATE',
                           addEditFlag: 2,
-                          docId: controller.foundgeneraluser[index].docId!);
-                    },
+                          docId: controller.foundgeneraluser[index].docId!,
+                        );
+                      },
+                    ),
                   ),
-                ),
-              ),
+                );
+              },
             ),
           ),
         ],
