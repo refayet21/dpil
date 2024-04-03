@@ -257,8 +257,15 @@ class AdminAddproductController extends GetxController {
     checkoutController = TextEditingController();
     bookedController = TextEditingController();
     collectionReference = firebaseFirestore.collection("products");
-    Products.bindStream(getAllProducts());
-    foundProduct = Products;
+    // Products.bindStream(getAllProducts());
+    // foundProduct = Products;
+    getAllProducts().listen((products) {
+      Products.assignAll(products);
+      foundProduct.assignAll(Products);
+
+      // Print foundProduct after it's assigned
+      // print(foundProduct);
+    });
   }
 
   String? validateName(String value) {
@@ -456,14 +463,26 @@ class AdminAddproductController extends GetxController {
     });
   }
 
-  void searchProduct(String searchQuery) {
-    if (searchQuery.isEmpty) {
-      foundProduct.assignAll(Products.toList());
+  // void searchProduct(String searchQuery) {
+  //   if (searchQuery.isEmpty) {
+  //     foundProduct.assignAll(Products.toList());
+  //   } else {
+  //     List<ProductModel> results = Products.where((element) =>
+  //             element.name!.toLowerCase().contains(searchQuery.toLowerCase()))
+  //         .toList();
+  //     foundProduct.assignAll(results);
+  //   }
+  // }
+  void searchProduct(String productName) {
+    List<ProductModel> results;
+    if (productName.isEmpty) {
+      results = Products;
     } else {
-      List<ProductModel> results = Products.where((element) =>
-              element.name!.toLowerCase().contains(searchQuery.toLowerCase()))
-          .toList();
-      foundProduct.assignAll(results);
+      results = Products.where((element) => element.name
+          .toString()
+          .toLowerCase()
+          .contains(productName.toLowerCase())).toList();
     }
+    foundProduct.value = results;
   }
 }

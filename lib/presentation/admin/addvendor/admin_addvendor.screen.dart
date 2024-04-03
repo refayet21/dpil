@@ -39,55 +39,107 @@ class AdminAddvendorScreen extends GetView<AdminAddvendorController> {
             height: 10.h,
           ),
           Expanded(
-            child: Obx(
-              () => ListView.builder(
+            child: Obx(() {
+              // Sort vendors by name
+              controller.foundVendor.sort((a, b) => a.name!.compareTo(b.name!));
+
+              return ListView.builder(
                 itemCount: controller.foundVendor.length,
                 itemBuilder: (context, index) => Card(
                   color: Colors.grey.shade200,
                   child: ListTile(
                     title: Text(
-                      'Name: ${controller.foundVendor[index].name!}',
+                      'Name : ${controller.foundVendor[index].name!}',
                       style: TextStyle(
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.black),
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black,
+                      ),
                     ),
                     subtitle: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(
-                          height: 3.h,
-                        ),
+                        SizedBox(height: 3.h),
                         Text(
-                          'Address: ${controller.foundVendor[index].address!}',
+                          'Address :${controller.foundVendor[index].address!}',
                           style: TextStyle(
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.black),
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black,
+                          ),
                         ),
-                        SizedBox(
-                          height: 3.h,
-                        ),
+                        SizedBox(height: 3.h),
                         Text(
-                          'Contact Person: ${controller.foundVendor[index].contactperson!}',
+                          'Contact Person :${controller.foundVendor[index].contactperson!}',
                           style: TextStyle(
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.black),
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black,
+                          ),
                         ),
-                        SizedBox(
-                          height: 3.h,
-                        ),
+                        SizedBox(height: 3.h),
                         Text(
-                          'Mobile: ${controller.foundVendor[index].mobile!}',
+                          'Mobile : ${controller.foundVendor[index].mobile!}',
                           style: TextStyle(
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.black),
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black,
+                          ),
                         ),
                       ],
                     ),
+
+                    // Expanded(
+                    //   child: Obx(
+                    //     () => ListView.builder(
+                    //       itemCount: controller.foundVendor.length,
+                    //       itemBuilder: (context, index) => Card(
+                    //         color: Colors.grey.shade200,
+                    //         child: ListTile(
+                    //           title: Text(
+                    //             'Name: ${controller.foundVendor[index].name!}',
+                    //             style: TextStyle(
+                    //                 fontSize: 16.sp,
+                    //                 fontWeight: FontWeight.w600,
+                    //                 color: Colors.black),
+                    //           ),
+                    //           subtitle: Column(
+                    //             mainAxisAlignment: MainAxisAlignment.start,
+                    //             crossAxisAlignment: CrossAxisAlignment.start,
+                    //             children: [
+                    //               SizedBox(
+                    //                 height: 3.h,
+                    //               ),
+                    //               Text(
+                    //                 'Address: ${controller.foundVendor[index].address!}',
+                    //                 style: TextStyle(
+                    //                     fontSize: 14.sp,
+                    //                     fontWeight: FontWeight.w600,
+                    //                     color: Colors.black),
+                    //               ),
+                    //               SizedBox(
+                    //                 height: 3.h,
+                    //               ),
+                    //               Text(
+                    //                 'Contact Person: ${controller.foundVendor[index].contactperson!}',
+                    //                 style: TextStyle(
+                    //                     fontSize: 14.sp,
+                    //                     fontWeight: FontWeight.w600,
+                    //                     color: Colors.black),
+                    //               ),
+                    //               SizedBox(
+                    //                 height: 3.h,
+                    //               ),
+                    //               Text(
+                    //                 'Mobile: ${controller.foundVendor[index].mobile!}',
+                    //                 style: TextStyle(
+                    //                     fontSize: 14.sp,
+                    //                     fontWeight: FontWeight.w600,
+                    //                     color: Colors.black),
+                    //               ),
+                    //             ],
+                    //           ),
                     leading: CircleAvatar(
                       child: Text(
                         controller.foundVendor[index].name!
@@ -125,8 +177,8 @@ class AdminAddvendorScreen extends GetView<AdminAddvendorController> {
                     },
                   ),
                 ),
-              ),
-            ),
+              );
+            }),
           ),
         ],
       ),

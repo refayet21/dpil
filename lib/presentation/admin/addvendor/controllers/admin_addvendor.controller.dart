@@ -28,8 +28,14 @@ class AdminAddvendorController extends GetxController {
     contactpersonController = TextEditingController();
     mobileController = TextEditingController();
     collectionReference = firebaseFirestore.collection("Vendors");
-    vendors.bindStream(getAllVendors());
-    foundVendor = vendors;
+    // vendors.bindStream(getAllVendors());
+    // foundVendor = vendors;
+
+    getAllVendors().listen((vendor) {
+      vendors.assignAll(vendor);
+      foundVendor.assignAll(vendors);
+      // print(findvendors);
+    });
   }
 
   String? validateName(String value) {
@@ -163,15 +169,30 @@ class AdminAddvendorController extends GetxController {
     });
   }
 
-  void searchVendor(String searchQuery) {
-    if (searchQuery.isEmpty) {
-      foundVendor.assignAll(vendors.toList());
+  // void searchVendor(String searchQuery) {
+  //   if (searchQuery.isEmpty) {
+  //     foundVendor.assignAll(vendors.toList());
+  //   } else {
+  //     List<VendorModel> results = vendors
+  //         .where((element) =>
+  //             element.name!.toLowerCase().contains(searchQuery.toLowerCase()))
+  //         .toList();
+  //     foundVendor.assignAll(results);
+  //   }
+  // }
+
+  void searchVendor(String vendor) {
+    List<VendorModel> results;
+    if (vendor.isEmpty) {
+      results = vendors;
     } else {
-      List<VendorModel> results = vendors
-          .where((element) =>
-              element.name!.toLowerCase().contains(searchQuery.toLowerCase()))
+      results = vendors
+          .where((element) => element.name
+              .toString()
+              .toLowerCase()
+              .contains(vendor.toLowerCase()))
           .toList();
-      foundVendor.assignAll(results);
     }
+    foundVendor.value = results;
   }
 }
