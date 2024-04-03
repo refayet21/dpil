@@ -195,7 +195,7 @@ class AdminDoController extends GetxController {
                 mainAxisAlignment: pw.MainAxisAlignment.end,
                 children: [
                   pw.Text(
-                    'In words: ${NumberToWords.convert(totalinword)}',
+                    'In words: ${NumberToWords.convert(totalinword)} taka',
                     style: pw.TextStyle(
                       fontSize: 11.0,
                     ),
