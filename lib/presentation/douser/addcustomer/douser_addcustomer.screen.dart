@@ -38,94 +38,193 @@ class DouserAddcustomerScreen extends GetView<DouserAddcustomerController> {
           SizedBox(
             height: 10.h,
           ),
+          // Expanded(
+          //   child: Obx(
+          //     () => ListView.builder(
+          //       itemCount: controller.findvendors.length,
+          //       itemBuilder: (context, index) => Card(
+          //         color: Colors.grey.shade200,
+          //         child: ListTile(
+          //           title: Text(
+          //             'Name : ${controller.findvendors[index].name!}',
+          //             style: TextStyle(
+          //                 fontSize: 16.sp,
+          //                 fontWeight: FontWeight.w600,
+          //                 color: Colors.black),
+          //           ),
+          //           subtitle: Column(
+          //             mainAxisAlignment: MainAxisAlignment.start,
+          //             crossAxisAlignment: CrossAxisAlignment.start,
+          //             children: [
+          //               SizedBox(
+          //                 height: 3.h,
+          //               ),
+          //               Text(
+          //                 'Address :${controller.findvendors[index].address!}',
+          //                 style: TextStyle(
+          //                     fontSize: 14.sp,
+          //                     fontWeight: FontWeight.w600,
+          //                     color: Colors.black),
+          //               ),
+          //               SizedBox(
+          //                 height: 3.h,
+          //               ),
+          //               Text(
+          //                 'Contact Person :${controller.findvendors[index].contactperson!}',
+          //                 style: TextStyle(
+          //                     fontSize: 14.sp,
+          //                     fontWeight: FontWeight.w600,
+          //                     color: Colors.black),
+          //               ),
+          //               SizedBox(
+          //                 height: 3.h,
+          //               ),
+          //               Text(
+          //                 'Mobile : ${controller.findvendors[index].mobile!}',
+          //                 style: TextStyle(
+          //                     fontSize: 14.sp,
+          //                     fontWeight: FontWeight.w600,
+          //                     color: Colors.black),
+          //               ),
+          //             ],
+          //           ),
+          //           leading: CircleAvatar(
+          //             child: Text(
+          //               controller.findvendors[index].name!
+          //                   .substring(0, 1)
+          //                   .capitalize!,
+          //               style: TextStyle(
+          //                   fontWeight: FontWeight.w700, color: Colors.black),
+          //             ),
+          //             backgroundColor: Colors.blue.shade200,
+          //           ),
+          //           trailing: IconButton(
+          //             icon: Icon(
+          //               Icons.delete_forever,
+          //               color: Colors.red,
+          //             ),
+          //             onPressed: () {
+          //               displayDeleteDialog(
+          //                   controller.findvendors[index].docId!);
+          //             },
+          //           ),
+          //           onTap: () {
+          //             controller.nameController.text =
+          //                 controller.findvendors[index].name!;
+          //             controller.addressController.text =
+          //                 controller.findvendors[index].address!;
+          //             controller.contactpersonController.text =
+          //                 controller.findvendors[index].contactperson!;
+          //             controller.mobileController.text =
+          //                 controller.findvendors[index].mobile!;
+
+          //             _buildAddEditVendorView(
+          //                 text: 'UPDATE',
+          //                 addEditFlag: 2,
+          //                 docId: controller.findvendors[index].docId!);
+          //           },
+          //         ),
+          //       ),
+          //     ),
+          //   ),
+          // ),
+
           Expanded(
             child: Obx(
-              () => ListView.builder(
-                itemCount: controller.findvendors.length,
-                itemBuilder: (context, index) => Card(
-                  color: Colors.grey.shade200,
-                  child: ListTile(
-                    title: Text(
-                      'Name : ${controller.findvendors[index].name!}',
-                      style: TextStyle(
+              () {
+                // Sort vendors by name
+                controller.findvendors
+                    .sort((a, b) => a.name!.compareTo(b.name!));
+
+                return ListView.builder(
+                  itemCount: controller.findvendors.length,
+                  itemBuilder: (context, index) => Card(
+                    color: Colors.grey.shade200,
+                    child: ListTile(
+                      title: Text(
+                        'Name : ${controller.findvendors[index].name!}',
+                        style: TextStyle(
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w600,
-                          color: Colors.black),
-                    ),
-                    subtitle: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          height: 3.h,
+                          color: Colors.black,
                         ),
-                        Text(
-                          'Address :${controller.findvendors[index].address!}',
-                          style: TextStyle(
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.black),
-                        ),
-                        SizedBox(
-                          height: 3.h,
-                        ),
-                        Text(
-                          'Contact Person :${controller.findvendors[index].contactperson!}',
-                          style: TextStyle(
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.black),
-                        ),
-                        SizedBox(
-                          height: 3.h,
-                        ),
-                        Text(
-                          'Mobile : ${controller.findvendors[index].mobile!}',
-                          style: TextStyle(
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.black),
-                        ),
-                      ],
-                    ),
-                    leading: CircleAvatar(
-                      child: Text(
-                        controller.findvendors[index].name!
-                            .substring(0, 1)
-                            .capitalize!,
-                        style: TextStyle(
-                            fontWeight: FontWeight.w700, color: Colors.black),
                       ),
-                      backgroundColor: Colors.blue.shade200,
-                    ),
-                    trailing: IconButton(
-                      icon: Icon(
-                        Icons.delete_forever,
-                        color: Colors.red,
+                      subtitle: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(height: 3.h),
+                          Text(
+                            'Address :${controller.findvendors[index].address!}',
+                            style: TextStyle(
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black,
+                            ),
+                          ),
+                          SizedBox(height: 3.h),
+                          Text(
+                            'Contact Person :${controller.findvendors[index].contactperson!}',
+                            style: TextStyle(
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black,
+                            ),
+                          ),
+                          SizedBox(height: 3.h),
+                          Text(
+                            'Mobile : ${controller.findvendors[index].mobile!}',
+                            style: TextStyle(
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ],
                       ),
-                      onPressed: () {
-                        displayDeleteDialog(
-                            controller.findvendors[index].docId!);
-                      },
-                    ),
-                    onTap: () {
-                      controller.nameController.text =
-                          controller.findvendors[index].name!;
-                      controller.addressController.text =
-                          controller.findvendors[index].address!;
-                      controller.contactpersonController.text =
-                          controller.findvendors[index].contactperson!;
-                      controller.mobileController.text =
-                          controller.findvendors[index].mobile!;
+                      leading: CircleAvatar(
+                        child: Text(
+                          controller.findvendors[index].name!
+                              .substring(0, 1)
+                              .capitalize!,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w700,
+                            color: Colors.black,
+                          ),
+                        ),
+                        backgroundColor: Colors.blue.shade200,
+                      ),
+                      trailing: IconButton(
+                        icon: Icon(
+                          Icons.delete_forever,
+                          color: Colors.red,
+                        ),
+                        onPressed: () {
+                          displayDeleteDialog(
+                            controller.findvendors[index].docId!,
+                          );
+                        },
+                      ),
+                      onTap: () {
+                        controller.nameController.text =
+                            controller.findvendors[index].name!;
+                        controller.addressController.text =
+                            controller.findvendors[index].address!;
+                        controller.contactpersonController.text =
+                            controller.findvendors[index].contactperson!;
+                        controller.mobileController.text =
+                            controller.findvendors[index].mobile!;
 
-                      _buildAddEditVendorView(
+                        _buildAddEditVendorView(
                           text: 'UPDATE',
                           addEditFlag: 2,
-                          docId: controller.findvendors[index].docId!);
-                    },
+                          docId: controller.findvendors[index].docId!,
+                        );
+                      },
+                    ),
                   ),
-                ),
-              ),
+                );
+              },
             ),
           ),
         ],
