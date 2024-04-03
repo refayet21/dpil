@@ -93,7 +93,7 @@ class AdminPreviewdoScreen extends GetView<AdminPreviewdoController> {
                         controller.dousers[index]['contactPerson'],
                         controller.dousers[index]['vendorMobile'],
                         convertedList,
-                        convertedList,
+                        // convertedList,
                         controller.dousers[index]['totalInWord'],
                         controller.dousers[index]['deliveryDate'],
                       );

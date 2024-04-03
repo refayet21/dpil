@@ -11,14 +11,15 @@ class DouserAddcustomerController extends GetxController {
       addressController,
       contactpersonController,
       mobileController;
-  RxList<VendorModel> foundVendor = RxList<VendorModel>([]);
+  RxList<VendorModel> vendors = RxList<VendorModel>([]);
+  RxList<VendorModel> findvendors = RxList<VendorModel>([]);
 
   // Firestore operation
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
   late CollectionReference collectionReference;
 
-  RxList<VendorModel> vendors = RxList<VendorModel>([]);
+  // RxList<VendorModel> vendors = RxList<VendorModel>([]);
 
   @override
   void onInit() {
@@ -28,9 +29,11 @@ class DouserAddcustomerController extends GetxController {
     contactpersonController = TextEditingController();
     mobileController = TextEditingController();
     collectionReference = firebaseFirestore.collection("Vendors");
-    vendors.bindStream(getAllVendors());
-    foundVendor = vendors;
-    print('foundVendor is ${foundVendor.value}');
+    getAllVendors().listen((vendor) {
+      vendors.assignAll(vendor);
+      findvendors.assignAll(vendors);
+      print(findvendors);
+    });
   }
 
   String? validateName(String value) {
@@ -164,15 +167,30 @@ class DouserAddcustomerController extends GetxController {
     });
   }
 
-  void searchVendor(String searchQuery) {
-    if (searchQuery.isEmpty) {
-      foundVendor.assignAll(vendors.toList());
+  // void searchVendor(String searchQuery) {
+  //   if (searchQuery.isEmpty) {
+  //     foundVendor.assignAll(vendors.toList());
+  //   } else {
+  //     List<VendorModel> results = vendors
+  //         .where((element) =>
+  //             element.name!.toLowerCase().contains(searchQuery.toLowerCase()))
+  //         .toList();
+  //     foundVendor.assignAll(results);
+  //   }
+  // }
+
+  void filterVendors(String vendor) {
+    List<VendorModel> results;
+    if (vendor.isEmpty) {
+      results = vendors;
     } else {
-      List<VendorModel> results = vendors
-          .where((element) =>
-              element.name!.toLowerCase().contains(searchQuery.toLowerCase()))
+      results = vendors
+          .where((element) => element.name
+              .toString()
+              .toLowerCase()
+              .contains(vendor.toLowerCase()))
           .toList();
-      foundVendor.assignAll(results);
     }
+    findvendors.value = results;
   }
 }

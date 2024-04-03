@@ -432,33 +432,18 @@ class DouserProductcartController extends GetxController {
   //   }
   // }
 
-  void searchProduct(String playerName) {
+  void searchProduct(String productName) {
     List<ProductModel> results;
-    if (playerName.isEmpty) {
+    if (productName.isEmpty) {
       results = productModel2;
     } else {
       results = productModel2
           .where((element) => element.name
               .toString()
               .toLowerCase()
-              .contains(playerName.toLowerCase()))
+              .contains(productName.toLowerCase()))
           .toList();
     }
     foundProduct.value = results;
-  }
-
-  void filterVendors(String vendor) {
-    List<VendorModel> results;
-    if (vendor.isEmpty) {
-      results = vendors;
-    } else {
-      results = vendors
-          .where((element) => element.name
-              .toString()
-              .toLowerCase()
-              .contains(vendor.toLowerCase()))
-          .toList();
-    }
-    findvendors.value = results;
   }
 }

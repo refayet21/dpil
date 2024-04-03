@@ -25,7 +25,7 @@ class DouserAddcustomerScreen extends GetView<DouserAddcustomerController> {
           Padding(
             padding: EdgeInsets.all(8.0.r),
             child: TextField(
-              onChanged: (value) => controller.searchVendor(value),
+              onChanged: (value) => controller.filterVendors(value),
               decoration: InputDecoration(
                 hintText: "Search",
                 prefixIcon: Icon(Icons.search),
@@ -41,12 +41,12 @@ class DouserAddcustomerScreen extends GetView<DouserAddcustomerController> {
           Expanded(
             child: Obx(
               () => ListView.builder(
-                itemCount: controller.foundVendor.length,
+                itemCount: controller.findvendors.length,
                 itemBuilder: (context, index) => Card(
                   color: Colors.grey.shade200,
                   child: ListTile(
                     title: Text(
-                      'Name : ${controller.foundVendor[index].name!}',
+                      'Name : ${controller.findvendors[index].name!}',
                       style: TextStyle(
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w600,
@@ -60,7 +60,7 @@ class DouserAddcustomerScreen extends GetView<DouserAddcustomerController> {
                           height: 3.h,
                         ),
                         Text(
-                          'Address :${controller.foundVendor[index].address!}',
+                          'Address :${controller.findvendors[index].address!}',
                           style: TextStyle(
                               fontSize: 14.sp,
                               fontWeight: FontWeight.w600,
@@ -70,7 +70,7 @@ class DouserAddcustomerScreen extends GetView<DouserAddcustomerController> {
                           height: 3.h,
                         ),
                         Text(
-                          'Contact Person :${controller.foundVendor[index].contactperson!}',
+                          'Contact Person :${controller.findvendors[index].contactperson!}',
                           style: TextStyle(
                               fontSize: 14.sp,
                               fontWeight: FontWeight.w600,
@@ -80,7 +80,7 @@ class DouserAddcustomerScreen extends GetView<DouserAddcustomerController> {
                           height: 3.h,
                         ),
                         Text(
-                          'Mobile : ${controller.foundVendor[index].mobile!}',
+                          'Mobile : ${controller.findvendors[index].mobile!}',
                           style: TextStyle(
                               fontSize: 14.sp,
                               fontWeight: FontWeight.w600,
@@ -90,7 +90,7 @@ class DouserAddcustomerScreen extends GetView<DouserAddcustomerController> {
                     ),
                     leading: CircleAvatar(
                       child: Text(
-                        controller.foundVendor[index].name!
+                        controller.findvendors[index].name!
                             .substring(0, 1)
                             .capitalize!,
                         style: TextStyle(
@@ -105,23 +105,23 @@ class DouserAddcustomerScreen extends GetView<DouserAddcustomerController> {
                       ),
                       onPressed: () {
                         displayDeleteDialog(
-                            controller.foundVendor[index].docId!);
+                            controller.findvendors[index].docId!);
                       },
                     ),
                     onTap: () {
                       controller.nameController.text =
-                          controller.foundVendor[index].name!;
+                          controller.findvendors[index].name!;
                       controller.addressController.text =
-                          controller.foundVendor[index].address!;
+                          controller.findvendors[index].address!;
                       controller.contactpersonController.text =
-                          controller.foundVendor[index].contactperson!;
+                          controller.findvendors[index].contactperson!;
                       controller.mobileController.text =
-                          controller.foundVendor[index].mobile!;
+                          controller.findvendors[index].mobile!;
 
                       _buildAddEditVendorView(
                           text: 'UPDATE',
                           addEditFlag: 2,
-                          docId: controller.foundVendor[index].docId!);
+                          docId: controller.findvendors[index].docId!);
                     },
                   ),
                 ),
