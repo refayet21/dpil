@@ -38,106 +38,216 @@ class AdminAdddouserScreen extends GetView<AdminAdddouserController> {
           SizedBox(
             height: 10.h,
           ),
+          // Expanded(
+          //   child: Obx(
+          //     () => ListView.builder(
+          //       itemCount: controller.founddouser.length,
+          //       itemBuilder: (context, index) => Card(
+          //         color: Colors.grey.shade200,
+          //         child: ListTile(
+          //           title: Text(
+          //             'Name : ${controller.founddouser[index].name!}',
+          //             style: TextStyle(
+          //                 fontSize: 16.sp,
+          //                 fontWeight: FontWeight.w600,
+          //                 color: Colors.black),
+          //           ),
+          //           subtitle: Column(
+          //             mainAxisAlignment: MainAxisAlignment.start,
+          //             crossAxisAlignment: CrossAxisAlignment.start,
+          //             children: [
+          //               SizedBox(
+          //                 height: 3.h,
+          //               ),
+          //               Text(
+          //                 'Address :${controller.founddouser[index].address!}',
+          //                 style: TextStyle(
+          //                     fontSize: 14.sp,
+          //                     fontWeight: FontWeight.w600,
+          //                     color: Colors.black),
+          //               ),
+          //               SizedBox(
+          //                 height: 3.h,
+          //               ),
+          //               Text(
+          //                 'Mobile : ${controller.founddouser[index].mobile!}',
+          //                 style: TextStyle(
+          //                     fontSize: 14.sp,
+          //                     fontWeight: FontWeight.w600,
+          //                     color: Colors.black),
+          //               ),
+          //               SizedBox(
+          //                 height: 3.h,
+          //               ),
+          //               Text(
+          //                 'Email : ${controller.founddouser[index].email!}',
+          //                 style: TextStyle(
+          //                     fontSize: 14.sp,
+          //                     fontWeight: FontWeight.w600,
+          //                     color: Colors.black),
+          //               ),
+          //               SizedBox(
+          //                 height: 3.h,
+          //               ),
+          //               Text(
+          //                 'Password : ${controller.founddouser[index].password!}',
+          //                 style: TextStyle(
+          //                     fontSize: 14.sp,
+          //                     fontWeight: FontWeight.w600,
+          //                     color: Colors.black),
+          //               ),
+          //             ],
+          //           ),
+          //           leading: CircleAvatar(
+          //             child: Text(
+          //               controller.founddouser[index].name!
+          //                   .substring(0, 1)
+          //                   .capitalize!,
+          //               style: TextStyle(
+          //                   fontWeight: FontWeight.w700, color: Colors.black),
+          //             ),
+          //             backgroundColor: Colors.blue.shade200,
+          //           ),
+          //           trailing: IconButton(
+          //             icon: Icon(
+          //               Icons.delete_forever,
+          //               color: Colors.red,
+          //             ),
+          //             onPressed: () {
+          //               displayDeleteDialog(
+          //                   controller.founddouser[index].docId!);
+          //             },
+          //           ),
+          //           onTap: () {
+          //             controller.nameController.text =
+          //                 controller.founddouser[index].name!;
+          //             controller.addressController.text =
+          //                 controller.founddouser[index].address!;
+          //             controller.mobileController.text =
+          //                 controller.founddouser[index].mobile!;
+          //             controller.emailController.text =
+          //                 controller.founddouser[index].email!;
+          //             controller.passwordController.text =
+          //                 controller.founddouser[index].password!;
+
+          //             _buildAddEditdoUserView(
+          //                 text: 'UPDATE',
+          //                 addEditFlag: 2,
+          //                 docId: controller.founddouser[index].docId!);
+          //           },
+          //         ),
+          //       ),
+          //     ),
+          //   ),
+          // ),
+
           Expanded(
             child: Obx(
-              () => ListView.builder(
-                itemCount: controller.founddouser.length,
-                itemBuilder: (context, index) => Card(
-                  color: Colors.grey.shade200,
-                  child: ListTile(
-                    title: Text(
-                      'Name : ${controller.founddouser[index].name!}',
-                      style: TextStyle(
+              () {
+                // Sort founddouser list by name
+                controller.founddouser
+                    .sort((a, b) => a.name!.compareTo(b.name!));
+
+                return ListView.builder(
+                  itemCount: controller.founddouser.length,
+                  itemBuilder: (context, index) => Card(
+                    color: Colors.grey.shade200,
+                    child: ListTile(
+                      title: Text(
+                        'Name : ${controller.founddouser[index].name!}',
+                        style: TextStyle(
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w600,
-                          color: Colors.black),
-                    ),
-                    subtitle: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          height: 3.h,
+                          color: Colors.black,
                         ),
-                        Text(
-                          'Address :${controller.founddouser[index].address!}',
-                          style: TextStyle(
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.black),
-                        ),
-                        SizedBox(
-                          height: 3.h,
-                        ),
-                        Text(
-                          'Mobile : ${controller.founddouser[index].mobile!}',
-                          style: TextStyle(
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.black),
-                        ),
-                        SizedBox(
-                          height: 3.h,
-                        ),
-                        Text(
-                          'Email : ${controller.founddouser[index].email!}',
-                          style: TextStyle(
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.black),
-                        ),
-                        SizedBox(
-                          height: 3.h,
-                        ),
-                        Text(
-                          'Password : ${controller.founddouser[index].password!}',
-                          style: TextStyle(
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.black),
-                        ),
-                      ],
-                    ),
-                    leading: CircleAvatar(
-                      child: Text(
-                        controller.founddouser[index].name!
-                            .substring(0, 1)
-                            .capitalize!,
-                        style: TextStyle(
-                            fontWeight: FontWeight.w700, color: Colors.black),
                       ),
-                      backgroundColor: Colors.blue.shade200,
-                    ),
-                    trailing: IconButton(
-                      icon: Icon(
-                        Icons.delete_forever,
-                        color: Colors.red,
+                      subtitle: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(height: 3.h),
+                          Text(
+                            'Address :${controller.founddouser[index].address!}',
+                            style: TextStyle(
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black,
+                            ),
+                          ),
+                          SizedBox(height: 3.h),
+                          Text(
+                            'Mobile : ${controller.founddouser[index].mobile!}',
+                            style: TextStyle(
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black,
+                            ),
+                          ),
+                          SizedBox(height: 3.h),
+                          Text(
+                            'Email : ${controller.founddouser[index].email!}',
+                            style: TextStyle(
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black,
+                            ),
+                          ),
+                          SizedBox(height: 3.h),
+                          Text(
+                            'Password : ${controller.founddouser[index].password!}',
+                            style: TextStyle(
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ],
                       ),
-                      onPressed: () {
-                        displayDeleteDialog(
-                            controller.founddouser[index].docId!);
-                      },
-                    ),
-                    onTap: () {
-                      controller.nameController.text =
-                          controller.founddouser[index].name!;
-                      controller.addressController.text =
-                          controller.founddouser[index].address!;
-                      controller.mobileController.text =
-                          controller.founddouser[index].mobile!;
-                      controller.emailController.text =
-                          controller.founddouser[index].email!;
-                      controller.passwordController.text =
-                          controller.founddouser[index].password!;
+                      leading: CircleAvatar(
+                        child: Text(
+                          controller.founddouser[index].name!
+                              .substring(0, 1)
+                              .capitalize!,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w700,
+                            color: Colors.black,
+                          ),
+                        ),
+                        backgroundColor: Colors.blue.shade200,
+                      ),
+                      trailing: IconButton(
+                        icon: Icon(
+                          Icons.delete_forever,
+                          color: Colors.red,
+                        ),
+                        onPressed: () {
+                          displayDeleteDialog(
+                            controller.founddouser[index].docId!,
+                          );
+                        },
+                      ),
+                      onTap: () {
+                        controller.nameController.text =
+                            controller.founddouser[index].name!;
+                        controller.addressController.text =
+                            controller.founddouser[index].address!;
+                        controller.mobileController.text =
+                            controller.founddouser[index].mobile!;
+                        controller.emailController.text =
+                            controller.founddouser[index].email!;
+                        controller.passwordController.text =
+                            controller.founddouser[index].password!;
 
-                      _buildAddEditdoUserView(
+                        _buildAddEditdoUserView(
                           text: 'UPDATE',
                           addEditFlag: 2,
-                          docId: controller.founddouser[index].docId!);
-                    },
+                          docId: controller.founddouser[index].docId!,
+                        );
+                      },
+                    ),
                   ),
-                ),
-              ),
+                );
+              },
             ),
           ),
         ],
