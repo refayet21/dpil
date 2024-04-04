@@ -93,7 +93,7 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
                     value: controller.selectedVendor.value,
                     // Inside the onChanged callback of DropdownButton2
                     onChanged: (value) {
-                      print('Selected value: $value');
+                      // print('Selected value: $value');
                       controller.updateSelectedVendor(value);
                     },
                     buttonStyleData: ButtonStyleData(
@@ -306,7 +306,7 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
                     // Rest of your code...
                   } else {
                     // If no vendor is selected, show an error message or handle it accordingly
-                    print('No vendor selected');
+                    // print('No vendor selected');
                   }
                   List<String> purchaseInfoList = [];
                   double totalAmount = 0.0;
@@ -497,7 +497,7 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
                                 deliverydateController.text,
                               );
 
-                              print('invoiceData is $invoiceData');
+                              // print('invoiceData is $invoiceData');
 
                               Navigator.of(context).pop();
                             },

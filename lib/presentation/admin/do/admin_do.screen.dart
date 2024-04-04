@@ -189,8 +189,8 @@ class AdminDoScreen extends GetView<AdminDoController> {
                         Get.to(() => AdminPreviewdoScreen(
                               employeeId: controller.founddouser[index].docId!,
                             ));
-                        print(
-                            'Doc Id is : ${controller.founddouser[index].docId!}');
+                        // print(
+                        //     'Doc Id is : ${controller.founddouser[index].docId!}');
                       },
                     ),
                   ),

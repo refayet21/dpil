@@ -21,19 +21,19 @@ class AdminAddstockuserScreen extends GetView<AdminAddstockuserController> {
       ),
       body: Column(
         children: [
-          Padding(
-            padding: EdgeInsets.all(8.0.r),
-            child: TextField(
-              onChanged: (value) => controller.searchstockuser(value),
-              decoration: InputDecoration(
-                hintText: "Search",
-                prefixIcon: Icon(Icons.search),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(25.0.r)),
-                ),
-              ),
-            ),
-          ),
+          // Padding(
+          //   padding: EdgeInsets.all(8.0.r),
+          //   child: TextField(
+          //     onChanged: (value) => controller.searchstockuser(value),
+          //     decoration: InputDecoration(
+          //       hintText: "Search",
+          //       prefixIcon: Icon(Icons.search),
+          //       border: OutlineInputBorder(
+          //         borderRadius: BorderRadius.all(Radius.circular(25.0.r)),
+          //       ),
+          //     ),
+          //   ),
+          // ),
           SizedBox(
             height: 10.h,
           ),

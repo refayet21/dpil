@@ -109,7 +109,7 @@ class AdminAdddouserController extends GetxController {
         );
       }
     } catch (error) {
-      print('error is $error');
+      // print('error is $error');
       CustomFullScreenDialog.cancelDialog();
       CustomSnackBar.showSnackBar(
         context: Get.context,
@@ -288,7 +288,7 @@ class AdminAdddouserController extends GetxController {
       );
     } catch (error) {
       CustomFullScreenDialog.cancelDialog();
-      print("Error deleting document: $error"); // Log the error for debugging
+      // print("Error deleting document: $error"); // Log the error for debugging
       CustomSnackBar.showSnackBar(
         context: Get.context,
         title: "Error",
@@ -305,7 +305,7 @@ class AdminAdddouserController extends GetxController {
 
       // Check if the document exists
       if (!docSnapshot.exists) {
-        print("Document doesn't exist: $docPath");
+        // print("Document doesn't exist: $docPath");
         return;
       }
 
@@ -344,7 +344,7 @@ class AdminAdddouserController extends GetxController {
       // After deleting subcollections, delete the document itself
       await docSnapshot.reference.delete();
     } catch (e) {
-      print("Error deleting subcollections: $e");
+      // print("Error deleting subcollections: $e");
     }
   }
 

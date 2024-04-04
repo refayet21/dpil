@@ -329,7 +329,7 @@ class AdminDoController extends GetxController {
             // stockdata: stockdata,
           ));
     } catch (e) {
-      print('Error: $e');
+      // print('Error: $e');
     }
   }
 }

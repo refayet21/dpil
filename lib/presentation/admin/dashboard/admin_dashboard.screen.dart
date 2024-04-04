@@ -53,10 +53,7 @@ class AdminDashboardScreen extends GetView<AdminDashboardController> {
                   imageurl: ImageConstant.adduser,
                   title: 'DO USER',
                   onTap: () {
-                    // print('পন্য যোগ করুন');
-
                     Get.toNamed(
-                      // Routes.ALL_INPUT_FIELD,
                       Routes.ADMIN_ADDDOUSER,
                     );
                   },
@@ -66,7 +63,6 @@ class AdminDashboardScreen extends GetView<AdminDashboardController> {
                   title: 'GEN USER',
                   onTap: () {
                     Get.toNamed(
-                      // Routes.ALL_INPUT_FIELD,
                       Routes.ADMIN_ADDGENUSER,
                     );
                   },

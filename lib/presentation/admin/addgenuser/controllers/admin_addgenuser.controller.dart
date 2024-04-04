@@ -197,7 +197,7 @@ class AdminAddgenuserController extends GetxController {
         );
       }
     } catch (error) {
-      print('error is $error');
+      // print('error is $error');
       CustomFullScreenDialog.cancelDialog();
       CustomSnackBar.showSnackBar(
         context: Get.context,

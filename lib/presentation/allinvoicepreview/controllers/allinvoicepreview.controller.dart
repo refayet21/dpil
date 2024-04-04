@@ -43,7 +43,7 @@ class AllinvoicepreviewController extends GetxController {
     try {
       await FlutterEmailSender.send(email);
     } catch (error) {
-      print('Error sending email: $error');
+      // print('Error sending email: $error');
     }
   }
 

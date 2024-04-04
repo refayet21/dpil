@@ -32,7 +32,7 @@ class DouserProductcartController extends GetxController {
 
   // Method to update the selected vendor
   void updateSelectedVendor(VendorModel? value) {
-    print('Updating selected vendor: $value');
+    // print('Updating selected vendor: $value');
     selectedVendor.value = value;
   }
 
@@ -54,7 +54,7 @@ class DouserProductcartController extends GetxController {
     getAllVendors().listen((vendor) {
       vendors.assignAll(vendor);
       findvendors.assignAll(vendors);
-      print(findvendors);
+      // print(findvendors);
     });
 
     getAllProducts().listen((products) {
@@ -82,7 +82,7 @@ class DouserProductcartController extends GetxController {
     if (!alreadyInCart) {
       cartItems.add(product);
     } else {
-      print('Product is already in the cart');
+      // print('Product is already in the cart');
     }
   }
 
@@ -129,7 +129,7 @@ class DouserProductcartController extends GetxController {
         lastDate: DateTime(2101));
 
     if (pickedDate != null) {
-      print(pickedDate);
+      // print(pickedDate);
       String formattedDate = DateFormat('dd-MM-yyyy').format(pickedDate);
 
       return formattedDate;
@@ -145,11 +145,11 @@ class DouserProductcartController extends GetxController {
       if (snapshot.exists) {
         return DoUserModel.fromJson(snapshot);
       } else {
-        print('User not found for ID: $userId');
+        // print('User not found for ID: $userId');
         return null;
       }
     } catch (e) {
-      print('Error fetching user: $e');
+      // print('Error fetching user: $e');
       return null;
     }
   }
@@ -403,7 +403,7 @@ class DouserProductcartController extends GetxController {
             // stockdata: stockdata,
           ));
     } catch (e) {
-      print('Error: $e');
+      // print('Error: $e');
     }
   }
 

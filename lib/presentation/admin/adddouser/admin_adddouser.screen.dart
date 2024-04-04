@@ -226,8 +226,8 @@ class AdminAdddouserScreen extends GetView<AdminAdddouserController> {
                             controller.founddouser[index].docId!,
                           );
 
-                          print(
-                              ' view docid ${controller.founddouser[index].docId!}');
+                          // print(
+                          //     ' view docid ${controller.founddouser[index].docId!}');
                         },
                       ),
                       onTap: () {

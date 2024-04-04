@@ -27,14 +27,14 @@ class AdminPreviewattendanceController extends GetxController {
           .collection("Record")
           .snapshots();
     } else {
-      print('Employee ID is empty');
+      // print('Employee ID is empty');
       return Stream.empty();
     }
   }
 
   void updateSelectedMonth(DateTime month) {
     selectedMonth.value = DateFormat('MMMM').format(month);
-    print('Selected month is ${selectedMonth.value}');
+    // print('Selected month is ${selectedMonth.value}');
   }
 
   List<DocumentSnapshot>? get attendanceRecordsList =>

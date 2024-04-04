@@ -34,7 +34,7 @@ class AdminPreviewdoController extends GetxController {
             .collection('deliveryOrders')
             .get();
     dousers.value = questionsQuery.docs.map((doc) => doc.data()).toList();
-    print('dousers is $dousers');
+    // print('dousers is $dousers');
   }
 
   // Getter method to retrieve dousers
