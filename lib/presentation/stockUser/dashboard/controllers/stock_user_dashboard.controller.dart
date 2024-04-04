@@ -139,39 +139,39 @@ class StockUserDashboardController extends GetxController {
       collectionReference.snapshots().map((query) =>
           query.docs.map((item) => ProductModel.fromJson(item)).toList());
 
-  Stream<Map<String, List<ProductModel>>> getAllProductsGroupedByCategory() =>
-      collectionReference.snapshots().map((query) {
-        Map<String, List<ProductModel>> groupedProducts = {};
-        query.docs.forEach((doc) {
-          ProductModel product = ProductModel.fromJson(doc);
-          String category = product.category ?? "Other";
-          if (!groupedProducts.containsKey(category)) {
-            groupedProducts[category] = [];
-          }
-          groupedProducts[category]!.add(product);
-        });
-        return groupedProducts;
-      });
+  // Stream<Map<String, List<ProductModel>>> getAllProductsGroupedByCategory() =>
+  //     collectionReference.snapshots().map((query) {
+  //       Map<String, List<ProductModel>> groupedProducts = {};
+  //       query.docs.forEach((doc) {
+  //         ProductModel product = ProductModel.fromJson(doc);
+  //         String category = product.category ?? "Other";
+  //         if (!groupedProducts.containsKey(category)) {
+  //           groupedProducts[category] = [];
+  //         }
+  //         groupedProducts[category]!.add(product);
+  //       });
+  //       return groupedProducts;
+  //     });
 
-  void deleteData(String docId) {
-    CustomFullScreenDialog.showDialog();
-    collectionReference.doc(docId).delete().whenComplete(() {
-      CustomFullScreenDialog.cancelDialog();
-      Get.back();
-      CustomSnackBar.showSnackBar(
-          context: Get.context,
-          title: "Product Deleted",
-          message: "Product deleted successfully",
-          backgroundColor: Colors.green);
-    }).catchError((error) {
-      CustomFullScreenDialog.cancelDialog();
-      CustomSnackBar.showSnackBar(
-          context: Get.context,
-          title: "Error",
-          message: "Something went wrong",
-          backgroundColor: Colors.red);
-    });
-  }
+  // void deleteData(String docId) {
+  //   CustomFullScreenDialog.showDialog();
+  //   collectionReference.doc(docId).delete().whenComplete(() {
+  //     CustomFullScreenDialog.cancelDialog();
+  //     Get.back();
+  //     CustomSnackBar.showSnackBar(
+  //         context: Get.context,
+  //         title: "Product Deleted",
+  //         message: "Product deleted successfully",
+  //         backgroundColor: Colors.green);
+  //   }).catchError((error) {
+  //     CustomFullScreenDialog.cancelDialog();
+  //     CustomSnackBar.showSnackBar(
+  //         context: Get.context,
+  //         title: "Error",
+  //         message: "Something went wrong",
+  //         backgroundColor: Colors.red);
+  //   });
+  // }
 
   // void searchProduct(String searchQuery) {
   //   if (searchQuery.isEmpty) {

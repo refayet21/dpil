@@ -325,7 +325,6 @@ class StockUserDashboardScreen extends GetView<StockUserDashboardController> {
                     var category = sortedEntries[categoryIndex].key;
                     var products = sortedEntries[categoryIndex].value;
 
-                    // Sort products by name
                     products.sort((a, b) => a.name!.compareTo(b.name!));
 
                     return Column(
@@ -384,7 +383,8 @@ class StockUserDashboardScreen extends GetView<StockUserDashboardController> {
                                 // ),
                                 leading: CircleAvatar(
                                   child: Text(
-                                    controller.foundProduct[index].name!
+                                    products[index]
+                                        .name!
                                         .substring(0, 1)
                                         .capitalize!,
                                     style: TextStyle(
@@ -405,24 +405,20 @@ class StockUserDashboardScreen extends GetView<StockUserDashboardController> {
                                 // ),
                                 onTap: () {
                                   controller.nameController.text =
-                                      controller.foundProduct[index].name!;
+                                      products[index].name!;
                                   controller.categoryController.text =
-                                      controller.foundProduct[index].category!;
+                                      products[index].category!;
 
-                                  controller.checkinController.text = controller
-                                      .foundProduct[index].checkin!
-                                      .toString();
+                                  controller.checkinController.text =
+                                      products[index].checkin!.toString();
                                   controller.checkoutController.text =
-                                      controller.foundProduct[index].checkout!
-                                          .toString();
-                                  controller.bookedController.text = controller
-                                      .foundProduct[index].booked!
-                                      .toString();
+                                      products[index].checkout!.toString();
+                                  controller.bookedController.text =
+                                      products[index].booked!.toString();
                                   _buildAddEditProductView(
                                       text: 'UPDATE',
                                       addEditFlag: 2,
-                                      docId: controller
-                                          .foundProduct[index].docId!);
+                                      docId: products[index].docId!);
                                 },
                               ),
                             );
@@ -578,18 +574,18 @@ class StockUserDashboardScreen extends GetView<StockUserDashboardController> {
     );
   }
 
-  displayDeleteDialog(String docId) {
-    Get.defaultDialog(
-      title: "Delete Product",
-      titleStyle: TextStyle(fontSize: 20.sp),
-      middleText: 'Are you sure to delete Product ?',
-      textCancel: "Cancel",
-      textConfirm: "Confirm",
-      confirmTextColor: Colors.black,
-      onCancel: () {},
-      onConfirm: () {
-        controller.deleteData(docId);
-      },
-    );
-  }
+  // displayDeleteDialog(String docId) {
+  //   Get.defaultDialog(
+  //     title: "Delete Product",
+  //     titleStyle: TextStyle(fontSize: 20.sp),
+  //     middleText: 'Are you sure to delete Product ?',
+  //     textCancel: "Cancel",
+  //     textConfirm: "Confirm",
+  //     confirmTextColor: Colors.black,
+  //     onCancel: () {},
+  //     onConfirm: () {
+  //       controller.deleteData(docId);
+  //     },
+  //   );
+  // }
 }
