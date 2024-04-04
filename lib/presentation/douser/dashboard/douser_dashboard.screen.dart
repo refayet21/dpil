@@ -26,6 +26,7 @@ class DouserDashboardScreen extends StatelessWidget {
         actions: [
           IconButton(
               onPressed: () {
+                controller.logout();
                 box.remove('douseremail');
                 box.remove('employeeId');
                 Get.offNamed(Routes.LOGIN);

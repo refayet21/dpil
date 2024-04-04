@@ -2,11 +2,16 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dpil/model/douser_model.dart';
 import 'package:dpil/presentation/widgets/customFullScreenDialog.dart';
 import 'package:dpil/presentation/widgets/customSnackBar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class AdminAdddouserController extends GetxController {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  var _auth = FirebaseAuth.instance;
+  var currentUser = FirebaseAuth.instance.currentUser;
+  late String oldPassword;
+
   late TextEditingController nameController,
       addressController,
       mobileController,
@@ -70,70 +75,165 @@ class AdminAdddouserController extends GetxController {
     String? name,
     String? address,
     String? mobile,
-    String? email,
-    String? password,
+    String email,
+    String password,
     String? docId,
     int? addEditFlag,
-  ) {
-    final isValid = formKey.currentState!.validate();
-    if (!isValid) {
-      return;
-    }
-    formKey.currentState!.save();
-    if (addEditFlag == 1) {
-      CustomFullScreenDialog.showDialog();
-      collectionReference.add({
-        'name': name,
-        'address': address,
-        'mobile': mobile,
-        'email': email,
-        'password': password,
-      }).whenComplete(() {
+  ) async {
+    try {
+      if (addEditFlag == 1) {
+        CustomFullScreenDialog.showDialog();
+        await _auth.createUserWithEmailAndPassword(
+            email: email, password: password);
+
+        await collectionReference.add({
+          'name': name,
+          'address': address,
+          'mobile': mobile,
+          'email': email,
+          'password': password,
+        });
         CustomFullScreenDialog.cancelDialog();
         clearEditingControllers();
         Get.back();
         CustomSnackBar.showSnackBar(
-            context: Get.context,
-            title: "Do User Added",
-            message: "Do User added successfully",
-            backgroundColor: Colors.green);
-        // ignore: body_might_complete_normally_catch_error
-      }).catchError((error) {
-        CustomFullScreenDialog.cancelDialog();
-        CustomSnackBar.showSnackBar(
-            context: Get.context,
-            title: "Error",
-            message: "Something went wrong",
-            backgroundColor: Colors.green);
-      });
-    } else if (addEditFlag == 2) {
-      //update
-      CustomFullScreenDialog.showDialog();
-      collectionReference.doc(docId).update({
-        'name': name,
-        'address': address,
-        'mobile': mobile,
-        'email': email,
-        'password': password,
-      }).whenComplete(() {
+          context: Get.context,
+          title: "Do User Added",
+          message: "Do User added successfully",
+          backgroundColor: Colors.green,
+        );
+      } else if (addEditFlag == 2) {
+        //update
+        CustomFullScreenDialog.showDialog();
+
+        // var cred =
+        //     EmailAuthProvider.credential(email: email, password: oldPassword);
+        // await currentUser!.reauthenticateWithCredential(cred);
+        // await currentUser!.updatePassword(password);
+        // print('oldPassword is $oldPassword new password is $password');
+
+        await collectionReference.doc(docId).update({
+          'name': name,
+          'address': address,
+          'mobile': mobile,
+          'email': email,
+          'password': password,
+        });
         CustomFullScreenDialog.cancelDialog();
         clearEditingControllers();
         Get.back();
         CustomSnackBar.showSnackBar(
-            context: Get.context,
-            title: "Do User Updated",
-            message: "Do User updated successfully",
-            backgroundColor: Colors.green);
-      }).catchError((error) {
-        CustomFullScreenDialog.cancelDialog();
-        CustomSnackBar.showSnackBar(
-            context: Get.context,
-            title: "Error",
-            message: "Something went wrong",
-            backgroundColor: Colors.red);
-      });
+          context: Get.context,
+          title: "Do User Updated",
+          message: "Do User updated successfully",
+          backgroundColor: Colors.green,
+        );
+      }
+    } catch (error) {
+      print('error is $error');
+      CustomFullScreenDialog.cancelDialog();
+      CustomSnackBar.showSnackBar(
+        context: Get.context,
+        title: "Error",
+        message: "Something went wrong: $error",
+        backgroundColor: Colors.red,
+      );
     }
   }
+
+  // void saveUpdatedoUsers(
+  //   String? name,
+  //   String? address,
+  //   String? mobile,
+  //   String email,
+  //   String password,
+  //   String? docId,
+  //   int? addEditFlag,
+  // ) async {
+  //   final isValid = formKey.currentState!.validate();
+  //   if (!isValid) {
+  //     return;
+  //   }
+  //   formKey.currentState!.save();
+
+  //   if (addEditFlag == 1) {
+  //     // Create new user
+  //     CustomFullScreenDialog.showDialog();
+  //     try {
+  //       await _auth.createUserWithEmailAndPassword(
+  //         email: email,
+  //         password: password,
+  //       );
+
+  //       // Add user info to Firestore
+  //       await collectionReference.add({
+  //         'name': name,
+  //         'address': address,
+  //         'mobile': mobile,
+  //         'email': email,
+  //       });
+
+  //       CustomFullScreenDialog.cancelDialog();
+  //       clearEditingControllers();
+  //       Get.back();
+  //       CustomSnackBar.showSnackBar(
+  //         context: Get.context,
+  //         title: "Do User Added",
+  //         message: "Do User added successfully",
+  //         backgroundColor: Colors.green,
+  //       );
+  //     } catch (error) {
+  //       CustomFullScreenDialog.cancelDialog();
+  //       CustomSnackBar.showSnackBar(
+  //         context: Get.context,
+  //         title: "Error",
+  //         message: error.toString(),
+  //         backgroundColor: Colors.red,
+  //       );
+  //     }
+  //   } else if (addEditFlag == 2) {
+  //     // Update existing user
+  //     CustomFullScreenDialog.showDialog();
+  //     try {
+  //       // Update authentication email if necessary
+  //       currentUser user = _auth.currentUser!;
+  //       if (user.email != email) {
+  //         await user.updateEmail(email);
+  //       }
+
+  //       // Update authentication password if necessary
+  //       if (password.isNotEmpty) {
+  //         await user.updatePassword(password);
+  //       }
+
+  //       // Update user info in Firestore
+  //       await collectionReference.doc(docId).update({
+  //         'name': name,
+  //         'address': address,
+  //         'mobile': mobile,
+  //         'email': email,
+  //       });
+
+  //       CustomFullScreenDialog.cancelDialog();
+  //       clearEditingControllers();
+  //       Get.back();
+  //       CustomSnackBar.showSnackBar(
+  //         context: Get.context,
+  //         title: "Do User Updated",
+  //         message: "Do User updated successfully",
+  //         backgroundColor: Colors.green,
+  //       );
+  //     } catch (error) {
+  //       CustomFullScreenDialog.cancelDialog();
+  //       CustomSnackBar.showSnackBar(
+  //         context: Get.context,
+  //         title: "Error",
+  //         message: error.toString(),
+  //         backgroundColor: Colors.red,
+  //       );
+  //     }
+  //   }
+  // }
 
   @override
   void onReady() {

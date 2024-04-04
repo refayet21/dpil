@@ -30,49 +30,49 @@ class LoginController extends GetxController {
     try {
       isLoading.value = true; // Set loading state to true
 
-      bool isAdmin = await checkAdminAuthentication(email, password);
+      // bool isAdmin = await checkAdminAuthentication(email, password);
 
+      //  else {
+      // Check if the user exists in other collections
+      bool isAdmin = await checkUserCredentials('admin', email, password);
+      bool isDoUser = await checkUserCredentials('do_users', email, password);
+      bool isGeneralUser =
+          await checkUserCredentials('general_users', email, password);
+      bool isstockUser =
+          await checkUserCredentials('stock_users', email, password);
       if (isAdmin) {
         // Admin user authenticated via Firebase Authentication
         box.write('adminemail', email);
         Get.offNamed(Routes.ADMIN_DASHBOARD);
         return null; // No need to return User object for admin
+      } else if (isDoUser) {
+        // DoUser, redirect to DoUser dashboard
+        box.write('douseremail', email);
+        Get.offNamed(Routes.DOUSER_DASHBOARD);
+        // Get.offNamed(Routes.DOUSER_INVOICE);
+        return null; // No need to return User object for DoUser
+      } else if (isGeneralUser) {
+        // General user, redirect to General user dashboard
+        box.write('generalemail', email);
+        Get.offNamed(Routes.GENUSER_DASHBOARD);
+        return null; // No need to return User object for General user
+      } else if (isstockUser) {
+        // General user, redirect to General user dashboard
+        box.write('stockemail', email);
+        Get.offNamed(Routes.STOCK_USER_DASHBOARD);
+        return null; // No need to return User object for General user
       } else {
-        // Check if the user exists in other collections
-        bool isDoUser = await checkUserCredentials('do_users', email, password);
-        bool isGeneralUser =
-            await checkUserCredentials('general_users', email, password);
-        bool isstockUser =
-            await checkUserCredentials('stock_users', email, password);
-
-        if (isDoUser) {
-          // DoUser, redirect to DoUser dashboard
-          box.write('douseremail', email);
-          Get.offNamed(Routes.DOUSER_DASHBOARD);
-          // Get.offNamed(Routes.DOUSER_INVOICE);
-          return null; // No need to return User object for DoUser
-        } else if (isGeneralUser) {
-          // General user, redirect to General user dashboard
-          box.write('generalemail', email);
-          Get.offNamed(Routes.GENUSER_DASHBOARD);
-          return null; // No need to return User object for General user
-        } else if (isstockUser) {
-          // General user, redirect to General user dashboard
-          box.write('stockemail', email);
-          Get.offNamed(Routes.STOCK_USER_DASHBOARD);
-          return null; // No need to return User object for General user
-        } else {
-          // User not found in any collection
-          Get.snackbar(
-            'Error',
-            'User does not exist.',
-            backgroundColor: Colors.red,
-            colorText: Colors.white,
-            icon: Icon(Icons.error),
-            snackPosition: SnackPosition.BOTTOM,
-          );
-        }
+        // User not found in any collection
+        Get.snackbar(
+          'Error',
+          'User does not exist.',
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+          icon: Icon(Icons.error),
+          snackPosition: SnackPosition.BOTTOM,
+        );
       }
+      // }
     } catch (e) {
       // Handle any unexpected errors
       print('Error: $e');
@@ -96,16 +96,42 @@ class LoginController extends GetxController {
     }
   }
 
+  // Future<bool> checkUserCredentials(
+  //     String collection, String email, String password) async {
+
+  //   try {
+  //     final querySnapshot = await _firestore
+  //         .collection(collection)
+  //         .where('email', isEqualTo: email)
+  //         .where('password', isEqualTo: password)
+  //         .get();
+  //     return querySnapshot.docs.isNotEmpty;
+  //   } catch (e) {
+  //     return false;
+  //   }
+  // }
+
   Future<bool> checkUserCredentials(
       String collection, String email, String password) async {
     try {
+      // Check authentication via Firebase Authentication
+      final credential = await _auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      // Check if user exists in Firestore collection
       final querySnapshot = await _firestore
           .collection(collection)
           .where('email', isEqualTo: email)
           .where('password', isEqualTo: password)
           .get();
-      return querySnapshot.docs.isNotEmpty;
+
+      // Return true only if both conditions are met
+      return credential.user != null && querySnapshot.docs.isNotEmpty;
     } catch (e) {
+      // Handle any unexpected errors
+      print('Error: $e');
       return false;
     }
   }

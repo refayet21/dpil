@@ -164,6 +164,7 @@
 //   }
 // }
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -175,6 +176,8 @@ import 'package:slide_to_act/slide_to_act.dart';
 
 class DouserDashboardController extends GetxController {
   location_lib.Location location = location_lib.Location();
+  static final FirebaseAuth _auth = FirebaseAuth.instance;
+
   late location_lib.LocationData _locData;
   final box = GetStorage();
   var checkIn = "--/--".obs;
@@ -199,6 +202,10 @@ class DouserDashboardController extends GetxController {
     super.onReady();
 
     // _getRecord();
+  }
+
+  Future<void> logout() {
+    return _auth.signOut();
   }
 
   Future<void> initialize() async {
