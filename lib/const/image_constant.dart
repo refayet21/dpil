@@ -20,4 +20,6 @@ class ImageConstant {
   static String doorder = '$imagePath/do.png';
   static String other = '$imagePath/other.png';
   static String gmail = '$imagePath/gmail.png';
+  static String genattendance = '$imagePath/genattendance.png';
+  static String info = '$imagePath/info.png';
 }

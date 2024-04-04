@@ -72,6 +72,37 @@ class AdminDashboardScreen extends GetView<AdminDashboardController> {
             SizedBox(
               height: 15.h,
             ),
+            SizedBox(
+              height: 15.h,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                CustomShape(
+                  imageurl: ImageConstant.other,
+                  title: 'Stock User',
+                  onTap: () {
+                    Get.toNamed(
+                      // Routes.ALL_INPUT_FIELD,
+                      Routes.ADMIN_ADDSTOCKUSER,
+                    );
+                  },
+                ),
+                CustomShape(
+                  imageurl: ImageConstant.gmail,
+                  title: 'EMAIL',
+                  onTap: () {
+                    Get.toNamed(
+                      // Routes.ALL_INPUT_FIELD,
+                      Routes.ADMIN_EMAIL,
+                    );
+                  },
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 30.h,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -98,14 +129,14 @@ class AdminDashboardScreen extends GetView<AdminDashboardController> {
               ],
             ),
             SizedBox(
-              height: 15.h,
+              height: 30.h,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 CustomShape(
                   imageurl: ImageConstant.attendance,
-                  title: 'ATTENDANCE',
+                  title: 'DO ATTENDANCE',
                   onTap: () {
                     Get.toNamed(
                       // Routes.ALL_INPUT_FIELD,
@@ -125,29 +156,30 @@ class AdminDashboardScreen extends GetView<AdminDashboardController> {
                 ),
               ],
             ),
+
             SizedBox(
-              height: 15.h,
+              height: 30.h,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 CustomShape(
-                  imageurl: ImageConstant.other,
-                  title: 'Stock User',
+                  imageurl: ImageConstant.genattendance,
+                  title: 'GEN ATTENDANCE',
                   onTap: () {
                     Get.toNamed(
                       // Routes.ALL_INPUT_FIELD,
-                      Routes.ADMIN_ADDSTOCKUSER,
+                      Routes.ADMIN_GENATTENDENCE,
                     );
                   },
                 ),
                 CustomShape(
-                  imageurl: ImageConstant.gmail,
-                  title: 'EMAIL',
+                  imageurl: ImageConstant.info,
+                  title: 'Info',
                   onTap: () {
                     Get.toNamed(
                       // Routes.ALL_INPUT_FIELD,
-                      Routes.ADMIN_EMAIL,
+                      Routes.ADMIN_INFO,
                     );
                   },
                 ),

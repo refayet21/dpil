@@ -1,8 +1,9 @@
 import 'package:get/get.dart';
 
-class AdminDashboardController extends GetxController {
-  //TODO: Implement AdminDashboardController
+class AdminInfoController extends GetxController {
+  //TODO: Implement AdminInfoController
 
+  final count = 0.obs;
   @override
   void onInit() {
     super.onInit();
@@ -17,4 +18,6 @@ class AdminDashboardController extends GetxController {
   void onClose() {
     super.onClose();
   }
+
+  void increment() => count.value++;
 }

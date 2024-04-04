@@ -7,8 +7,11 @@ export 'package:dpil/presentation/admin/attendance/admin_attendance.screen.dart'
 export 'package:dpil/presentation/admin/dashboard/admin_dashboard.screen.dart';
 export 'package:dpil/presentation/admin/do/admin_do.screen.dart';
 export 'package:dpil/presentation/admin/email/admin_email.screen.dart';
+export 'package:dpil/presentation/admin/genattendence/admin_genattendence.screen.dart';
+export 'package:dpil/presentation/admin/info/admin_info.screen.dart';
 export 'package:dpil/presentation/admin/previewattendance/admin_previewattendance.screen.dart';
 export 'package:dpil/presentation/admin/previewdo/admin_previewdo.screen.dart';
+export 'package:dpil/presentation/admin/previewgenattendence/admin_previewgenattendence.screen.dart';
 export 'package:dpil/presentation/allinvoicepreview/allinvoicepreview.screen.dart';
 export 'package:dpil/presentation/douser/addcustomer/douser_addcustomer.screen.dart';
 export 'package:dpil/presentation/douser/attendence/douser_attendence.screen.dart';

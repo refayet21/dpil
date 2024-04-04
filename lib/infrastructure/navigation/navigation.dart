@@ -133,13 +133,28 @@ class Nav {
     ),
     GetPage(
       name: Routes.ADMIN_ADDSTOCKUSER,
-      page: () => const AdminAddstockuserScreen(),
+      page: () => AdminAddstockuserScreen(),
       binding: AdminAddstockuserControllerBinding(),
     ),
     GetPage(
       name: Routes.STOCK_USER_DASHBOARD,
       page: () => StockUserDashboardScreen(),
       binding: StockUserDashboardControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.ADMIN_GENATTENDENCE,
+      page: () => AdminGenattendenceScreen(),
+      binding: AdminGenattendenceControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.ADMIN_PREVIEWGENATTENDENCE,
+      page: () => AdminPreviewgenattendenceScreen(),
+      binding: AdminPreviewgenattendenceControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.ADMIN_INFO,
+      page: () => const AdminInfoScreen(),
+      binding: AdminInfoControllerBinding(),
     ),
   ];
 }

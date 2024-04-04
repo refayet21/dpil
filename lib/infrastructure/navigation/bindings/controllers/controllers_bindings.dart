@@ -7,8 +7,11 @@ export 'package:dpil/infrastructure/navigation/bindings/controllers/admin_attend
 export 'package:dpil/infrastructure/navigation/bindings/controllers/admin_dashboard.controller.binding.dart'; 
 export 'package:dpil/infrastructure/navigation/bindings/controllers/admin_do.controller.binding.dart'; 
 export 'package:dpil/infrastructure/navigation/bindings/controllers/admin_email.controller.binding.dart'; 
+export 'package:dpil/infrastructure/navigation/bindings/controllers/admin_genattendence.controller.binding.dart'; 
+export 'package:dpil/infrastructure/navigation/bindings/controllers/admin_info.controller.binding.dart'; 
 export 'package:dpil/infrastructure/navigation/bindings/controllers/admin_previewattendance.controller.binding.dart'; 
 export 'package:dpil/infrastructure/navigation/bindings/controllers/admin_previewdo.controller.binding.dart'; 
+export 'package:dpil/infrastructure/navigation/bindings/controllers/admin_previewgenattendence.controller.binding.dart'; 
 export 'package:dpil/infrastructure/navigation/bindings/controllers/allinvoicepreview.controller.binding.dart'; 
 export 'package:dpil/infrastructure/navigation/bindings/controllers/douser_addcustomer.controller.binding.dart'; 
 export 'package:dpil/infrastructure/navigation/bindings/controllers/douser_attendence.controller.binding.dart'; 
