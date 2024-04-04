@@ -242,7 +242,7 @@ class DouserDashboardController extends GetxController {
       locations.value =
           "${placemark[0].street}, ${placemark[0].subLocality}, ${placemark[0].subAdministrativeArea}, ${placemark[0].country}";
     } catch (e) {
-      print("Error getting location: $e");
+      // print("Error getting location: $e");
     }
   }
 
@@ -261,15 +261,15 @@ class DouserDashboardController extends GetxController {
       employeeemail.value = userDoc['email'];
       box.write('employeeId', userDoc.id);
       _getRecord();
-      print('_getUserInfoAndRecord is called');
+      // print('_getUserInfoAndRecord is called');
     } catch (e) {
-      print("Error getting user info and record: $e");
+      // print("Error getting user info and record: $e");
     }
   }
 
   Future<void> _getRecord() async {
     try {
-      print("Employee ID: ${employeeId.value}"); // Add this debug statement
+      // print("Employee ID: ${employeeId.value}"); // Add this debug statement
       DocumentSnapshot recordSnapshot = await FirebaseFirestore.instance
           .collection("do_users")
           .doc(employeeId.value)
@@ -287,9 +287,9 @@ class DouserDashboardController extends GetxController {
         checkOut.value = "--/--";
       }
 
-      print('_getRecord method is called');
+      // print('_getRecord method is called');
     } catch (e) {
-      print("Error getting record: $e");
+      // print("Error getting record: $e");
       checkIn.value = "--/--";
       checkOut.value = "--/--";
     }
@@ -304,7 +304,7 @@ class DouserDashboardController extends GetxController {
       }
       slideActionKey.currentState!.reset();
     } catch (e) {
-      print(e.toString());
+      // print(e.toString());
     }
   }
 
@@ -326,7 +326,7 @@ class DouserDashboardController extends GetxController {
         'date': DateTime.now(),
       }, SetOptions(merge: true));
     } catch (e) {
-      print(e.toString());
+      // print(e.toString());
     }
   }
 
@@ -346,7 +346,7 @@ class DouserDashboardController extends GetxController {
         'date': DateTime.now(),
       }, SetOptions(merge: true));
     } catch (e) {
-      print(e.toString());
+      // print(e.toString());
     }
   }
 }

@@ -15,7 +15,7 @@ class DouserAddcustomerScreen extends GetView<DouserAddcustomerController> {
       drawer: DoDrawer(),
       appBar: AppBar(
         title: Text(
-          'Customer Add',
+          'Customer Add/Update',
           style: TextStyle(fontSize: 25.sp, fontWeight: FontWeight.w700),
         ),
         centerTitle: true,

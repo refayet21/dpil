@@ -32,30 +32,30 @@ class DouserAddcustomerController extends GetxController {
     getAllVendors().listen((vendor) {
       vendors.assignAll(vendor);
       findvendors.assignAll(vendors);
-      print(findvendors);
+      // print(findvendors);
     });
   }
 
-  String? validateName(String value) {
-    if (value.isEmpty) {
-      return "Name can not be empty";
-    }
-    return null;
-  }
+  // String? validateName(String value) {
+  //   if (value.isEmpty) {
+  //     return "Name can not be empty";
+  //   }
+  //   return null;
+  // }
 
-  String? validateaddress(String value) {
-    if (value.isEmpty) {
-      return "address can not be empty";
-    }
-    return null;
-  }
+  // String? validateaddress(String value) {
+  //   if (value.isEmpty) {
+  //     return "address can not be empty";
+  //   }
+  //   return null;
+  // }
 
-  String? validatemobile(String value) {
-    if (value.isEmpty) {
-      return "mobile can not be empty";
-    }
-    return null;
-  }
+  // String? validatemobile(String value) {
+  //   if (value.isEmpty) {
+  //     return "mobile can not be empty";
+  //   }
+  //   return null;
+  // }
 
   void saveUpdateVendor(
     String? name,
