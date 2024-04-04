@@ -147,25 +147,25 @@ class DouserAddcustomerController extends GetxController {
       collectionReference.snapshots().map((query) =>
           query.docs.map((item) => VendorModel.fromJson(item)).toList());
 
-  void deleteData(String docId) {
-    CustomFullScreenDialog.showDialog();
-    collectionReference.doc(docId).delete().whenComplete(() {
-      CustomFullScreenDialog.cancelDialog();
-      Get.back();
-      CustomSnackBar.showSnackBar(
-          context: Get.context,
-          title: "Customer Deleted",
-          message: "Customer deleted successfully",
-          backgroundColor: Colors.green);
-    }).catchError((error) {
-      CustomFullScreenDialog.cancelDialog();
-      CustomSnackBar.showSnackBar(
-          context: Get.context,
-          title: "Error",
-          message: "Something went wrong",
-          backgroundColor: Colors.red);
-    });
-  }
+  // void deleteData(String docId) {
+  //   CustomFullScreenDialog.showDialog();
+  //   collectionReference.doc(docId).delete().whenComplete(() {
+  //     CustomFullScreenDialog.cancelDialog();
+  //     Get.back();
+  //     CustomSnackBar.showSnackBar(
+  //         context: Get.context,
+  //         title: "Customer Deleted",
+  //         message: "Customer deleted successfully",
+  //         backgroundColor: Colors.green);
+  //   }).catchError((error) {
+  //     CustomFullScreenDialog.cancelDialog();
+  //     CustomSnackBar.showSnackBar(
+  //         context: Get.context,
+  //         title: "Error",
+  //         message: "Something went wrong",
+  //         backgroundColor: Colors.red);
+  //   });
+  // }
 
   // void searchVendor(String searchQuery) {
   //   if (searchQuery.isEmpty) {

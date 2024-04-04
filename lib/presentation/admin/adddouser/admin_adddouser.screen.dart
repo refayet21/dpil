@@ -225,6 +225,9 @@ class AdminAdddouserScreen extends GetView<AdminAdddouserController> {
                           displayDeleteDialog(
                             controller.founddouser[index].docId!,
                           );
+
+                          print(
+                              ' view docid ${controller.founddouser[index].docId!}');
                         },
                       ),
                       onTap: () {
@@ -542,7 +545,23 @@ class AdminAdddouserScreen extends GetView<AdminAdddouserController> {
     );
   }
 
-  displayDeleteDialog(String docId) {
+  // displayDeleteDialog(String docId) {
+  //   Get.defaultDialog(
+  //     title: "Delete Do User",
+  //     titleStyle: TextStyle(fontSize: 20.sp),
+  //     middleText: 'Are you sure to delete Do User ?',
+  //     textCancel: "Cancel",
+  //     textConfirm: "Confirm",
+  //     confirmTextColor: Colors.black,
+  //     onCancel: () {},
+  //     onConfirm: () {
+  //       controller.deleteData(docId);
+  //       print('dialog docId is $docId');
+  //     },
+  //   );
+  // }
+
+  void displayDeleteDialog(String docId) {
     Get.defaultDialog(
       title: "Delete Do User",
       titleStyle: TextStyle(fontSize: 20.sp),
@@ -553,6 +572,7 @@ class AdminAdddouserScreen extends GetView<AdminAdddouserController> {
       onCancel: () {},
       onConfirm: () {
         controller.deleteData(docId);
+        Get.back(); // Close the dialog after confirming deletion
       },
     );
   }

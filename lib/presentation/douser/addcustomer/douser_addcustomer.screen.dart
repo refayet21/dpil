@@ -194,17 +194,17 @@ class DouserAddcustomerScreen extends GetView<DouserAddcustomerController> {
                         ),
                         backgroundColor: Colors.blue.shade200,
                       ),
-                      trailing: IconButton(
-                        icon: Icon(
-                          Icons.delete_forever,
-                          color: Colors.red,
-                        ),
-                        onPressed: () {
-                          displayDeleteDialog(
-                            controller.findvendors[index].docId!,
-                          );
-                        },
-                      ),
+                      // trailing: IconButton(
+                      //   icon: Icon(
+                      //     Icons.delete_forever,
+                      //     color: Colors.red,
+                      //   ),
+                      //   onPressed: () {
+                      //     displayDeleteDialog(
+                      //       controller.findvendors[index].docId!,
+                      //     );
+                      //   },
+                      // ),
                       onTap: () {
                         controller.nameController.text =
                             controller.findvendors[index].name!;
@@ -349,18 +349,18 @@ class DouserAddcustomerScreen extends GetView<DouserAddcustomerController> {
     );
   }
 
-  displayDeleteDialog(String docId) {
-    Get.defaultDialog(
-      title: "Delete Customer",
-      titleStyle: TextStyle(fontSize: 20.sp),
-      middleText: 'Are you sure to delete Customer ?',
-      textCancel: "Cancel",
-      textConfirm: "Confirm",
-      confirmTextColor: Colors.black,
-      onCancel: () {},
-      onConfirm: () {
-        controller.deleteData(docId);
-      },
-    );
-  }
+  // displayDeleteDialog(String docId) {
+  //   Get.defaultDialog(
+  //     title: "Delete Customer",
+  //     titleStyle: TextStyle(fontSize: 20.sp),
+  //     middleText: 'Are you sure to delete Customer ?',
+  //     textCancel: "Cancel",
+  //     textConfirm: "Confirm",
+  //     confirmTextColor: Colors.black,
+  //     onCancel: () {},
+  //     onConfirm: () {
+  //       controller.deleteData(docId);
+  //     },
+  //   );
+  // }
 }

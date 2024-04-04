@@ -50,27 +50,6 @@ class AdminAdddouserController extends GetxController {
     });
   }
 
-  String? validateName(String value) {
-    if (value.isEmpty) {
-      return "Name can not be empty";
-    }
-    return null;
-  }
-
-  String? validateaddress(String value) {
-    if (value.isEmpty) {
-      return "address can not be empty";
-    }
-    return null;
-  }
-
-  String? validatemobile(String value) {
-    if (value.isEmpty) {
-      return "mobile can not be empty";
-    }
-    return null;
-  }
-
   void saveUpdatedoUsers(
     String? name,
     String? address,
@@ -261,24 +240,112 @@ class AdminAdddouserController extends GetxController {
   //     collectionReference.snapshots().map((query) =>
   //         query.docs.map((item) => DoUserModel.fromJson(item)).toList());
 
-  void deleteData(String docId) {
+  // void deleteData(String docId) {
+  //   CustomFullScreenDialog.showDialog();
+
+  //   // _fireStore.collection(CollectioName).doc(doc_id).delete();
+
+  //   // collectionReference.doc(docId).delete()
+  //   firebaseFirestore
+  //       .collection("do_users")
+  //       .doc(docId)
+  //       .delete()
+  //       .whenComplete(() {
+  //     CustomFullScreenDialog.cancelDialog();
+  //     Get.back();
+  //     CustomSnackBar.showSnackBar(
+  //         context: Get.context,
+  //         title: "Do User Deleted",
+  //         message: "Do User deleted successfully",
+  //         backgroundColor: Colors.green);
+  //   }).catchError((error) {
+  //     CustomFullScreenDialog.cancelDialog();
+  //     CustomSnackBar.showSnackBar(
+  //         context: Get.context,
+  //         title: "Error",
+  //         message: "Something went wrong",
+  //         backgroundColor: Colors.red);
+  //   });
+  // }
+
+  void deleteData(String docId) async {
     CustomFullScreenDialog.showDialog();
-    collectionReference.doc(docId).delete().whenComplete(() {
+
+    try {
+      // First, delete the document itself
+      await firebaseFirestore.collection("do_users").doc(docId).delete();
+
+      // Then, delete all subcollections
+      await _deleteSubcollections("do_users/$docId");
+
       CustomFullScreenDialog.cancelDialog();
-      Get.back();
+      Get.back(); // Assuming you're using GetX for navigation
       CustomSnackBar.showSnackBar(
-          context: Get.context,
-          title: "Do User Deleted",
-          message: "Do User deleted successfully",
-          backgroundColor: Colors.green);
-    }).catchError((error) {
+        context: Get.context,
+        title: "Do User Deleted",
+        message: "Do User deleted successfully",
+        backgroundColor: Colors.green,
+      );
+    } catch (error) {
       CustomFullScreenDialog.cancelDialog();
+      print("Error deleting document: $error"); // Log the error for debugging
       CustomSnackBar.showSnackBar(
-          context: Get.context,
-          title: "Error",
-          message: "Something went wrong",
-          backgroundColor: Colors.red);
-    });
+        context: Get.context,
+        title: "Error",
+        message: "Something went wrong",
+        backgroundColor: Colors.red,
+      );
+    }
+  }
+
+  Future<void> _deleteSubcollections(String docPath) async {
+    try {
+      final DocumentSnapshot docSnapshot =
+          await firebaseFirestore.doc(docPath).get();
+
+      // Check if the document exists
+      if (!docSnapshot.exists) {
+        print("Document doesn't exist: $docPath");
+        return;
+      }
+
+      // Get the data from the document as a Map<String, dynamic>
+      final Map<String, dynamic>? data =
+          docSnapshot.data() as Map<String, dynamic>?;
+
+      // Check if the document has any subcollections
+      if (data == null || data.isEmpty) {
+        // No subcollections, directly delete the document
+        await docSnapshot.reference.delete();
+        return;
+      }
+
+      final List<Future<void>> deleteFutures = [];
+
+      // Iterate over each key (subcollection name) in the document's data
+      for (final key in data.keys) {
+        // Ignore fields that are not subcollections
+        if (data[key] is! Map<String, dynamic>) {
+          continue;
+        }
+
+        final QuerySnapshot subcollectionSnapshot =
+            await docSnapshot.reference.collection(key).get();
+
+        // Delete all documents in the subcollection
+        for (final doc in subcollectionSnapshot.docs) {
+          deleteFutures.add(doc.reference.delete());
+        }
+      }
+
+      // Wait for all deletion operations to complete
+      await Future.wait(deleteFutures);
+
+      // After deleting subcollections, delete the document itself
+      await docSnapshot.reference.delete();
+    } catch (e) {
+      print("Error deleting subcollections: $e");
+    }
   }
 
   // void searchdouser(String searchQuery) {
