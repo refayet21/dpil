@@ -299,9 +299,9 @@ class DouserProductcartScreen extends GetView<DouserProductcartController> {
                                   children: [
                                     SizedBox(height: 5.h),
                                     Text(
-                                        'Checkin: ${products[index].checkin ?? "N/A"}'),
+                                        'Stock in: ${products[index].checkin ?? "N/A"}'),
                                     Text(
-                                        'Checkout: ${products[index].checkout ?? "N/A"}'),
+                                        'Stock out: ${products[index].checkout ?? "N/A"}'),
                                     Text(
                                         'Booked: ${products[index].booked ?? "N/A"}'),
                                   ],

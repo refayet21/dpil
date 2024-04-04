@@ -73,7 +73,7 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
                   return DropdownButton2<VendorModel>(
                     isExpanded: true,
                     hint: Text(
-                      'Select Item',
+                      'Customer Name',
                       style: TextStyle(
                         fontSize: 14,
                         color: Theme.of(context).hintColor,
@@ -207,11 +207,11 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
                                 fontSize: 14.sp, fontWeight: FontWeight.w600)),
                         SizedBox(height: 5.h),
                         Text(
-                            'Checkin: ${controller.cartItems[index].checkin?.toString()}',
+                            'Stock in: ${controller.cartItems[index].checkin?.toString()}',
                             style: TextStyle(
                                 fontSize: 14.sp, fontWeight: FontWeight.w600)),
                         Text(
-                            'Checkout: ${controller.cartItems[index].checkout?.toString()}',
+                            'Stock out: ${controller.cartItems[index].checkout?.toString()}',
                             style: TextStyle(
                                 fontSize: 14.sp, fontWeight: FontWeight.w600)),
                         Text(
@@ -384,9 +384,9 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
                     String itemInfo = '';
                     itemInfo += 'SL: $serialNo\n';
                     itemInfo += 'Description: ${item.name ?? ""}\n';
-                    itemInfo += 'Checkin: ${item.checkin?.toString() ?? ""}\n';
+                    itemInfo += 'Stock in: ${item.checkin?.toString() ?? ""}\n';
                     itemInfo +=
-                        'Checkout: ${item.checkout?.toString() ?? ""}\n';
+                        'Stock out: ${item.checkout?.toString() ?? ""}\n';
                     itemInfo += 'Booked: ${item.booked?.toString() ?? ""}\n';
                     itemInfo += 'Roll/PCS/Bag: $rollPcsBag\n';
                     itemInfo += 'Per Roll/PCS/Bag: $perRollPcsBag\n';

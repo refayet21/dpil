@@ -443,9 +443,9 @@ class AdminAddproductScreen extends GetView<AdminAddproductController> {
                                   children: [
                                     SizedBox(height: 5.h),
                                     Text(
-                                        'Checkin: ${products[index].checkin ?? "N/A"}'),
+                                        'Stock in: ${products[index].checkin ?? "N/A"}'),
                                     Text(
-                                        'Checkout: ${products[index].checkout ?? "N/A"}'),
+                                        'Stock out: ${products[index].checkout ?? "N/A"}'),
                                     Text(
                                         'Booked: ${products[index].booked ?? "N/A"}'),
                                   ],
@@ -719,7 +719,7 @@ class AdminAddproductScreen extends GetView<AdminAddproductController> {
                   TextFormField(
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
-                      hintText: 'Checkin',
+                      hintText: 'Stock in',
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8.r),
                       ),
@@ -732,7 +732,7 @@ class AdminAddproductScreen extends GetView<AdminAddproductController> {
                   TextFormField(
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
-                      hintText: 'Checkout',
+                      hintText: 'Stock out',
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8.r),
                       ),
