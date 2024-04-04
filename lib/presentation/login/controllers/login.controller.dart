@@ -75,7 +75,7 @@ class LoginController extends GetxController {
       // }
     } catch (e) {
       // Handle any unexpected errors
-      print('Error: $e');
+      // print('Error: $e');
     } finally {
       isLoading.value =
           false; // Set loading state to false after login process completes
@@ -84,17 +84,17 @@ class LoginController extends GetxController {
     return null;
   }
 
-  Future<bool> checkAdminAuthentication(String email, String password) async {
-    try {
-      final credential = await _auth.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-      return credential.user != null;
-    } catch (e) {
-      return false;
-    }
-  }
+  // Future<bool> checkAdminAuthentication(String email, String password) async {
+  //   try {
+  //     final credential = await _auth.signInWithEmailAndPassword(
+  //       email: email,
+  //       password: password,
+  //     );
+  //     return credential.user != null;
+  //   } catch (e) {
+  //     return false;
+  //   }
+  // }
 
   // Future<bool> checkUserCredentials(
   //     String collection, String email, String password) async {
@@ -131,7 +131,7 @@ class LoginController extends GetxController {
       return credential.user != null && querySnapshot.docs.isNotEmpty;
     } catch (e) {
       // Handle any unexpected errors
-      print('Error: $e');
+      // print('Error: $e');
       return false;
     }
   }
