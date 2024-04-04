@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,8 @@ import 'package:slide_to_act/slide_to_act.dart';
 
 class GenuserDashboardController extends GetxController {
   location_lib.Location location = location_lib.Location();
+  static final FirebaseAuth _auth = FirebaseAuth.instance;
+
   late location_lib.LocationData _locData;
   final box = GetStorage();
   var checkIn = "--/--".obs;
@@ -26,6 +29,10 @@ class GenuserDashboardController extends GetxController {
     initialize();
     super.onInit();
     _getUserInfoAndRecord();
+  }
+
+  Future<void> logout() {
+    return _auth.signOut();
   }
 
   @override

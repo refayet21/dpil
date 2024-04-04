@@ -26,6 +26,7 @@ class GenuserDashboardScreen extends GetView<GenuserDashboardController> {
         actions: [
           IconButton(
               onPressed: () {
+                controller.logout();
                 box.remove('generalemail');
                 box.remove('genemployeeId');
                 Get.offNamed(Routes.LOGIN);

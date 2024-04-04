@@ -1,4 +1,5 @@
 import 'package:dpil/presentation/widgets/admin_drawer.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -272,14 +273,14 @@ class AdminAddgenuserScreen extends GetView<AdminAddgenuserController> {
     Get.bottomSheet(
       Container(
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
-              topRight: Radius.circular(16.r),
-              topLeft: Radius.circular(16.r),
-            ),
-            color: Colors.blue.shade200),
+          borderRadius: BorderRadius.only(
+            topRight: Radius.circular(16),
+            topLeft: Radius.circular(16),
+          ),
+          color: Colors.blue.shade200,
+        ),
         child: Padding(
-          padding:
-              EdgeInsets.only(left: 16.w, right: 16.w, top: 16.h, bottom: 16.h),
+          padding: EdgeInsets.all(16),
           child: Form(
             key: controller.formKey,
             autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -290,98 +291,125 @@ class AdminAddgenuserScreen extends GetView<AdminAddgenuserController> {
                   Text(
                     '${text} General User',
                     style: TextStyle(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black),
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
                   ),
-                  SizedBox(
-                    height: 8.h,
-                  ),
+                  SizedBox(height: 8),
                   TextFormField(
                     decoration: InputDecoration(
                       hintText: 'Name',
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.r),
+                        borderRadius: BorderRadius.circular(8),
                       ),
                     ),
                     controller: controller.nameController,
-                    // validator: (value) {
-                    //   return controller.validateName(value!);
-                    // },
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your Name';
+                      }
+
+                      return null;
+                    },
                   ),
-                  SizedBox(
-                    height: 10.h,
-                  ),
+                  SizedBox(height: 10),
                   TextFormField(
                     keyboardType: TextInputType.multiline,
                     decoration: InputDecoration(
-                      hintText: 'address',
+                      hintText: 'Address',
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.r),
+                        borderRadius: BorderRadius.circular(8),
                       ),
                     ),
                     controller: controller.addressController,
                   ),
-                  SizedBox(
-                    height: 8.h,
-                  ),
+                  SizedBox(height: 8),
                   TextFormField(
                     keyboardType: TextInputType.multiline,
                     decoration: InputDecoration(
                       hintText: 'Mobile',
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.r),
+                        borderRadius: BorderRadius.circular(8),
                       ),
                     ),
                     controller: controller.mobileController,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your Mobile';
+                      }
+                      if (value.length < 11) {
+                        return 'Mobile No must be  11 characters long';
+                      }
+                      return null;
+                    },
                   ),
-                  SizedBox(
-                    height: 8.h,
-                  ),
+                  SizedBox(height: 8),
                   TextFormField(
-                    keyboardType: TextInputType.multiline,
+                    readOnly: addEditFlag == 2 ? true : false,
+                    keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
                       hintText: 'Email',
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.r),
+                        borderRadius: BorderRadius.circular(8),
                       ),
                     ),
                     controller: controller.emailController,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your email';
+                      }
+                      if (!EmailValidator.validate(value)) {
+                        return 'Please enter a valid email';
+                      }
+                      return null;
+                    },
                   ),
-                  SizedBox(
-                    height: 8.h,
-                  ),
+                  SizedBox(height: 8),
                   TextFormField(
-                    keyboardType: TextInputType.multiline,
+                    readOnly: addEditFlag == 2 ? true : false,
+                    keyboardType: TextInputType.text,
+                    obscureText: true,
                     decoration: InputDecoration(
                       hintText: 'Password',
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.r),
+                        borderRadius: BorderRadius.circular(8),
                       ),
                     ),
                     controller: controller.passwordController,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your password';
+                      }
+                      if (value.length < 6) {
+                        return 'Password must be at least 6 characters long';
+                      }
+                      return null;
+                    },
                   ),
-                  SizedBox(
-                    height: 8.h,
-                  ),
+                  SizedBox(height: 8),
                   ConstrainedBox(
                     constraints: BoxConstraints.tightFor(
-                        width: Get.context!.width, height: 45.h),
+                      width: Get.context!.width,
+                      height: 45.h,
+                    ),
                     child: ElevatedButton(
                       child: Text(
                         text!,
-                        style: TextStyle(color: Colors.black, fontSize: 16.sp),
+                        style: TextStyle(color: Colors.black, fontSize: 16),
                       ),
                       onPressed: () {
-                        controller.saveUpdategeneralUsers(
-                          controller.nameController.text,
-                          controller.addressController.text,
-                          controller.mobileController.text,
-                          controller.emailController.text,
-                          controller.passwordController.text,
-                          docId!,
-                          addEditFlag!,
-                        );
+                        if (controller.formKey.currentState!.validate()) {
+                          controller.saveUpdategeneralUsers(
+                            controller.nameController.text,
+                            controller.addressController.text,
+                            controller.mobileController.text,
+                            controller.emailController.text,
+                            controller.passwordController.text,
+                            docId!,
+                            addEditFlag!,
+                          );
+                        }
                       },
                     ),
                   ),
@@ -393,6 +421,133 @@ class AdminAddgenuserScreen extends GetView<AdminAddgenuserController> {
       ),
     );
   }
+
+  // _buildAddEditGeneralUserView(
+  //     {String? text, int? addEditFlag, String? docId}) {
+  //   Get.bottomSheet(
+  //     Container(
+  //       decoration: BoxDecoration(
+  //           borderRadius: BorderRadius.only(
+  //             topRight: Radius.circular(16.r),
+  //             topLeft: Radius.circular(16.r),
+  //           ),
+  //           color: Colors.blue.shade200),
+  //       child: Padding(
+  //         padding:
+  //             EdgeInsets.only(left: 16.w, right: 16.w, top: 16.h, bottom: 16.h),
+  //         child: Form(
+  //           key: controller.formKey,
+  //           autovalidateMode: AutovalidateMode.onUserInteraction,
+  //           child: SingleChildScrollView(
+  //             child: Column(
+  //               crossAxisAlignment: CrossAxisAlignment.start,
+  //               children: [
+  //                 Text(
+  //                   '${text} General User',
+  //                   style: TextStyle(
+  //                       fontSize: 16.sp,
+  //                       fontWeight: FontWeight.bold,
+  //                       color: Colors.black),
+  //                 ),
+  //                 SizedBox(
+  //                   height: 8.h,
+  //                 ),
+  //                 TextFormField(
+  //                   decoration: InputDecoration(
+  //                     hintText: 'Name',
+  //                     border: OutlineInputBorder(
+  //                       borderRadius: BorderRadius.circular(8.r),
+  //                     ),
+  //                   ),
+  //                   controller: controller.nameController,
+  //                   // validator: (value) {
+  //                   //   return controller.validateName(value!);
+  //                   // },
+  //                 ),
+  //                 SizedBox(
+  //                   height: 10.h,
+  //                 ),
+  //                 TextFormField(
+  //                   keyboardType: TextInputType.multiline,
+  //                   decoration: InputDecoration(
+  //                     hintText: 'address',
+  //                     border: OutlineInputBorder(
+  //                       borderRadius: BorderRadius.circular(8.r),
+  //                     ),
+  //                   ),
+  //                   controller: controller.addressController,
+  //                 ),
+  //                 SizedBox(
+  //                   height: 8.h,
+  //                 ),
+  //                 TextFormField(
+  //                   keyboardType: TextInputType.multiline,
+  //                   decoration: InputDecoration(
+  //                     hintText: 'Mobile',
+  //                     border: OutlineInputBorder(
+  //                       borderRadius: BorderRadius.circular(8.r),
+  //                     ),
+  //                   ),
+  //                   controller: controller.mobileController,
+  //                 ),
+  //                 SizedBox(
+  //                   height: 8.h,
+  //                 ),
+  //                 TextFormField(
+  //                   keyboardType: TextInputType.multiline,
+  //                   decoration: InputDecoration(
+  //                     hintText: 'Email',
+  //                     border: OutlineInputBorder(
+  //                       borderRadius: BorderRadius.circular(8.r),
+  //                     ),
+  //                   ),
+  //                   controller: controller.emailController,
+  //                 ),
+  //                 SizedBox(
+  //                   height: 8.h,
+  //                 ),
+  //                 TextFormField(
+  //                   keyboardType: TextInputType.multiline,
+  //                   decoration: InputDecoration(
+  //                     hintText: 'Password',
+  //                     border: OutlineInputBorder(
+  //                       borderRadius: BorderRadius.circular(8.r),
+  //                     ),
+  //                   ),
+  //                   controller: controller.passwordController,
+  //                 ),
+  //                 SizedBox(
+  //                   height: 8.h,
+  //                 ),
+  //                 ConstrainedBox(
+  //                   constraints: BoxConstraints.tightFor(
+  //                       width: Get.context!.width, height: 45.h),
+  //                   child: ElevatedButton(
+  //                     child: Text(
+  //                       text!,
+  //                       style: TextStyle(color: Colors.black, fontSize: 16.sp),
+  //                     ),
+  //                     onPressed: () {
+  //                       controller.saveUpdategeneralUsers(
+  //                         controller.nameController.text,
+  //                         controller.addressController.text,
+  //                         controller.mobileController.text,
+  //                         controller.emailController.text,
+  //                         controller.passwordController.text,
+  //                         docId!,
+  //                         addEditFlag!,
+  //                       );
+  //                     },
+  //                   ),
+  //                 ),
+  //               ],
+  //             ),
+  //           ),
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
 
   displayDeleteDialog(String docId) {
     Get.defaultDialog(

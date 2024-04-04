@@ -2,11 +2,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dpil/model/product.dart';
 import 'package:dpil/presentation/widgets/customFullScreenDialog.dart';
 import 'package:dpil/presentation/widgets/customSnackBar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class StockUserDashboardController extends GetxController {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  static final FirebaseAuth _auth = FirebaseAuth.instance;
+
   late TextEditingController nameController,
       categoryController,
       checkinController,
@@ -31,22 +34,30 @@ class StockUserDashboardController extends GetxController {
     checkoutController = TextEditingController();
     bookedController = TextEditingController();
     collectionReference = firebaseFirestore.collection("products");
-    Products.bindStream(getAllProducts());
-    foundProduct = Products;
+    // Products.bindStream(getAllProducts());
+    // foundProduct = Products;
+    getAllProducts().listen((product) {
+      Products.assignAll(product);
+      foundProduct.assignAll(Products);
+      // print(findvendors);
+    });
   }
 
-  String? validateName(String value) {
-    if (value.isEmpty) {
-      return "Name can not be empty";
-    }
-    return null;
-  }
+  // String? validateName(String value) {
+  //   if (value.isEmpty) {
+  //     return "Name can not be empty";
+  //   }
+  //   return null;
+  // }
 
-  String? validatecategory(String value) {
-    if (value.isEmpty) {
-      return "category can not be empty";
-    }
-    return null;
+  // String? validatecategory(String value) {
+  //   if (value.isEmpty) {
+  //     return "category can not be empty";
+  //   }
+  //   return null;
+  // }
+  Future<void> logout() {
+    return _auth.signOut();
   }
 
   void saveUpdateProduct(
@@ -162,14 +173,27 @@ class StockUserDashboardController extends GetxController {
     });
   }
 
-  void searchProduct(String searchQuery) {
-    if (searchQuery.isEmpty) {
-      foundProduct.assignAll(Products.toList());
+  // void searchProduct(String searchQuery) {
+  //   if (searchQuery.isEmpty) {
+  //     foundProduct.assignAll(Products.toList());
+  //   } else {
+  //     List<ProductModel> results = Products.where((element) =>
+  //             element.name!.toLowerCase().contains(searchQuery.toLowerCase()))
+  //         .toList();
+  //     foundProduct.assignAll(results);
+  //   }
+  // }
+
+  void searchProduct(String productName) {
+    List<ProductModel> results;
+    if (productName.isEmpty) {
+      results = Products;
     } else {
-      List<ProductModel> results = Products.where((element) =>
-              element.name!.toLowerCase().contains(searchQuery.toLowerCase()))
-          .toList();
-      foundProduct.assignAll(results);
+      results = Products.where((element) => element.name
+          .toString()
+          .toLowerCase()
+          .contains(productName.toLowerCase())).toList();
     }
+    foundProduct.value = results;
   }
 }

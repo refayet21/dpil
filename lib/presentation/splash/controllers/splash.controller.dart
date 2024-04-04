@@ -25,16 +25,20 @@ class SplashController extends GetxController {
     var adminemail = box.read('adminemail');
     var douseremail = box.read('douseremail');
     var generalemail = box.read('generalemail');
+    var stockemail = box.read('stockemail');
 
     if (adminemail != null && adminemail.isNotEmpty) {
-      print('Admin called');
+      // print('Admin called');
       Get.offNamed(Routes.ADMIN_DASHBOARD);
     } else if (douseremail != null && douseremail.isNotEmpty) {
-      print('douseremail called');
+      // print('douseremail called');
       Get.offNamed(Routes.DOUSER_DASHBOARD);
     } else if (generalemail != null && generalemail.isNotEmpty) {
-      print('generalemail called');
+      // print('generalemail called');
       Get.offNamed(Routes.GENUSER_DASHBOARD);
+    } else if (stockemail != null && stockemail.isNotEmpty) {
+      // print('generalemail called');
+      Get.offNamed(Routes.STOCK_USER_DASHBOARD);
     } else {
       Get.offNamed(Routes.LOGIN);
     }
