@@ -262,7 +262,6 @@ class DouserProductcartScreen extends GetView<DouserProductcartController> {
                     var category = sortedEntries[categoryIndex].key;
                     var products = sortedEntries[categoryIndex].value;
 
-                    // Sort products by name
                     products.sort((a, b) => a.name!.compareTo(b.name!));
 
                     return Column(
