@@ -251,7 +251,7 @@ import 'package:get/get.dart';
 import 'controllers/admin_addproduct.controller.dart';
 
 class AdminAddproductScreen extends GetView<AdminAddproductController> {
-  const AdminAddproductScreen({Key? key}) : super(key: key);
+  AdminAddproductScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -398,6 +398,8 @@ class AdminAddproductScreen extends GetView<AdminAddproductController> {
                 // Sort groupedProducts by category
                 var sortedEntries = groupedProducts.entries.toList()
                   ..sort((a, b) => a.key.compareTo(b.key));
+                // var category;
+                // var products;
 
                 return ListView.builder(
                   itemCount: sortedEntries.length,
@@ -468,30 +470,25 @@ class AdminAddproductScreen extends GetView<AdminAddproductController> {
                                     color: Colors.red,
                                   ),
                                   onPressed: () {
-                                    displayDeleteDialog(
-                                        controller.foundProduct[index].docId!);
+                                    displayDeleteDialog(products[index].docId!);
                                   },
                                 ),
                                 onTap: () {
                                   controller.nameController.text =
-                                      controller.foundProduct[index].name!;
+                                      products[index].name!;
                                   controller.categoryController.text =
-                                      controller.foundProduct[index].category!;
+                                      products[index].category!;
 
-                                  controller.checkinController.text = controller
-                                      .foundProduct[index].checkin!
-                                      .toString();
+                                  controller.checkinController.text =
+                                      products[index].checkin!.toString();
                                   controller.checkoutController.text =
-                                      controller.foundProduct[index].checkout!
-                                          .toString();
-                                  controller.bookedController.text = controller
-                                      .foundProduct[index].booked!
-                                      .toString();
+                                      products[index].checkout!.toString();
+                                  controller.bookedController.text =
+                                      products[index].booked!.toString();
                                   _buildAddEditProductView(
                                       text: 'UPDATE',
                                       addEditFlag: 2,
-                                      docId: controller
-                                          .foundProduct[index].docId!);
+                                      docId: products[index].docId!);
                                 },
                               ),
                             );
