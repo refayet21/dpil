@@ -20,6 +20,10 @@ class DoDrawer extends StatelessWidget {
         routeName: Routes.DOUSER_ADDCUSTOMER,
         icon: Icons.add),
     DrawerMenuItem(
+        title: 'Product Add',
+        routeName: Routes.DOUSER_ADDPRODUCT,
+        icon: Icons.add_box),
+    DrawerMenuItem(
         title: 'Delivery Order',
         routeName: Routes.DOUSER_PRODUCTCART,
         icon: Icons.delivery_dining),

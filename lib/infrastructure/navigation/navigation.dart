@@ -156,5 +156,10 @@ class Nav {
       page: () => const AdminInfoScreen(),
       binding: AdminInfoControllerBinding(),
     ),
+    GetPage(
+      name: Routes.DOUSER_ADDPRODUCT,
+      page: () => const DouserAddproductScreen(),
+      binding: DouserAddproductControllerBinding(),
+    ),
   ];
 }

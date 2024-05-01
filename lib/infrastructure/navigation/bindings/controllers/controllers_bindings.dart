@@ -14,6 +14,7 @@ export 'package:dpil/infrastructure/navigation/bindings/controllers/admin_previe
 export 'package:dpil/infrastructure/navigation/bindings/controllers/admin_previewgenattendence.controller.binding.dart'; 
 export 'package:dpil/infrastructure/navigation/bindings/controllers/allinvoicepreview.controller.binding.dart'; 
 export 'package:dpil/infrastructure/navigation/bindings/controllers/douser_addcustomer.controller.binding.dart'; 
+export 'package:dpil/infrastructure/navigation/bindings/controllers/douser_addproduct.controller.binding.dart'; 
 export 'package:dpil/infrastructure/navigation/bindings/controllers/douser_attendence.controller.binding.dart'; 
 export 'package:dpil/infrastructure/navigation/bindings/controllers/douser_dashboard.controller.binding.dart'; 
 export 'package:dpil/infrastructure/navigation/bindings/controllers/douser_invoice.controller.binding.dart'; 

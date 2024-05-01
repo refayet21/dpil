@@ -13,6 +13,7 @@ class Routes {
   static const ADMIN_DO = '/admin-do';
   static const ADMIN_EMAIL = '/admin-email';
   static const ADMIN_GENATTENDENCE = '/admin-genattendence';
+  static const ADMIN_INFO = '/admin-info';
   static const ADMIN_PREVIEWATTENDANCE = '/admin-previewattendance';
   static const ADMIN_PREVIEWDO = '/admin-previewdo';
   static const ADMIN_PREVIEWGENATTENDENCE = '/admin-previewgenattendence';
@@ -28,5 +29,5 @@ class Routes {
   static const LOGIN = '/login';
   static const SPLASH = '/splash';
   static const STOCK_USER_DASHBOARD = '/stock-user-dashboard';
-  static const ADMIN_INFO = '/admin-info';
+  static const DOUSER_ADDPRODUCT = '/douser-addproduct';
 }

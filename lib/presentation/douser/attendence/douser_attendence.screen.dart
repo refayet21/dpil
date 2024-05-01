@@ -202,6 +202,8 @@ class DouserAttendenceScreen extends StatelessWidget {
           ],
         ),
       ),
+      floatingActionButton:
+          ElevatedButton(onPressed: () {}, child: Text('Print Attendance')),
     );
   }
 }

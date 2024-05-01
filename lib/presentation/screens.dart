@@ -14,6 +14,7 @@ export 'package:dpil/presentation/admin/previewdo/admin_previewdo.screen.dart';
 export 'package:dpil/presentation/admin/previewgenattendence/admin_previewgenattendence.screen.dart';
 export 'package:dpil/presentation/allinvoicepreview/allinvoicepreview.screen.dart';
 export 'package:dpil/presentation/douser/addcustomer/douser_addcustomer.screen.dart';
+export 'package:dpil/presentation/douser/addproduct/douser_addproduct.screen.dart';
 export 'package:dpil/presentation/douser/attendence/douser_attendence.screen.dart';
 export 'package:dpil/presentation/douser/dashboard/douser_dashboard.screen.dart';
 export 'package:dpil/presentation/douser/invoice/douser_invoice.screen.dart';
