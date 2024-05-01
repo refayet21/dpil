@@ -240,7 +240,7 @@ class AdminDoController extends GetxController {
                   crossAxisAlignment: pw.CrossAxisAlignment.start,
                   children: [
                     pw.Text(
-                      'Authorized Signature',
+                      'This is a system-generated delivery order, no signature required.',
                       style: pw.TextStyle(
                         fontSize: 11.0,
                         fontWeight: pw.FontWeight.bold,
