@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dpil/infrastructure/navigation/routes.dart';
+import 'package:dpil/presentation/douser/dashboard/controllers/douser_dashboard.controller.dart';
 import 'package:dpil/presentation/widgets/do_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,11 +8,16 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:month_year_picker/month_year_picker.dart';
+import '../../admin/previewattendance/controllers/admin_previewattendance.controller.dart';
 import 'controllers/douser_attendence.controller.dart';
 
 class DouserAttendenceScreen extends StatelessWidget {
   final DouserAttendenceController _calendarController =
       Get.put(DouserAttendenceController());
+  final AdminPreviewattendanceController adminPreviewattendanceController =
+      Get.put(AdminPreviewattendanceController());
+  final DouserDashboardController douserDashboardController =
+      Get.put(DouserDashboardController());
   final box = GetStorage();
   String _formatDateTime(Timestamp timestamp) {
     // Convert the Timestamp object to a DateTime object
@@ -202,8 +208,23 @@ class DouserAttendenceScreen extends StatelessWidget {
           ],
         ),
       ),
-      floatingActionButton:
-          ElevatedButton(onPressed: () {}, child: Text('Print Attendance')),
+      floatingActionButton: ElevatedButton(
+        onPressed: () {
+          adminPreviewattendanceController.generateSingleAttendencePdf(
+            douserDashboardController.employeeName.value,
+            _calendarController.filteredAttendance
+                .map((snapshot) => [
+                      _formatDateTime(snapshot['date']),
+                      snapshot['checkIn'],
+                      snapshot['checkInLocation'],
+                      snapshot['checkOut'],
+                      snapshot['checkOutLocation'],
+                    ])
+                .toList(),
+          );
+        },
+        child: Text('Generate PDF'),
+      ),
     );
   }
 }
