@@ -304,6 +304,7 @@ class AdminAttendanceScreen extends GetView<AdminAttendanceController> {
                       onTap: () {
                         Get.to(() => AdminPreviewattendanceScreen(
                               employeeId: controller.founddouser[index].docId!,
+                              employeeName: controller.founddouser[index].name!,
                             ));
                         // print(
                         //     'Doc Id is : ${controller.founddouser[index].docId!}');

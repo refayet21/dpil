@@ -27,9 +27,10 @@ class AdminPreviewattendanceScreen
   // }
 
   final String? employeeId;
+  final String? employeeName;
   final AdminPreviewattendanceController _calendarController;
 
-  AdminPreviewattendanceScreen({this.employeeId})
+  AdminPreviewattendanceScreen({this.employeeId, this.employeeName})
       : _calendarController =
             Get.put(AdminPreviewattendanceController(employeeId: employeeId));
 
@@ -37,6 +38,8 @@ class AdminPreviewattendanceScreen
     DateTime dateTime = timestamp.toDate();
     return DateFormat('dd-MM-yyyy').format(dateTime);
   }
+
+  var month;
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +67,7 @@ class AdminPreviewattendanceScreen
                     ),
                     GestureDetector(
                       onTap: () async {
-                        final month = await showMonthYearPicker(
+                        month = await showMonthYearPicker(
                           context: context,
                           initialDate: DateTime.now(),
                           firstDate: DateTime(2022),
@@ -209,6 +212,35 @@ class AdminPreviewattendanceScreen
             ),
           ],
         ),
+      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {
+      //     _calendarController.generateSingleAttendencePdf(
+      //       employeeName!,
+      //       _calendarController.filteredAttendance
+      //           .map((snapshot) =>
+      //               (snapshot.data() as Map<String, dynamic>).values.toList())
+      //           .toList(),
+      //     );
+      //   },
+      //   child: Icon(Icons.picture_as_pdf),
+      // ),
+      floatingActionButton: ElevatedButton(
+        onPressed: () {
+          _calendarController.generateSingleAttendencePdf(
+            employeeName!,
+            _calendarController.filteredAttendance
+                .map((snapshot) => [
+                      _formatDateTime(snapshot['date']),
+                      snapshot['checkIn'],
+                      snapshot['checkInLocation'],
+                      snapshot['checkOut'],
+                      snapshot['checkOutLocation'],
+                    ])
+                .toList(),
+          );
+        },
+        child: Text('Generate PDF'),
       ),
     );
   }

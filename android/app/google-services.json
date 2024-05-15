@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "555945911762",
-    "project_id": "dpil-1dc53",
-    "storage_bucket": "dpil-1dc53.appspot.com"
+    "project_number": "647880356114",
+    "project_id": "appdpilbd-c330c",
+    "storage_bucket": "appdpilbd-c330c.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:555945911762:android:cfdd664046f8b352e9140b",
+        "mobilesdk_app_id": "1:647880356114:android:4ff9d6d51116d19a6fc3cb",
         "android_client_info": {
           "package_name": "com.example.dpil"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCdnwhPc3gkFYW4LUsx4dYbffiKkhLck5g"
+          "current_key": "AIzaSyBBwDWQIwF7fsbFO0Rdjq3PtyTHXDbMn6Q"
         }
       ],
       "services": {

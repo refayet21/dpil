@@ -41,7 +41,7 @@ class AllinvoicepreviewScreen extends GetView<AllinvoicepreviewController> {
           //   icon: Icon(Icons.arrow_back_outlined),
           // ),
           centerTitle: true,
-          title: Text("Delivery Order"),
+          title: Text("PDF Document"),
         ),
         body: Padding(
           padding: const EdgeInsets.all(8.0),

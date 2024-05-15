@@ -62,4 +62,7 @@ fonts:
     - family: robotoregular
       fonts:
         - asset: assets/fonts/robotoregular.ttf
+    - family: siyamrupali
+      fonts:
+        - asset: assets/fonts/siyamrupali.ttf
 
