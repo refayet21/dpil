@@ -168,13 +168,13 @@ class AdminPreviewattendanceController extends GetxController {
 
                 // data: dataList,
                 cellStyle: pw.TextStyle(
-                  fontSize: 7.sp,
+                  fontSize: 7,
                   // font: ttf,
                   // fontFallback: [pw.Font.ttf(fallbackfontData)]
                 ),
                 border: pw.TableBorder.all(),
                 headerStyle: pw.TextStyle(
-                  fontSize: 7.sp,
+                  fontSize: 7,
                 ),
               ),
             ];
