@@ -158,6 +158,7 @@
 //   }
 // }
 
+import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dpil/presentation/allinvoicepreview/allinvoicepreview.screen.dart';
 import 'package:flutter/services.dart';
@@ -299,6 +300,8 @@ class AdminAttendanceController extends GetxController {
 
   RxBool isGeneratingPdf = false.obs;
 
+  // date picker
+
   // Firestore operation
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   late CollectionReference collectionReference;
@@ -326,26 +329,29 @@ class AdminAttendanceController extends GetxController {
           .where((element) =>
               element.name!.toLowerCase().contains(searchQuery.toLowerCase()))
           .toList();
-      founddouser.clear(); // Clear the previous search results
-      founddouser.addAll(results); // Add new search results
+      founddouser.clear();
+      founddouser.addAll(results);
     }
   }
 
-  // Future<void> getAllSubcollectionData() async {
-  //   Map<String, List<Map<String, dynamic>>> allData = {};
+  // Future<Map<String, List<Map<String, dynamic>>>> getAllSubcollectionData(
+  //     Timestamp startDate, Timestamp endDate) async {
   //   try {
-  //     isGeneratingPdf.value = true;
+  //     Map<String, List<Map<String, dynamic>>> allData = {};
   //     for (var user in founddouser) {
   //       CollectionReference subCollectionRef = firebaseFirestore
   //           .collection('do_users')
   //           .doc(user.docId)
   //           .collection('Record');
 
-  //       QuerySnapshot querySnapshot = await subCollectionRef.get();
+  //       Query query = subCollectionRef
+  //           .where('date', isGreaterThanOrEqualTo: startDate)
+  //           .where('date', isLessThanOrEqualTo: endDate);
+
+  //       QuerySnapshot querySnapshot = await query.get();
   //       for (QueryDocumentSnapshot doc in querySnapshot.docs) {
   //         Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
-  //         data['userName'] =
-  //             user.name; // Include user name in the subcollection data
+  //         data['userName'] = user.name;
 
   //         if (!allData.containsKey(user.name)) {
   //           allData[user.name!] = [];
@@ -353,88 +359,16 @@ class AdminAttendanceController extends GetxController {
   //         allData[user.name]!.add(data);
   //       }
   //     }
-  //     groupedSubcollectionData.assignAll(allData);
   //     print('Grouped subcollection data: $allData');
-  //     isGeneratingPdf.value = false;
+  //     return allData;
   //   } catch (e) {
   //     print(e);
+  //     return {};
   //   }
   // }
 
-  // Future<void> generateAttendancePdfForAll() async {
-  //   Map<String, List<List<dynamic>>> allData = {};
-  //   groupedSubcollectionData.forEach((employeeName, records) {
-  //     List<List<dynamic>> data = records.map((record) {
-  //       return [
-  //         _formatDateTime(record['date']),
-  //         record['checkIn'],
-  //         record['checkOut'],
-  //         // Add other fields if needed
-  //       ];
-  //     }).toList();
-  //     allData[employeeName] = data;
-  //   });
-
-  //   await generateAttendancePdf(allData);
-  // }
-
-  // Future<void> generateAttendancePdf(
-  //   Map<String, List<List<dynamic>>> allData,
-  // ) async {
-  //   final doc = pw.Document();
-
-  //   try {
-  //     final tableHeaders = [
-  //       'S.No.',
-  //       'Date',
-  //       'Check In',
-  //       'Check Out',
-  //       // Add other headers if needed
-  //     ];
-
-  //     allData.forEach((employeeName, data) {
-  //       doc.addPage(
-  //         pw.MultiPage(
-  //           margin: pw.EdgeInsets.all(10),
-  //           pageFormat: PdfPageFormat.a4,
-  //           build: (context) {
-  //             return [
-  //               pw.Header(
-  //                 level: 0,
-  //                 child: pw.Text('Attendance Report: $employeeName',
-  //                     style: pw.TextStyle(
-  //                         fontSize: 24, fontWeight: pw.FontWeight.bold)),
-  //               ),
-  //               pw.SizedBox(height: 20),
-  //               pw.Table.fromTextArray(
-  //                 headers: tableHeaders,
-  //                 data: List<List<dynamic>>.generate(
-  //                   data.length,
-  //                   (index) => [index + 1, ...data[index]],
-  //                 ),
-  //                 border: pw.TableBorder.all(),
-  //                 cellStyle: pw.TextStyle(fontSize: 12),
-  //                 headerStyle: pw.TextStyle(
-  //                   fontSize: 14,
-  //                   fontWeight: pw.FontWeight.bold,
-  //                 ),
-  //                 headerDecoration: pw.BoxDecoration(color: PdfColors.grey300),
-  //               ),
-  //               pw.SizedBox(height: 40), // Add space between employee sections
-  //             ];
-  //           },
-  //         ),
-  //       );
-  //     });
-
-  //     Get.to(() => AllinvoicepreviewScreen(doc: doc));
-  //   } catch (e) {
-  //     print(e);
-  //   }
-  // }
-
-  Future<Map<String, List<Map<String, dynamic>>>>
-      getAllSubcollectionData() async {
+  Future<Map<String, List<Map<String, dynamic>>>> getAllSubcollectionData(
+      Timestamp startDate, Timestamp endDate) async {
     try {
       Map<String, List<Map<String, dynamic>>> allData = {};
       for (var user in founddouser) {
@@ -443,11 +377,16 @@ class AdminAttendanceController extends GetxController {
             .doc(user.docId)
             .collection('Record');
 
-        QuerySnapshot querySnapshot = await subCollectionRef.get();
+        Query query = subCollectionRef
+            .where('date', isGreaterThanOrEqualTo: startDate)
+            .where('date', isLessThanOrEqualTo: endDate)
+            .orderBy('date',
+                descending: false); // Sort by date in descending order
+
+        QuerySnapshot querySnapshot = await query.get();
         for (QueryDocumentSnapshot doc in querySnapshot.docs) {
           Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
-          data['userName'] =
-              user.name; // Include user name in the subcollection data
+          data['userName'] = user.name;
 
           if (!allData.containsKey(user.name)) {
             allData[user.name!] = [];
@@ -463,11 +402,13 @@ class AdminAttendanceController extends GetxController {
     }
   }
 
-  Future<void> generateAttendancePdfForAll() async {
+  Future<void> generateAttendancePdfForAll(
+      String firstDate, String lastDate) async {
     try {
       isGeneratingPdf.value = true;
       Map<String, List<Map<String, dynamic>>> allData =
-          await getAllSubcollectionData();
+          await getAllSubcollectionData(convertStringToTimestamp(firstDate),
+              convertStringToTimestamp(lastDate));
       Map<String, List<List<dynamic>>> formattedData = {};
 
       allData.forEach((employeeName, records) {
@@ -482,7 +423,7 @@ class AdminAttendanceController extends GetxController {
         formattedData[employeeName] = data;
       });
 
-      await generateAttendancePdf(formattedData);
+      await generateAttendancePdf(firstDate, lastDate, formattedData);
       isGeneratingPdf.value = false;
     } catch (e) {
       print(e);
@@ -490,50 +431,90 @@ class AdminAttendanceController extends GetxController {
   }
 
   // Future<void> generateAttendancePdf(
+  //   String firstDate,
+  //   String lastDate,
   //   Map<String, List<List<dynamic>>> allData,
   // ) async {
   //   final doc = pw.Document();
 
   //   try {
+  //     // Extract all unique dates
+  //     Set<String> allDates = allData.values
+  //         .expand((data) => data.map((item) => item[0] as String))
+  //         .toSet();
+
+  //     // Build table headers with unique dates
   //     final tableHeaders = [
   //       'Date',
-  //       'Check In',
-  //       'Check Out',
-
+  //       ...allData.keys.toList(), // User names as column headers
   //     ];
 
-  //     allData.forEach((employeeName, data) {
-  //       doc.addPage(
-  //         pw.MultiPage(
-  //           margin: pw.EdgeInsets.all(10),
-  //           pageFormat: PdfPageFormat.a4,
-  //           orientation: PageOrientation.landscape,
-  //           build: (context) {
-  //             return [
-  //               pw.Header(
-  //                 level: 0,
-  //                 child: pw.Text('Attendance Report: $employeeName',
-  //                     style: pw.TextStyle(
-  //                         fontSize: 24, fontWeight: pw.FontWeight.bold)),
-  //               ),
-  //               pw.SizedBox(height: 20),
-  //               pw.Table.fromTextArray(
-  //                 headers: tableHeaders,
-  //                 data: data, // Data already formatted without serial number
-  //                 border: pw.TableBorder.all(),
-  //                 cellStyle: pw.TextStyle(fontSize: 12),
-  //                 headerStyle: pw.TextStyle(
-  //                   fontSize: 14,
-  //                   fontWeight: pw.FontWeight.bold,
-  //                 ),
-  //                 headerDecoration: pw.BoxDecoration(color: PdfColors.grey300),
-  //               ),
-  //               pw.SizedBox(height: 40), // Add space between employee sections
-  //             ];
-  //           },
-  //         ),
-  //       );
+  //     List<List<dynamic>> tableData = [];
+
+  //     // Initialize tableData with empty lists for each user
+  //     allData.keys.forEach((_) {
+  //       tableData.add([]);
   //     });
+
+  //     // Iterate through each date
+  //     for (String date in allDates) {
+  //       List<dynamic> rowData = [date];
+
+  //       // Iterate through each user
+  //       for (String userName in allData.keys) {
+  //         var userData;
+  //         try {
+  //           // Find corresponding data for user and date
+  //           userData = allData[userName]!.firstWhere(
+  //             (data) => data[0] == date,
+  //           );
+  //         } catch (e) {
+  //           // Handle the error, e.g., by providing a default value
+  //           userData = null;
+  //         }
+
+  //         // Add check-in and check-out data if available, else add empty strings
+  //         if (userData != null) {
+  //           rowData.add('${userData[1]} - ${userData[2]}');
+  //         } else {
+  //           rowData.add('');
+  //         }
+  //       }
+
+  //       // Add row data to table data
+  //       tableData.add(rowData);
+  //     }
+
+  //     doc.addPage(
+  //       pw.MultiPage(
+  //         margin: pw.EdgeInsets.all(10),
+  //         pageFormat: PdfPageFormat.a4,
+  //         orientation: PageOrientation.landscape,
+  //         build: (context) {
+  //           return [
+  //             pw.Header(
+  //               level: 0,
+  //               child: pw.Text(
+  //                   'DPIL ALL Employee Attendance From $firstDate to $lastDate',
+  //                   style: pw.TextStyle(
+  //                       fontSize: 24, fontWeight: pw.FontWeight.bold)),
+  //             ),
+  //             pw.SizedBox(height: 20),
+  //             pw.Table.fromTextArray(
+  //               headers: tableHeaders,
+  //               data: tableData,
+  //               border: pw.TableBorder.all(),
+  //               cellStyle: pw.TextStyle(fontSize: 12),
+  //               headerStyle: pw.TextStyle(
+  //                 fontSize: 14,
+  //                 fontWeight: pw.FontWeight.bold,
+  //               ),
+  //               headerDecoration: pw.BoxDecoration(color: PdfColors.grey300),
+  //             ),
+  //           ];
+  //         },
+  //       ),
+  //     );
 
   //     Get.to(() => AllinvoicepreviewScreen(doc: doc));
   //   } catch (e) {
@@ -542,6 +523,8 @@ class AdminAttendanceController extends GetxController {
   // }
 
   Future<void> generateAttendancePdf(
+    String firstDate,
+    String lastDate,
     Map<String, List<List<dynamic>>> allData,
   ) async {
     final doc = pw.Document();
@@ -551,6 +534,10 @@ class AdminAttendanceController extends GetxController {
       Set<String> allDates = allData.values
           .expand((data) => data.map((item) => item[0] as String))
           .toSet();
+
+      // Convert the set to a list and sort it in ascending order
+      List<String> sortedDates = allDates.toList()
+        ..sort((a, b) => a.compareTo(b));
 
       // Build table headers with unique dates
       final tableHeaders = [
@@ -565,8 +552,8 @@ class AdminAttendanceController extends GetxController {
         tableData.add([]);
       });
 
-      // Iterate through each date
-      for (String date in allDates) {
+      // Iterate through each sorted date
+      for (String date in sortedDates) {
         List<dynamic> rowData = [date];
 
         // Iterate through each user
@@ -603,18 +590,19 @@ class AdminAttendanceController extends GetxController {
             return [
               pw.Header(
                 level: 0,
-                child: pw.Text('DPIL ALL Employee Attendance',
+                child: pw.Text(
+                    'DPIL ALL Employee Attendance From $firstDate to $lastDate',
                     style: pw.TextStyle(
-                        fontSize: 24, fontWeight: pw.FontWeight.bold)),
+                        fontSize: 20, fontWeight: pw.FontWeight.bold)),
               ),
               pw.SizedBox(height: 20),
               pw.Table.fromTextArray(
                 headers: tableHeaders,
                 data: tableData,
                 border: pw.TableBorder.all(),
-                cellStyle: pw.TextStyle(fontSize: 12),
+                cellStyle: pw.TextStyle(fontSize: 9),
                 headerStyle: pw.TextStyle(
-                  fontSize: 14,
+                  fontSize: 11,
                   fontWeight: pw.FontWeight.bold,
                 ),
                 headerDecoration: pw.BoxDecoration(color: PdfColors.grey300),
@@ -624,7 +612,11 @@ class AdminAttendanceController extends GetxController {
         ),
       );
 
-      Get.to(() => AllinvoicepreviewScreen(doc: doc));
+      Get.to(() => AllinvoicepreviewScreen(
+            doc: doc,
+            pdfname:
+                'DPIL ALL Employee Attendance From $firstDate to $lastDate',
+          ));
     } catch (e) {
       print(e);
     }
@@ -633,5 +625,12 @@ class AdminAttendanceController extends GetxController {
   String _formatDateTime(Timestamp timestamp) {
     DateTime dateTime = timestamp.toDate();
     return DateFormat('dd-MM-yyyy').format(dateTime);
+  }
+
+  Timestamp convertStringToTimestamp(String dateString) {
+    // Parse the date string to a DateTime object
+    DateTime dateTime = DateFormat('dd-MM-yyyy').parse(dateString);
+    // Convert DateTime object to a Firestore Timestamp
+    return Timestamp.fromDate(dateTime);
   }
 }

@@ -115,6 +115,7 @@
 //   }
 // }
 
+import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dpil/infrastructure/navigation/routes.dart';
 import 'package:dpil/presentation/admin/previewattendance/admin_previewattendance.screen.dart';
@@ -533,10 +534,18 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class AdminAttendanceScreen extends GetView<AdminAttendanceController> {
-  const AdminAttendanceScreen({Key? key}) : super(key: key);
+  AdminAttendanceScreen({Key? key}) : super(key: key);
 
   String _formatDateTime(Timestamp timestamp) {
     DateTime dateTime = timestamp.toDate();
+    return DateFormat('dd-MM-yyyy').format(dateTime);
+  }
+
+  List<DateTime?> _dates = [];
+  var results;
+
+  String getDateFromString(String dateTimeString) {
+    DateTime dateTime = DateTime.parse(dateTimeString);
     return DateFormat('dd-MM-yyyy').format(dateTime);
   }
 
@@ -552,19 +561,33 @@ class AdminAttendanceScreen extends GetView<AdminAttendanceController> {
       ),
       body: Column(
         children: [
-          Padding(
-            padding: EdgeInsets.all(8.0.r),
-            child: TextField(
-              onChanged: (value) => controller.searchdouser(value),
-              decoration: InputDecoration(
-                hintText: "Search",
-                prefixIcon: Icon(Icons.search),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(25.0.r)),
-                ),
-              ),
-            ),
-          ),
+          // Padding(
+          //   padding: EdgeInsets.all(8.0.r),
+          //   child: TextField(
+          //     onChanged: (value) => controller.searchdouser(value),
+          //     decoration: InputDecoration(
+          //       hintText: "Search",
+          //       prefixIcon: Icon(Icons.search),
+          //       border: OutlineInputBorder(
+          //         borderRadius: BorderRadius.all(Radius.circular(25.0.r)),
+          //       ),
+          //     ),
+          //   ),
+          // ),
+
+          ElevatedButton(
+              onPressed: () async {
+                results = await showCalendarDatePicker2Dialog(
+                  context: context,
+                  config: CalendarDatePicker2WithActionButtonsConfig(
+                    calendarType: CalendarDatePicker2Type.range,
+                  ),
+                  dialogSize: const Size(325, 400),
+                  value: _dates,
+                  borderRadius: BorderRadius.circular(15),
+                );
+              },
+              child: Text('Select Date Range')),
           SizedBox(height: 10.h),
           Expanded(
             child: Obx(() {
@@ -645,16 +668,15 @@ class AdminAttendanceScreen extends GetView<AdminAttendanceController> {
           onPressed: controller.isGeneratingPdf.value
               ? null
               : () async {
-                  await controller.generateAttendancePdfForAll();
+                  await controller.generateAttendancePdfForAll(
+                      getDateFromString(results[0].toString()),
+                      getDateFromString(results[1].toString()));
                 },
           child: controller.isGeneratingPdf.value
               ? CircularProgressIndicator() // Show loading indicator while generating PDF
               : Text('Generate PDF'),
         ),
       ),
-      // floatingActionButton: FloatingActionButton(onPressed: () {
-      //   controller.generateAttendancePdf(allData)
-      // },),
     );
   }
 }
