@@ -173,9 +173,9 @@ class AdminEmailScreen extends GetView<AdminEmailController> {
                       ),
                     ),
                     controller: controller.toController,
-                    // validator: (value) {
-                    //   return controller.validateto(value!);
-                    // },
+                    validator: (value) {
+                      return controller.validateto(value!);
+                    },
                   ),
                   SizedBox(
                     height: 10.h,
@@ -228,14 +228,16 @@ class AdminEmailScreen extends GetView<AdminEmailController> {
                         style: TextStyle(color: Colors.black, fontSize: 16.sp),
                       ),
                       onPressed: () {
-                        controller.saveUpdateVendor(
-                          controller.toController.text,
-                          controller.ccController.text,
-                          controller.subjectController.text,
-                          controller.bodyController.text,
-                          docId!,
-                          addEditFlag!,
-                        );
+                        if (controller.formKey.currentState!.validate()) {
+                          controller.saveUpdateVendor(
+                            controller.toController.text,
+                            controller.ccController.text,
+                            controller.subjectController.text,
+                            controller.bodyController.text,
+                            docId!,
+                            addEditFlag!,
+                          );
+                        }
                       },
                     ),
                   ),

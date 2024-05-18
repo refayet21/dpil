@@ -306,6 +306,9 @@ class DouserAddproductScreen extends GetView<DouserAddproductController> {
                       ),
                     ),
                     controller: controller.nameController,
+                    validator: (value) {
+                      return controller.validateName(value!);
+                    },
                   ),
                   SizedBox(
                     height: 10.h,
@@ -371,20 +374,22 @@ class DouserAddproductScreen extends GetView<DouserAddproductController> {
                         style: TextStyle(color: Colors.black, fontSize: 16.sp),
                       ),
                       onPressed: () {
-                        final productModel = ProductModel(
-                          docId: docId,
-                          name: controller.nameController.text,
-                          category: controller.categoryController.text,
-                          checkin:
-                              int.tryParse(controller.checkinController.text),
-                          checkout:
-                              int.tryParse(controller.checkoutController.text),
-                          booked:
-                              int.tryParse(controller.bookedController.text),
-                        );
+                        if (controller.formKey.currentState!.validate()) {
+                          final productModel = ProductModel(
+                            docId: docId,
+                            name: controller.nameController.text,
+                            category: controller.categoryController.text,
+                            checkin:
+                                int.tryParse(controller.checkinController.text),
+                            checkout: int.tryParse(
+                                controller.checkoutController.text),
+                            booked:
+                                int.tryParse(controller.bookedController.text),
+                          );
 
-                        controller.saveUpdateProduct(
-                            productModel, docId!, addEditFlag!);
+                          controller.saveUpdateProduct(
+                              productModel, docId!, addEditFlag!);
+                        }
                       },
                     ),
                   ),

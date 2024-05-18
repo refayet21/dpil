@@ -274,9 +274,9 @@ class DouserAddcustomerScreen extends GetView<DouserAddcustomerController> {
                       ),
                     ),
                     controller: controller.nameController,
-                    // validator: (value) {
-                    //   return controller.validateName(value!);
-                    // },
+                    validator: (value) {
+                      return controller.validateName(value!);
+                    },
                   ),
                   SizedBox(
                     height: 10.h,
@@ -329,14 +329,16 @@ class DouserAddcustomerScreen extends GetView<DouserAddcustomerController> {
                         style: TextStyle(color: Colors.black, fontSize: 16.sp),
                       ),
                       onPressed: () {
-                        controller.saveUpdateVendor(
-                          controller.nameController.text,
-                          controller.addressController.text,
-                          controller.contactpersonController.text,
-                          controller.mobileController.text,
-                          docId!,
-                          addEditFlag!,
-                        );
+                        if (controller.formKey.currentState!.validate()) {
+                          controller.saveUpdateVendor(
+                            controller.nameController.text,
+                            controller.addressController.text,
+                            controller.contactpersonController.text,
+                            controller.mobileController.text,
+                            docId!,
+                            addEditFlag!,
+                          );
+                        }
                       },
                     ),
                   ),

@@ -36,12 +36,12 @@ class DouserAddcustomerController extends GetxController {
     });
   }
 
-  // String? validateName(String value) {
-  //   if (value.isEmpty) {
-  //     return "Name can not be empty";
-  //   }
-  //   return null;
-  // }
+  String? validateName(String value) {
+    if (value.isEmpty) {
+      return "Name can not be empty";
+    }
+    return null;
+  }
 
   // String? validateaddress(String value) {
   //   if (value.isEmpty) {
