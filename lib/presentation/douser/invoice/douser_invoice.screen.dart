@@ -201,7 +201,7 @@ class DouserInvoiceScreen extends GetView<DouserInvoiceController> {
                               Icons.edit_off,
                               color: Colors.red,
                             ),
-                            onPressed: () {
+                            onPressed: () async {
                               // print(
                               //     'current date ${DateFormat('dd-MM-yyyy').format(DateTime.now()).toString()}');
                               // print(
@@ -211,6 +211,34 @@ class DouserInvoiceScreen extends GetView<DouserInvoiceController> {
                                   'tommorow date ${DateFormat('dd-MM-yyyy').format(DateTime.now().add(Duration(days: -1))).toString()}');
                               // print(
                               //     'controller +1 date ${DateFormat('dd-MM-yyyy').format(DateFormat('dd-MM-yyyy').parse(controller.dousers[index]['date']).add(Duration(days: 1))).toString()}');
+
+                              await showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Center(
+                                      child: Text(
+                                        'Time is over to edit',
+                                        style: TextStyle(
+                                          fontSize: 25.sp,
+                                          color: Colors.red,
+                                        ),
+                                      ),
+                                    ),
+                                    // actions: <Widget>[
+                                    //   TextButton(
+                                    //     onPressed: () {
+                                    //       Navigator.of(context).pop();
+                                    //     },
+                                    //     child: Text(
+                                    //       'OK',
+                                    //       style: TextStyle(fontSize: 20.sp),
+                                    //     ),
+                                    //   ),
+                                    // ],
+                                  );
+                                },
+                              );
                             },
                           ),
                   ),
