@@ -75,25 +75,25 @@ class DouserInvoicepreviewScreen
         //   primary: Colors.amber,
         // ),
         onPressed: () async {
-          bool bookedSuccessfully =
-              await controller.updateBooking(deliveryOrder!.data);
+          // bool bookedSuccessfully =
+          //     await controller.updateBooking(deliveryOrder!.data);
 
-          if (bookedSuccessfully) {
-            bool savedSuccessfully =
-                await controller.saveDeliveryOrder(deliveryOrder!);
-            if (savedSuccessfully) {
-              controller.sendFinalEmail(pdfname!, doc);
-            }
-          }
+          // if (bookedSuccessfully) {
+          //   bool savedSuccessfully =
+          //       await controller.saveDeliveryOrder(deliveryOrder!);
+          //   if (savedSuccessfully) {
+          //     controller.sendFinalEmail(pdfname!, doc);
+          //   }
+          // }
         },
-        child: Obx(
-          () => controller.isSendingEmail.value
-              ? CircularProgressIndicator(
-                  color: Colors.white,
-                )
-              : Text('Send Email'),
-        ),
+        // child: Obx(
+        //   () => controller.isSendingEmail.value
+        //       ? CircularProgressIndicator(
+        //           color: Colors.white,
+        //         )
+        child: Text('Send Email'),
       ),
     );
+    //   );
   }
 }

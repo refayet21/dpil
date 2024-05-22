@@ -482,26 +482,54 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
                               String vendorMobile =
                                   '${controller.selectedVendor.value!.mobile ?? ""}';
 
-                              controller.generateInvoicePdf(
-                                doNo,
-                                date,
-                                marketingperson.docId!,
-                                marketingperson.name!,
-                                vendorName,
-                                vendorAddress,
-                                contactPerson,
-                                vendorMobile,
-                                invoiceData,
-                                // stockData,
-                                totalAmount,
-                                deliverydateController.text,
-                              );
+                              bool bookedSuccessfully =
+                                  await controller.updateBooking(invoiceData);
+
+                              if (bookedSuccessfully) {
+                                bool savedSuccessfully =
+                                    await controller.saveDeliveryOrder(
+                                  DeliveryOrder(
+                                    doNo: doNo,
+                                    date: date,
+                                    userId: marketingperson.docId!,
+                                    marketingPerson: marketingperson.name!,
+                                    vendorName: vendorName,
+                                    vendorAddress: vendorAddress,
+                                    contactPerson: contactPerson,
+                                    vendorMobile: vendorMobile,
+                                    data: invoiceData,
+                                    totalInWord: totalAmount,
+                                    deliveryDate: deliverydateController.text,
+                                  ),
+                                );
+                                if (savedSuccessfully) {
+                                  controller.generateInvoicePdf(
+                                    doNo,
+                                    date,
+                                    marketingperson.docId!,
+                                    marketingperson.name!,
+                                    vendorName,
+                                    vendorAddress,
+                                    contactPerson,
+                                    vendorMobile,
+                                    invoiceData,
+                                    totalAmount,
+                                    deliverydateController.text,
+                                  );
+                                }
+                              }
 
                               // print('invoiceData is $invoiceData');
 
                               Navigator.of(context).pop();
                             },
-                            child: Text('Confirm'),
+                            child: Obx(
+                              () => controller.isSendingEmail.value
+                                  ? CircularProgressIndicator(
+                                      color: Colors.blue,
+                                    )
+                                  : Text('Confirm'),
+                            ),
                           ),
                           TextButton(
                             onPressed: () {

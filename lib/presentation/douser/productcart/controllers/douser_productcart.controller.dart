@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
@@ -29,6 +30,9 @@ class DouserProductcartController extends GetxController {
   RxList<ProductModel> productModel2 = RxList<ProductModel>([]);
   RxList<ProductModel> foundProduct = RxList<ProductModel>([]);
   Rx<VendorModel?> selectedVendor = Rx<VendorModel?>(null);
+  String generateddate = DateFormat('dd.MM.yyyy').format(DateTime.now());
+  RxBool isSendingEmail = false.obs;
+  final box = GetStorage();
 
   // Method to update the selected vendor
   void updateSelectedVendor(VendorModel? value) {
@@ -154,8 +158,135 @@ class DouserProductcartController extends GetxController {
     }
   }
 
-  String generateddate = DateFormat('dd.MM.yyyy').format(DateTime.now());
   // var docounter = 0;
+
+  // void searchProduct(String searchQuery) {
+  //   if (searchQuery.isEmpty) {
+  //     foundProduct.assignAll(productModel2.toList());
+  //   } else {
+  //     List<ProductModel> results = productModel2
+  //         .where((element) =>
+  //             element.name!.toLowerCase().contains(searchQuery.toLowerCase()))
+  //         .toList();
+  //     foundProduct.assignAll(results);
+  //   }
+  // }
+  // void searchProduct(String searchQuery) {
+  //   if (searchQuery.isEmpty) {
+  //     // Corrected the typo here
+  //     foundProduct.assignAll(productModel2.toList());
+  //   } else {
+  //     List<ProductModel> results = productModel2
+  //         .where((element) => element.category!
+  //             .toLowerCase()
+  //             .contains(searchQuery.toLowerCase()))
+  //         .toList();
+  //     foundProduct.assignAll(results);
+  //   }
+  // }
+
+  void searchProduct(String productName) {
+    List<ProductModel> results;
+    if (productName.isEmpty) {
+      results = productModel2;
+    } else {
+      results = productModel2
+          .where((element) => element.name
+              .toString()
+              .toLowerCase()
+              .contains(productName.toLowerCase()))
+          .toList();
+    }
+    foundProduct.value = results;
+  }
+
+  Future<bool> updateBooking(List<List<dynamic>> inputData) async {
+    isSendingEmail.value = true;
+    try {
+      // Initialize collection reference
+      final CollectionReference<Map<String, dynamic>> collectionReference =
+          FirebaseFirestore.instance.collection("products");
+
+      // Iterate through each entry in the input data
+      for (final List<dynamic> entry in inputData) {
+        final String productName =
+            entry[1].toString(); // Assuming product name is at index 1
+        final double quantityToSubtract =
+            double.tryParse(entry[2].toString()) ??
+                0.0; // Assuming quantity to subtract is at index 2
+
+        bool success = false;
+        int retryCount = 0;
+        dynamic lastError;
+
+        // Retry loop for optimistic locking
+        while (!success && retryCount < 3) {
+          // You can adjust the number of retries as needed
+          try {
+            // Fetch product document
+            final QuerySnapshot querySnapshot = await collectionReference
+                .where('name', isEqualTo: productName)
+                .get();
+
+            if (querySnapshot.docs.isNotEmpty) {
+              final DocumentSnapshot doc = querySnapshot.docs.first;
+              final int currentbooked = doc['booked'] as int;
+
+              // Calculate new booked quantity after subtraction
+              final int newbooked = currentbooked + quantityToSubtract.toInt();
+
+              // Attempt to update booked
+              await collectionReference
+                  .doc(doc.id)
+                  .update({'booked': newbooked});
+              // print('booked updated for $productName');
+              success = true;
+            } else {
+              // print('Product $productName not found');
+              success =
+                  true; // Mark success even if product not found (optional)
+            }
+          } catch (error) {
+            // print('Error updating booked for $productName: $error');
+            lastError = error;
+            retryCount++;
+            await Future.delayed(Duration(seconds: 1)); // Delay before retrying
+          }
+        }
+
+        if (!success) {
+          // print(
+          //     'Failed to update booked for $productName after $retryCount attempts');
+          if (lastError != null) {
+            throw lastError; // Throw the last encountered error if all retries fail
+          }
+          return false;
+        }
+      }
+
+      // print('All booked updates completed successfully');
+      return true;
+    } catch (error) {
+      // print('Error updating booked: $error');
+      return false;
+    }
+  }
+
+  Future<bool> saveDeliveryOrder(DeliveryOrder? deliveryOrder) async {
+    isSendingEmail.value = true;
+    try {
+      await FirebaseFirestore.instance
+          .collection("do_users")
+          .doc(box.read('employeeId'))
+          .collection("deliveryOrders")
+          .doc(deliveryOrder!.doNo)
+          .set(deliveryOrder.toMap());
+      return true;
+    } catch (e) {
+      // print(e.toString());
+      return false;
+    }
+  }
 
   Future<void> generateInvoicePdf(
       String doNo,
@@ -384,6 +515,8 @@ class DouserProductcartController extends GetxController {
         ),
       );
 
+      isSendingEmail.value = false;
+
       Get.to(() => DouserInvoicepreviewScreen(
             doc: doc,
             pdfname: doNo,
@@ -405,45 +538,5 @@ class DouserProductcartController extends GetxController {
     } catch (e) {
       // print('Error: $e');
     }
-  }
-
-  // void searchProduct(String searchQuery) {
-  //   if (searchQuery.isEmpty) {
-  //     foundProduct.assignAll(productModel2.toList());
-  //   } else {
-  //     List<ProductModel> results = productModel2
-  //         .where((element) =>
-  //             element.name!.toLowerCase().contains(searchQuery.toLowerCase()))
-  //         .toList();
-  //     foundProduct.assignAll(results);
-  //   }
-  // }
-  // void searchProduct(String searchQuery) {
-  //   if (searchQuery.isEmpty) {
-  //     // Corrected the typo here
-  //     foundProduct.assignAll(productModel2.toList());
-  //   } else {
-  //     List<ProductModel> results = productModel2
-  //         .where((element) => element.category!
-  //             .toLowerCase()
-  //             .contains(searchQuery.toLowerCase()))
-  //         .toList();
-  //     foundProduct.assignAll(results);
-  //   }
-  // }
-
-  void searchProduct(String productName) {
-    List<ProductModel> results;
-    if (productName.isEmpty) {
-      results = productModel2;
-    } else {
-      results = productModel2
-          .where((element) => element.name
-              .toString()
-              .toLowerCase()
-              .contains(productName.toLowerCase()))
-          .toList();
-    }
-    foundProduct.value = results;
   }
 }

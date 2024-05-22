@@ -12,10 +12,10 @@ import 'package:pdf/widgets.dart' as pw;
 class DouserInvoicepreviewController extends GetxController {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   late CollectionReference collectionReference;
-  final box = GetStorage();
+  // final box = GetStorage();
   RxList<EmailModel> emailModel = RxList<EmailModel>([]);
   RxList<EmailModel> email = RxList<EmailModel>([]);
-  RxBool isSendingEmail = false.obs;
+  // RxBool isSendingEmail = false.obs;
 
   @override
   void onInit() {
@@ -35,21 +35,21 @@ class DouserInvoicepreviewController extends GetxController {
     super.onClose();
   }
 
-  Future<bool> saveDeliveryOrder(DeliveryOrder? deliveryOrder) async {
-    isSendingEmail.value = true;
-    try {
-      await FirebaseFirestore.instance
-          .collection("do_users")
-          .doc(box.read('employeeId'))
-          .collection("deliveryOrders")
-          .doc(deliveryOrder!.doNo)
-          .set(deliveryOrder.toMap());
-      return true;
-    } catch (e) {
-      // print(e.toString());
-      return false;
-    }
-  }
+  // Future<bool> saveDeliveryOrder(DeliveryOrder? deliveryOrder) async {
+  //   isSendingEmail.value = true;
+  //   try {
+  //     await FirebaseFirestore.instance
+  //         .collection("do_users")
+  //         .doc(box.read('employeeId'))
+  //         .collection("deliveryOrders")
+  //         .doc(deliveryOrder!.doNo)
+  //         .set(deliveryOrder.toMap());
+  //     return true;
+  //   } catch (e) {
+  //     // print(e.toString());
+  //     return false;
+  //   }
+  // }
 
   Future<void> sendFinalEmail(String pdfname, pw.Document? doc) async {
     final List<EmailModel> emails = await getEmail().first;
@@ -86,81 +86,80 @@ class DouserInvoicepreviewController extends GetxController {
 
     try {
       await FlutterEmailSender.send(email);
-      isSendingEmail.value = false;
     } catch (error) {
       // print('Error sending email: $error');
     }
   }
 
-  Future<bool> updateBooking(List<List<dynamic>> inputData) async {
-    isSendingEmail.value = true;
-    try {
-      // Initialize collection reference
-      final CollectionReference<Map<String, dynamic>> collectionReference =
-          FirebaseFirestore.instance.collection("products");
+  // Future<bool> updateBooking(List<List<dynamic>> inputData) async {
+  //   isSendingEmail.value = true;
+  //   try {
+  //     // Initialize collection reference
+  //     final CollectionReference<Map<String, dynamic>> collectionReference =
+  //         FirebaseFirestore.instance.collection("products");
 
-      // Iterate through each entry in the input data
-      for (final List<dynamic> entry in inputData) {
-        final String productName =
-            entry[1].toString(); // Assuming product name is at index 1
-        final double quantityToSubtract =
-            double.tryParse(entry[2].toString()) ??
-                0.0; // Assuming quantity to subtract is at index 2
+  //     // Iterate through each entry in the input data
+  //     for (final List<dynamic> entry in inputData) {
+  //       final String productName =
+  //           entry[1].toString(); // Assuming product name is at index 1
+  //       final double quantityToSubtract =
+  //           double.tryParse(entry[2].toString()) ??
+  //               0.0; // Assuming quantity to subtract is at index 2
 
-        bool success = false;
-        int retryCount = 0;
-        dynamic lastError;
+  //       bool success = false;
+  //       int retryCount = 0;
+  //       dynamic lastError;
 
-        // Retry loop for optimistic locking
-        while (!success && retryCount < 3) {
-          // You can adjust the number of retries as needed
-          try {
-            // Fetch product document
-            final QuerySnapshot querySnapshot = await collectionReference
-                .where('name', isEqualTo: productName)
-                .get();
+  //       // Retry loop for optimistic locking
+  //       while (!success && retryCount < 3) {
+  //         // You can adjust the number of retries as needed
+  //         try {
+  //           // Fetch product document
+  //           final QuerySnapshot querySnapshot = await collectionReference
+  //               .where('name', isEqualTo: productName)
+  //               .get();
 
-            if (querySnapshot.docs.isNotEmpty) {
-              final DocumentSnapshot doc = querySnapshot.docs.first;
-              final int currentbooked = doc['booked'] as int;
+  //           if (querySnapshot.docs.isNotEmpty) {
+  //             final DocumentSnapshot doc = querySnapshot.docs.first;
+  //             final int currentbooked = doc['booked'] as int;
 
-              // Calculate new booked quantity after subtraction
-              final int newbooked = currentbooked + quantityToSubtract.toInt();
+  //             // Calculate new booked quantity after subtraction
+  //             final int newbooked = currentbooked + quantityToSubtract.toInt();
 
-              // Attempt to update booked
-              await collectionReference
-                  .doc(doc.id)
-                  .update({'booked': newbooked});
-              // print('booked updated for $productName');
-              success = true;
-            } else {
-              // print('Product $productName not found');
-              success =
-                  true; // Mark success even if product not found (optional)
-            }
-          } catch (error) {
-            // print('Error updating booked for $productName: $error');
-            lastError = error;
-            retryCount++;
-            await Future.delayed(Duration(seconds: 1)); // Delay before retrying
-          }
-        }
+  //             // Attempt to update booked
+  //             await collectionReference
+  //                 .doc(doc.id)
+  //                 .update({'booked': newbooked});
+  //             // print('booked updated for $productName');
+  //             success = true;
+  //           } else {
+  //             // print('Product $productName not found');
+  //             success =
+  //                 true; // Mark success even if product not found (optional)
+  //           }
+  //         } catch (error) {
+  //           // print('Error updating booked for $productName: $error');
+  //           lastError = error;
+  //           retryCount++;
+  //           await Future.delayed(Duration(seconds: 1)); // Delay before retrying
+  //         }
+  //       }
 
-        if (!success) {
-          // print(
-          //     'Failed to update booked for $productName after $retryCount attempts');
-          if (lastError != null) {
-            throw lastError; // Throw the last encountered error if all retries fail
-          }
-          return false;
-        }
-      }
+  //       if (!success) {
+  //         // print(
+  //         //     'Failed to update booked for $productName after $retryCount attempts');
+  //         if (lastError != null) {
+  //           throw lastError; // Throw the last encountered error if all retries fail
+  //         }
+  //         return false;
+  //       }
+  //     }
 
-      // print('All booked updates completed successfully');
-      return true;
-    } catch (error) {
-      // print('Error updating booked: $error');
-      return false;
-    }
-  }
+  //     // print('All booked updates completed successfully');
+  //     return true;
+  //   } catch (error) {
+  //     // print('Error updating booked: $error');
+  //     return false;
+  //   }
+  // }
 }
