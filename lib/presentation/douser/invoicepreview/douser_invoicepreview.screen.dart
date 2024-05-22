@@ -82,7 +82,7 @@ class DouserInvoicepreviewScreen
           //   bool savedSuccessfully =
           //       await controller.saveDeliveryOrder(deliveryOrder!);
           //   if (savedSuccessfully) {
-          //     controller.sendFinalEmail(pdfname!, doc);
+          controller.sendFinalEmail(pdfname!, doc);
           //   }
           // }
         },

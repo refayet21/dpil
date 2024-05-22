@@ -180,16 +180,14 @@ class DouserInvoiceScreen extends GetView<DouserInvoiceController> {
                                     .toString() ==
                                 DateFormat('dd-MM-yyyy')
                                     .format(DateTime.now())
-                                    .toString() &&
+                                    .toString() ||
                             DateFormat('dd-MM-yyyy')
-                                    .format(DateFormat('dd-MM-yyyy')
-                                        .parse(
-                                            controller.dousers[index]['date'])
-                                        .add(Duration(days: 1)))
+                                    .format(DateFormat('dd-MM-yyyy').parse(
+                                        controller.dousers[index]['date']))
                                     .toString() ==
                                 DateFormat('dd-MM-yyyy')
                                     .format(
-                                        DateTime.now().add(Duration(days: 1)))
+                                        DateTime.now().add(Duration(days: -1)))
                                     .toString()
                         ? IconButton(
                             icon: Icon(
@@ -209,8 +207,8 @@ class DouserInvoiceScreen extends GetView<DouserInvoiceController> {
                               // print(
                               //     'controller date ${DateFormat('dd-MM-yyyy').format(DateFormat('dd-MM-yyyy').parse(controller.dousers[index]['date'])).toString()}');
 
-                              // print(
-                              //     'tommorow date ${DateFormat('dd-MM-yyyy').format(DateTime.now().add(Duration(days: 1))).toString()}');
+                              print(
+                                  'tommorow date ${DateFormat('dd-MM-yyyy').format(DateTime.now().add(Duration(days: -1))).toString()}');
                               // print(
                               //     'controller +1 date ${DateFormat('dd-MM-yyyy').format(DateFormat('dd-MM-yyyy').parse(controller.dousers[index]['date']).add(Duration(days: 1))).toString()}');
                             },
