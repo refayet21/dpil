@@ -4,6 +4,7 @@ import 'package:dpil/presentation/widgets/do_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 import 'controllers/douser_invoice.controller.dart';
 
@@ -173,6 +174,47 @@ class DouserInvoiceScreen extends GetView<DouserInvoiceController> {
                         controller.dousers[index]['deliveryDate'],
                       );
                     },
+                    trailing: DateFormat('dd-MM-yyyy')
+                                    .format(DateFormat('dd-MM-yyyy').parse(
+                                        controller.dousers[index]['date']))
+                                    .toString() ==
+                                DateFormat('dd-MM-yyyy')
+                                    .format(DateTime.now())
+                                    .toString() &&
+                            DateFormat('dd-MM-yyyy')
+                                    .format(DateFormat('dd-MM-yyyy')
+                                        .parse(
+                                            controller.dousers[index]['date'])
+                                        .add(Duration(days: 1)))
+                                    .toString() ==
+                                DateFormat('dd-MM-yyyy')
+                                    .format(
+                                        DateTime.now().add(Duration(days: 1)))
+                                    .toString()
+                        ? IconButton(
+                            icon: Icon(
+                              Icons.edit_document,
+                              color: Colors.blue,
+                            ),
+                            onPressed: () {},
+                          )
+                        : IconButton(
+                            icon: Icon(
+                              Icons.edit_off,
+                              color: Colors.red,
+                            ),
+                            onPressed: () {
+                              // print(
+                              //     'current date ${DateFormat('dd-MM-yyyy').format(DateTime.now()).toString()}');
+                              // print(
+                              //     'controller date ${DateFormat('dd-MM-yyyy').format(DateFormat('dd-MM-yyyy').parse(controller.dousers[index]['date'])).toString()}');
+
+                              // print(
+                              //     'tommorow date ${DateFormat('dd-MM-yyyy').format(DateTime.now().add(Duration(days: 1))).toString()}');
+                              // print(
+                              //     'controller +1 date ${DateFormat('dd-MM-yyyy').format(DateFormat('dd-MM-yyyy').parse(controller.dousers[index]['date']).add(Duration(days: 1))).toString()}');
+                            },
+                          ),
                   ),
                 ),
               );
