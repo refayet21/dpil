@@ -139,16 +139,26 @@
 //   }
 // }
 
+import 'package:dpil/model/do_model.dart';
+import 'package:dpil/presentation/douser/invoice/controllers/douser_invoice.controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class EditCartItemsScreen extends StatelessWidget {
+  final DouserInvoiceController controller = Get.put(DouserInvoiceController());
   final List<dynamic> data;
 
-  const EditCartItemsScreen({Key? key, required this.data}) : super(key: key);
+  EditCartItemsScreen({Key? key, required this.data}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -279,6 +289,157 @@ class EditCartItemsScreen extends StatelessWidget {
               },
             ),
           ),
+          Expanded(
+              flex: 1,
+              child: ElevatedButton(
+                onPressed: () async {
+                  List<String> purchaseInfoList = [];
+                  double totalAmount = 0.0;
+                  var formattedTotalAmount;
+
+                  List<List<dynamic>> invoiceData = [];
+
+                  for (var index = 0; index < itemList.length; index++) {
+                    var currentItem = itemList[index];
+                    var serialNo = index + 1;
+
+                    //  var product =  'Product: ${currentItem.length > 1 ? currentItem[1] : ""}'
+                    var product = currentItem.length > 1
+                        ? currentItem[1]?.toString() ?? ''
+                        : '';
+                    var rollPcsBag = double.tryParse(currentItem.length > 2
+                            ? currentItem[2]?.toString() ?? '0'
+                            : '0') ??
+                        0.0;
+                    var perRollPcsBag = double.tryParse(currentItem.length > 3
+                            ? currentItem[3]?.toString() ?? '0'
+                            : '0') ??
+                        0.0;
+
+                    var unit = currentItem.length > 4
+                        ? currentItem[4]?.toString() ?? ''
+                        : '';
+                    var perUnitPrice = double.tryParse(currentItem.length > 5
+                            ? currentItem[5]?.toString() ?? '0'
+                            : '0') ??
+                        0.0;
+                    var totalUnit;
+
+                    if (rollPcsBag != 0.0 && perRollPcsBag != 0.0) {
+                      totalUnit = rollPcsBag * perRollPcsBag;
+                    } else if (rollPcsBag != 0.0) {
+                      totalUnit = rollPcsBag;
+                    } else if (perRollPcsBag != 0.0) {
+                      totalUnit = perRollPcsBag;
+                    } else {
+                      totalUnit =
+                          0.0; // Set a default value or handle the case where both are null
+                    }
+                    var formatter = NumberFormat('#,##,000.00');
+                    var amount = perUnitPrice * totalUnit;
+                    var formattedAmount = formatter.format(amount);
+
+                    formattedTotalAmount =
+                        formatter.format(totalAmount += amount);
+
+                    List<dynamic> itemData = [
+                      serialNo,
+                      currentItem.length > 1 ? currentItem[1] : '',
+                      product,
+                      rollPcsBag,
+                      perRollPcsBag,
+                      unit,
+                      perUnitPrice,
+                      totalUnit,
+                      formattedAmount,
+                    ];
+
+                    invoiceData.add(itemData);
+
+                    String itemInfo = '';
+                    itemInfo += 'product: $product\n';
+                    itemInfo += 'Roll/PCS/Bag: $rollPcsBag\n';
+                    itemInfo += 'Per Roll/PCS/Bag: $perRollPcsBag\n';
+                    itemInfo += 'Unit: $unit\n';
+                    itemInfo += 'Per Unit Price: $perUnitPrice\n';
+
+                    itemInfo += '----------------\n';
+
+                    purchaseInfoList.add(itemInfo);
+                  }
+                  for (var i = 0; i < 1; i++) {
+                    var itemData = [
+                      '',
+                      'Total',
+                      '',
+                      '',
+                      '',
+                      '',
+                      '',
+                      formattedTotalAmount,
+                      ''
+                    ];
+                    invoiceData.add(itemData);
+                  }
+
+                  await showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text(
+                          'Update Delivery Order',
+                        ),
+                        content: SingleChildScrollView(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: purchaseInfoList
+                                .map((info) => Text(info))
+                                .toList(),
+                          ),
+                        ),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () async {
+                              bool bookedSuccessfully = await controller
+                                  .removepreviousBooking(invoiceData);
+
+                              if (bookedSuccessfully) {
+                                bool savedSuccessfully =
+                                    await controller.updateBooking(invoiceData);
+                                if (savedSuccessfully) {
+                                  // Add any additional logic here
+                                }
+                              }
+
+                              Navigator.of(context).pop();
+                            },
+                            child: Obx(
+                              () => controller.isSendingEmail.value
+                                  ? CircularProgressIndicator(
+                                      color: Colors.blue,
+                                    )
+                                  : Text('Confirm'),
+                            ),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Text(
+                              'Cancel',
+                              style: TextStyle(fontSize: 11.sp),
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
+                child: Text(
+                  'Update Order',
+                  style: TextStyle(fontSize: 16.sp),
+                ),
+              ))
         ],
       ),
     );
