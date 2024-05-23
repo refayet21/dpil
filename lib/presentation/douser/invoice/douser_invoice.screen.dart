@@ -1,4 +1,6 @@
+import 'package:dpil/model/do_model.dart';
 import 'package:dpil/presentation/admin/do/controllers/admin_do.controller.dart';
+import 'package:dpil/presentation/douser/invoice/controllers/editcart.dart';
 import 'package:dpil/presentation/douser/productcart/controllers/douser_productcart.controller.dart';
 import 'package:dpil/presentation/widgets/do_drawer.dart';
 import 'package:flutter/material.dart';
@@ -194,7 +196,13 @@ class DouserInvoiceScreen extends GetView<DouserInvoiceController> {
                               Icons.edit_document,
                               color: Colors.blue,
                             ),
-                            onPressed: () {},
+                            onPressed: () async {
+                              Get.to(() => EditCartItemsScreen(
+                                    data: controller.dousers[index]['data'],
+                                  ));
+
+                              print(controller.dousers[index]['data']);
+                            },
                           )
                         : IconButton(
                             icon: Icon(
@@ -207,8 +215,8 @@ class DouserInvoiceScreen extends GetView<DouserInvoiceController> {
                               // print(
                               //     'controller date ${DateFormat('dd-MM-yyyy').format(DateFormat('dd-MM-yyyy').parse(controller.dousers[index]['date'])).toString()}');
 
-                              print(
-                                  'tommorow date ${DateFormat('dd-MM-yyyy').format(DateTime.now().add(Duration(days: -1))).toString()}');
+                              // print(
+                              //     'tommorow date ${DateFormat('dd-MM-yyyy').format(DateTime.now().add(Duration(days: -1))).toString()}');
                               // print(
                               //     'controller +1 date ${DateFormat('dd-MM-yyyy').format(DateFormat('dd-MM-yyyy').parse(controller.dousers[index]['date']).add(Duration(days: 1))).toString()}');
 
