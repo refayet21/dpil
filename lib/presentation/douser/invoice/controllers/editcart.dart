@@ -157,8 +157,12 @@ import 'package:intl/intl.dart';
 class EditCartItemsScreen extends StatelessWidget {
   final DouserInvoiceController controller = Get.put(DouserInvoiceController());
   final List<dynamic> data;
+  final List<dynamic>? previousdata;
+  final String? doNo;
 
-  EditCartItemsScreen({Key? key, required this.data}) : super(key: key);
+  EditCartItemsScreen(
+      {Key? key, required this.data, this.previousdata, this.doNo})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -269,19 +273,19 @@ class EditCartItemsScreen extends StatelessWidget {
                           },
                         ),
                         SizedBox(height: 10.h),
-                        // TextFormField(
-                        //   keyboardType: TextInputType.text,
-                        //   decoration: InputDecoration(labelText: 'Remarks'),
-                        //   initialValue: currentItem.length > 9
-                        //       ? currentItem[9]?.toString() ?? ''
-                        //       : '',
-                        //   onChanged: (value) {
-                        //     if (currentItem.length > 9) {
-                        //       currentItem[9] = value;
-                        //     }
-                        //   },
-                        // ),
-                        // SizedBox(height: 10.h),
+                        TextFormField(
+                          keyboardType: TextInputType.text,
+                          decoration: InputDecoration(labelText: 'Remarks'),
+                          initialValue: currentItem.length > 8
+                              ? currentItem[8]?.toString() ?? ''
+                              : '',
+                          onChanged: (value) {
+                            if (currentItem.length > 8) {
+                              currentItem[8] = value;
+                            }
+                          },
+                        ),
+                        SizedBox(height: 10.h),
                       ],
                     ),
                   ),
@@ -323,6 +327,10 @@ class EditCartItemsScreen extends StatelessWidget {
                             ? currentItem[5]?.toString() ?? '0'
                             : '0') ??
                         0.0;
+
+                    var remarks = currentItem.length > 8
+                        ? currentItem[8]?.toString() ?? ''
+                        : '';
                     var totalUnit;
 
                     if (rollPcsBag != 0.0 && perRollPcsBag != 0.0) {
@@ -344,7 +352,6 @@ class EditCartItemsScreen extends StatelessWidget {
 
                     List<dynamic> itemData = [
                       serialNo,
-                      currentItem.length > 1 ? currentItem[1] : '',
                       product,
                       rollPcsBag,
                       perRollPcsBag,
@@ -352,6 +359,7 @@ class EditCartItemsScreen extends StatelessWidget {
                       perUnitPrice,
                       totalUnit,
                       formattedAmount,
+                      remarks,
                     ];
 
                     invoiceData.add(itemData);
@@ -362,6 +370,7 @@ class EditCartItemsScreen extends StatelessWidget {
                     itemInfo += 'Per Roll/PCS/Bag: $perRollPcsBag\n';
                     itemInfo += 'Unit: $unit\n';
                     itemInfo += 'Per Unit Price: $perUnitPrice\n';
+                    itemInfo += 'remarks: $remarks\n';
 
                     itemInfo += '----------------\n';
 
@@ -400,26 +409,34 @@ class EditCartItemsScreen extends StatelessWidget {
                         actions: <Widget>[
                           TextButton(
                             onPressed: () async {
-                              bool bookedSuccessfully = await controller
-                                  .removepreviousBooking(invoiceData);
+                              // bool bookedSuccessfully = await controller
+                              //     .removepreviousBooking(previousdata!);
 
-                              if (bookedSuccessfully) {
-                                bool savedSuccessfully =
-                                    await controller.updateBooking(invoiceData);
-                                if (savedSuccessfully) {
-                                  // Add any additional logic here
-                                }
-                              }
+                              // if (bookedSuccessfully) {
+                              //   bool savedSuccessfully =
+                              //       await controller.updateBooking(invoiceData);
+                              //   if (savedSuccessfully) {
+                              controller.updateDeliveryOrderFields(
+                                  doNo!, invoiceData, totalAmount);
+                              // }
+
+                              // print('bookedSuccessfully');
+                              // }
+                              /// Parse string to integer
+
+                              // print(
+                              //     'invoice data is ${totalAmount.runtimeType}');
 
                               Navigator.of(context).pop();
                             },
-                            child: Obx(
-                              () => controller.isSendingEmail.value
-                                  ? CircularProgressIndicator(
-                                      color: Colors.blue,
-                                    )
-                                  : Text('Confirm'),
-                            ),
+                            // child: Obx(
+                            //   () => controller.isSendingEmail.value
+                            //       ? CircularProgressIndicator(
+                            //           color: Colors.blue,
+                            //         )
+                            //       : Text('Confirm'),
+                            // ),
+                            child: Text('Confirm'),
                           ),
                           TextButton(
                             onPressed: () {

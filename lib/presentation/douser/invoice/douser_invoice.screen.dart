@@ -199,9 +199,12 @@ class DouserInvoiceScreen extends GetView<DouserInvoiceController> {
                             onPressed: () async {
                               Get.to(() => EditCartItemsScreen(
                                     data: controller.dousers[index]['data'],
+                                    previousdata: controller.dousers[index]
+                                        ['data'],
+                                    doNo: controller.dousers[index]['doNo'],
                                   ));
 
-                              print(controller.dousers[index]['data']);
+                              print(controller.dousers[index]['doNo']);
                             },
                           )
                         : IconButton(

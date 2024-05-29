@@ -1,27 +1,27 @@
 class DeliveryOrder {
-  final String doNo;
-  final String date;
-  final String userId;
-  final String marketingPerson;
-  final String vendorName;
-  final String vendorAddress;
-  final String contactPerson;
-  final String vendorMobile;
-  final List<List<dynamic>> data;
-  final dynamic totalInWord;
+  final String? doNo;
+  final String? date;
+  final String? userId;
+  final String? marketingPerson;
+  final String? vendorName;
+  final String? vendorAddress;
+  final String? contactPerson;
+  final String? vendorMobile;
+  final List<List<dynamic>>? data;
+  final dynamic? totalInWord;
   final String? deliveryDate;
 
   DeliveryOrder({
-    required this.doNo,
-    required this.date,
-    required this.userId,
-    required this.marketingPerson,
-    required this.vendorName,
-    required this.vendorAddress,
-    required this.contactPerson,
-    required this.vendorMobile,
-    required this.data,
-    required this.totalInWord,
+    this.doNo,
+    this.date,
+    this.userId,
+    this.marketingPerson,
+    this.vendorName,
+    this.vendorAddress,
+    this.contactPerson,
+    this.vendorMobile,
+    this.data,
+    this.totalInWord,
     this.deliveryDate,
   });
 
@@ -37,7 +37,7 @@ class DeliveryOrder {
       'contactPerson': contactPerson,
       'vendorMobile': vendorMobile,
       // 'data': data,
-      'data': data.map((list) => {'items': list}).toList(),
+      'data': data!.map((list) => {'items': list}).toList(),
 
       'totalInWord': totalInWord,
       'deliveryDate': deliveryDate,

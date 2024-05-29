@@ -40,17 +40,27 @@ class DouserInvoiceController extends GetxController {
     return dousers;
   }
 
-  Future<bool> removepreviousBooking(List<List<dynamic>> inputData) async {
+  Future<bool> removepreviousBooking(List<dynamic> data) async {
     isSendingEmail.value = true;
+    // print('removepreviousBooking  ia called');
+    // print('inputData ia $data');
+
+    List<List<dynamic>> itemList = data
+        .map((item) => item['items'] as List<dynamic>)
+        .where((items) => items[1] != 'Total')
+        .toList();
+
+    // print('removepreviousBooking inputData ia $itemList');
     try {
       // Initialize collection reference
       final CollectionReference<Map<String, dynamic>> collectionReference =
           FirebaseFirestore.instance.collection("products");
 
       // Iterate through each entry in the input data
-      for (final List<dynamic> entry in inputData) {
-        final String productName =
-            entry[1].toString(); // Assuming product name is at index 1
+      for (final List<dynamic> entry in itemList) {
+        final String productName = entry[1].toString();
+        // print(
+        //     'productName is $productName'); // Assuming product name is at index 1
         final double quantityToSubtract =
             double.tryParse(entry[2].toString()) ??
                 0.0; // Assuming quantity to subtract is at index 2
@@ -74,6 +84,10 @@ class DouserInvoiceController extends GetxController {
 
               // Calculate new booked quantity after subtraction
               final int newbooked = currentbooked - quantityToSubtract.toInt();
+              print(' removepreviousBooking currentbooked is $currentbooked');
+              print(
+                  ' removepreviousBooking quantityToSubtract.toInt() is ${quantityToSubtract.toInt()}');
+              print(' removepreviousBooking newbooked is $newbooked');
 
               // Attempt to update booked
               await collectionReference
@@ -105,22 +119,32 @@ class DouserInvoiceController extends GetxController {
       }
 
       // print('All booked updates completed successfully');
+      isSendingEmail.value = false;
       return true;
     } catch (error) {
-      // print('Error updating booked: $error');
+      print('Error updating booked: $error');
       return false;
     }
   }
 
-  Future<bool> updateBooking(List<List<dynamic>> inputData) async {
+  Future<bool> updateBooking(List<dynamic> data) async {
     isSendingEmail.value = true;
+
+    // print('update booking data is $data');
+
+    // List<List<dynamic>> itemList = data
+    //     .map((item) => item['items'] as List<dynamic>)
+    //     .where((items) => items[1] != 'Total')
+    //     .toList();
+
+    // print('update booking inputData ia $data');
     try {
       // Initialize collection reference
       final CollectionReference<Map<String, dynamic>> collectionReference =
           FirebaseFirestore.instance.collection("products");
 
       // Iterate through each entry in the input data
-      for (final List<dynamic> entry in inputData) {
+      for (final List<dynamic> entry in data) {
         final String productName =
             entry[1].toString(); // Assuming product name is at index 1
         final double quantityToSubtract =
@@ -146,7 +170,7 @@ class DouserInvoiceController extends GetxController {
 
               // Calculate new booked quantity after subtraction
               final int newbooked = currentbooked + quantityToSubtract.toInt();
-
+              print('update newbooked is $newbooked');
               // Attempt to update booked
               await collectionReference
                   .doc(doc.id)
@@ -176,32 +200,37 @@ class DouserInvoiceController extends GetxController {
         }
       }
 
-      // print('All booked updates completed successfully');
       return true;
     } catch (error) {
-      // print('Error updating booked: $error');
+      print('Error updating booked: $error');
       return false;
     }
   }
 
-  Future<bool> updateDeliveryOrder(DeliveryOrder deliveryOrder) async {
-    isSendingEmail.value = true;
+  Future<bool> updateDeliveryOrderFields(
+      String doNo, List<List<dynamic>>? data, dynamic totalInWord) async {
+    if (doNo.isEmpty) {
+      return false;
+    }
 
+    isSendingEmail.value = true;
     try {
       await FirebaseFirestore.instance
           .collection("do_users")
           .doc(box.read('employeeId'))
           .collection("deliveryOrders")
-          .doc(deliveryOrder.doNo)
-          .update(deliveryOrder.toMap());
-      isSendingEmail.value =
-          false; // Update this according to your state management
+          .doc(doNo)
+          .update({
+        'data': data?.map((list) => {'items': list}).toList(),
+        'totalInWord': totalInWord,
+      });
       return true;
     } catch (e) {
-      // Handle error as needed
-      isSendingEmail.value =
-          false; // Update this according to your state management
+      // Log the error for debugging purposes
+      print("Error updating delivery order fields: ${e.toString()}");
       return false;
+    } finally {
+      isSendingEmail.value = false;
     }
   }
 }
