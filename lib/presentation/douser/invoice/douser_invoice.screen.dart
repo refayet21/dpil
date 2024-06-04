@@ -197,14 +197,17 @@ class DouserInvoiceScreen extends GetView<DouserInvoiceController> {
                               color: Colors.blue,
                             ),
                             onPressed: () async {
-                              Get.to(() => EditCartItemsScreen(
-                                    data: controller.dousers[index]['data'],
-                                    previousdata: controller.dousers[index]
-                                        ['data'],
-                                    doNo: controller.dousers[index]['doNo'],
-                                  ));
+                              bool bookedSuccessfully =
+                                  await controller.removepreviousBooking(
+                                      controller.dousers[index]['data']!);
+                              if (bookedSuccessfully) {
+                                Get.to(() => EditCartItemsScreen(
+                                      data: controller.dousers[index]['data'],
+                                      doNo: controller.dousers[index]['doNo'],
+                                    ));
 
-                              print(controller.dousers[index]['doNo']);
+                                print(controller.dousers[index]['data']);
+                              }
                             },
                           )
                         : IconButton(
