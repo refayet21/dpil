@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dpil/infrastructure/navigation/routes.dart';
 import 'package:dpil/model/do_model.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -224,6 +225,8 @@ class DouserInvoiceController extends GetxController {
         'data': data?.map((list) => {'items': list}).toList(),
         'totalInWord': totalInWord,
       });
+      // isSendingEmail.value = false;
+      Get.offAllNamed(Routes.DOUSER_INVOICE);
       return true;
     } catch (e) {
       // Log the error for debugging purposes

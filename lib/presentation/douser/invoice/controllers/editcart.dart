@@ -431,19 +431,18 @@ class EditCartItemsScreen extends StatelessWidget {
                               // print('bookedSuccessfully');
                               // }
 
-                              // print(
-                              //     'invoice data is ${totalAmount.runtimeType}');
+                              print('invoice data is ${invoiceData}');
 
                               Navigator.of(context).pop();
                             },
-                            // child: Obx(
-                            //   () => controller.isSendingEmail.value
-                            //       ? CircularProgressIndicator(
-                            //           color: Colors.blue,
-                            //         )
-                            //       : Text('Confirm'),
-                            // ),
-                            child: Text('Confirm'),
+                            child: Obx(
+                              () => controller.isSendingEmail.value
+                                  ? CircularProgressIndicator(
+                                      color: Colors.blue,
+                                    )
+                                  : Text('Confirm'),
+                            ),
+                            // child: Text('Confirm'),
                           ),
                           TextButton(
                             onPressed: () {
