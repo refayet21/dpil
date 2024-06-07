@@ -4,25 +4,26 @@ import 'package:dpil/model/do_model.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dpil/infrastructure/navigation/routes.dart';
+import 'package:dpil/model/do_model.dart';
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:intl/intl.dart';
+
 class DouserInvoiceController extends GetxController {
   final box = GetStorage();
   RxBool isSendingEmail = false.obs;
   RxList<Map<String, dynamic>> dousers = RxList<Map<String, dynamic>>();
 
+  // Add observables for start and end dates
+  Rx<DateTime?> startDate = Rx<DateTime?>(null);
+  Rx<DateTime?> endDate = Rx<DateTime?>(null);
+
   @override
   void onInit() {
     super.onInit();
     getUserDo();
-  }
-
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
   }
 
   Future<void> getUserDo() async {
@@ -33,12 +34,24 @@ class DouserInvoiceController extends GetxController {
             .collection('deliveryOrders')
             .get();
     dousers.value = questionsQuery.docs.map((doc) => doc.data()).toList();
-    // print('dousers is $dousers');
   }
 
-  // Getter method to retrieve dousers
-  RxList<Map<String, dynamic>> getDousers() {
-    return dousers;
+  // Method to filter delivery orders based on start and end dates
+  List<Map<String, dynamic>> getFilteredDousers() {
+    if (startDate.value == null && endDate.value == null) {
+      return dousers;
+    }
+
+    return dousers.where((douser) {
+      DateTime orderDate = DateFormat('dd-MM-yyyy').parse(douser['date']);
+      if (startDate.value != null && orderDate.isBefore(startDate.value!)) {
+        return false;
+      }
+      if (endDate.value != null && orderDate.isAfter(endDate.value!)) {
+        return false;
+      }
+      return true;
+    }).toList();
   }
 
   Future<bool> removepreviousBooking(List<dynamic> data) async {
