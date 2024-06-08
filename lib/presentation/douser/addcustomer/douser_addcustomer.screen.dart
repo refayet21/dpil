@@ -290,6 +290,9 @@ class DouserAddcustomerScreen extends GetView<DouserAddcustomerController> {
                       ),
                     ),
                     controller: controller.addressController,
+                    validator: (value) {
+                      return controller.validateaddress(value!);
+                    },
                   ),
                   SizedBox(
                     height: 10.h,
@@ -308,7 +311,7 @@ class DouserAddcustomerScreen extends GetView<DouserAddcustomerController> {
                     height: 8.h,
                   ),
                   TextFormField(
-                    keyboardType: TextInputType.multiline,
+                    keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                       hintText: 'Mobile',
                       border: OutlineInputBorder(
@@ -316,6 +319,9 @@ class DouserAddcustomerScreen extends GetView<DouserAddcustomerController> {
                       ),
                     ),
                     controller: controller.mobileController,
+                    validator: (value) {
+                      return controller.validatemobile(value!);
+                    },
                   ),
                   SizedBox(
                     height: 8.h,

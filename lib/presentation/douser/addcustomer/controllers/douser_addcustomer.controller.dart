@@ -38,24 +38,30 @@ class DouserAddcustomerController extends GetxController {
 
   String? validateName(String value) {
     if (value.isEmpty) {
-      return "Name can not be empty";
+      return "The name can't be empty";
     }
     return null;
   }
 
-  // String? validateaddress(String value) {
-  //   if (value.isEmpty) {
-  //     return "address can not be empty";
-  //   }
-  //   return null;
-  // }
+  String? validateaddress(String value) {
+    if (value.isEmpty) {
+      return "The address can't be empty";
+    }
+    return null;
+  }
 
-  // String? validatemobile(String value) {
-  //   if (value.isEmpty) {
-  //     return "mobile can not be empty";
-  //   }
-  //   return null;
-  // }
+  String? validatemobile(String value) {
+    if (value.isEmpty) {
+      return "The Mobile can't be empty";
+    }
+    if (value.length != 11) {
+      return "Mobile No should be exactly 11 digits";
+    }
+    if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
+      return "Mobile No should contain only digits";
+    }
+    return null;
+  }
 
   void saveUpdateVendor(
     String? name,
