@@ -271,6 +271,62 @@ class DouserInvoiceScreen extends GetView<DouserInvoiceController> {
                                     );
                                   },
                                 ),
+
+// tralling for delete previous booking and do
+                          //   trailing: IconButton(
+                          //     icon: Icon(
+                          //       Icons.delete,
+                          //       color: Colors.red,
+                          //     ),
+                          //     onPressed: () async {
+                          //       await showDialog(
+                          //         context: context,
+                          //         builder: (BuildContext context) {
+                          //           return AlertDialog(
+                          //             title: Text(
+                          //                 'Are you sure to delete Previous Booking?'),
+                          //             actions: <Widget>[
+                          //               TextButton(
+                          //                 onPressed: () async {
+                          //                   bool bookedSuccessfully =
+                          //                       await controller
+                          //                           .removepreviousBooking(
+                          //                               filteredDousers[index]
+                          //                                   ['data']);
+                          //                   Navigator.of(context)
+                          //                       .pop(); // Close the dialog first
+                          //                   if (bookedSuccessfully) {
+                          //                     await controller
+                          //                         .deleteDeliveryOrder(
+                          //                             filteredDousers[index]
+                          //                                 ['doNo']);
+                          //                     Navigator.of(context).pop();
+                          //                   } // Close the dialog first
+                          //                 },
+                          //                 child: Obx(
+                          //                   () => controller.isSendingEmail.value
+                          //                       ? CircularProgressIndicator(
+                          //                           color: Colors.blue,
+                          //                         )
+                          //                       : Text('Delete'),
+                          //                 ),
+                          //               ),
+                          //               TextButton(
+                          //                 onPressed: () {
+                          //                   Navigator.of(context).pop();
+                          //                 },
+                          //                 child: Text(
+                          //                   'No',
+                          //                   style: TextStyle(fontSize: 11.sp),
+                          //                 ),
+                          //               ),
+                          //             ],
+                          //           );
+                          //         },
+                          //       );
+                          //     },
+                          //   ),
+                          // ),
                         ),
                       ),
                     );

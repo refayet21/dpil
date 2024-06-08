@@ -249,4 +249,29 @@ class DouserInvoiceController extends GetxController {
       isSendingEmail.value = false;
     }
   }
+
+  Future<bool> deleteDeliveryOrder(String doNo) async {
+    if (doNo.isEmpty) {
+      return false;
+    }
+
+    isSendingEmail.value = true;
+    try {
+      await FirebaseFirestore.instance
+          .collection("do_users")
+          .doc(box.read('employeeId'))
+          .collection("deliveryOrders")
+          .doc(doNo)
+          .delete();
+      // isSendingEmail.value = false;
+      Get.offAllNamed(Routes.DOUSER_INVOICE);
+      return true;
+    } catch (e) {
+      // Log the error for debugging purposes
+      print("Error updating delivery order fields: ${e.toString()}");
+      return false;
+    } finally {
+      isSendingEmail.value = false;
+    }
+  }
 }
