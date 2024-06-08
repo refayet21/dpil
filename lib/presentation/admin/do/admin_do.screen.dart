@@ -1,3 +1,4 @@
+import 'package:dpil/infrastructure/navigation/routes.dart';
 import 'package:dpil/presentation/admin/previewdo/admin_previewdo.screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -18,6 +19,12 @@ class AdminDoScreen extends GetView<AdminDoController> {
           style: TextStyle(fontSize: 25.sp, fontWeight: FontWeight.w700),
         ),
         centerTitle: true,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Get.offAllNamed(Routes.ADMIN_DASHBOARD);
+          },
+        ),
       ),
       body: Column(
         children: [

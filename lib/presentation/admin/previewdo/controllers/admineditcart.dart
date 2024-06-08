@@ -185,13 +185,13 @@ class AdminEditCartItemsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('data 1 is $data');
-    print('previousdata 1 is $previousdata');
+    // // // print('data 1 is $data');
+    // // // print('previousdata 1 is $previousdata');
     if (data.isEmpty ||
         data.any((item) =>
             item is! Map<String, dynamic> || item['items'] is! List<dynamic>)) {
-      print('data 2 is $data');
-      print('previousdata 2 is $previousdata');
+      // // // print('data 2 is $data');
+      // // // print('previousdata 2 is $previousdata');
       return Scaffold(
         appBar: AppBar(
           title: Text('Error'),
@@ -208,8 +208,8 @@ class AdminEditCartItemsScreen extends StatelessWidget {
         .where((items) => items[1] != 'Total')
         .toList();
 
-    print('data 3 is $data');
-    print('previousdata 3 is $previousdata');
+    // // // print('data 3 is $data');
+    // // // print('previousdata 3 is $previousdata');
 
     return Scaffold(
       appBar: AppBar(
@@ -460,8 +460,8 @@ class AdminEditCartItemsScreen extends StatelessWidget {
                                 onPressed: () async {
                                   // bool bookedSuccessfully = await controller
                                   //     .removepreviousBooking(previousdata!);
-                                  // print('data 4 is $data');
-                                  // print('previousdata 4 is $previousdata');
+                                  // // // // print('data 4 is $data');
+                                  // // // // print('previousdata 4 is $previousdata');
 
                                   // if (bookedSuccessfully) {
                                   bool savedSuccessfully = await controller
@@ -474,10 +474,10 @@ class AdminEditCartItemsScreen extends StatelessWidget {
                                         deliverydateController.text);
                                   }
 
-                                  // print('bookedSuccessfully');
+                                  // // // // print('bookedSuccessfully');
                                   // }
 
-                                  print('invoice data is ${invoiceData}');
+                                  // // // print('invoice data is ${invoiceData}');
 
                                   Navigator.of(context).pop();
                                   Get.offAllNamed(Routes.ADMIN_DO);

@@ -59,14 +59,32 @@ class AdminPreviewdoController extends GetxController {
     getUserDo();
   }
 
+  // Future<void> getUserDo() async {
+  //   final QuerySnapshot<Map<String, dynamic>> questionsQuery =
+  //       await FirebaseFirestore.instance
+  //           .collection("do_users")
+  //           .doc(employeeId)
+  //           .collection('deliveryOrders')
+  //           .get();
+  //   dousers.value = questionsQuery.docs.map((doc) => doc.data()).toList();
+  // }
+
   Future<void> getUserDo() async {
-    final QuerySnapshot<Map<String, dynamic>> questionsQuery =
-        await FirebaseFirestore.instance
-            .collection("do_users")
-            .doc(employeeId)
-            .collection('deliveryOrders')
-            .get();
-    dousers.value = questionsQuery.docs.map((doc) => doc.data()).toList();
+    try {
+      // Fetch delivery orders for the given employeeId
+      final QuerySnapshot<Map<String, dynamic>> questionsQuery =
+          await FirebaseFirestore.instance
+              .collection("do_users")
+              .doc(employeeId)
+              .collection('deliveryOrders')
+              .get();
+
+      // Update the observable list with the fetched data
+      dousers.value = questionsQuery.docs.map((doc) => doc.data()).toList();
+    } catch (e) {
+      // Handle any errors that occur during the fetch operation
+      print("Error fetching delivery orders: $e");
+    }
   }
 
   // Method to filter delivery orders based on start and end dates
