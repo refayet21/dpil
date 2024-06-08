@@ -160,6 +160,7 @@
 
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dpil/model/general_user_model.dart';
 import 'package:dpil/presentation/allinvoicepreview/allinvoicepreview.screen.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -307,6 +308,14 @@ class AdminAttendanceController extends GetxController {
   late CollectionReference collectionReference;
   RxList<DoUserModel> dousers = RxList<DoUserModel>([]);
 
+  // general user info
+
+  RxList<GeneralUserModel> foundGenuser = RxList<GeneralUserModel>([]);
+  RxList<GeneralUserModel> genusers = RxList<GeneralUserModel>([]);
+  Stream<List<GeneralUserModel>> getAllGenUsers() =>
+      collectionReference.snapshots().map((query) =>
+          query.docs.map((item) => GeneralUserModel.fromJson(item)).toList());
+
   Stream<List<DoUserModel>> getAlldoUsers() =>
       collectionReference.snapshots().map((query) =>
           query.docs.map((item) => DoUserModel.fromJson(item)).toList());
@@ -319,20 +328,26 @@ class AdminAttendanceController extends GetxController {
       dousers.assignAll(vendor);
       founddouser.assignAll(dousers);
     });
+
+    collectionReference = firebaseFirestore.collection("general_users");
+    getAllGenUsers().listen((gen) {
+      genusers.assignAll(gen);
+      foundGenuser.assignAll(genusers);
+    });
   }
 
-  void searchdouser(String searchQuery) {
-    if (searchQuery.isEmpty) {
-      founddouser.assignAll(dousers.toList());
-    } else {
-      List<DoUserModel> results = dousers
-          .where((element) =>
-              element.name!.toLowerCase().contains(searchQuery.toLowerCase()))
-          .toList();
-      founddouser.clear();
-      founddouser.addAll(results);
-    }
-  }
+  // void searchdouser(String searchQuery) {
+  //   if (searchQuery.isEmpty) {
+  //     founddouser.assignAll(dousers.toList());
+  //   } else {
+  //     List<DoUserModel> results = dousers
+  //         .where((element) =>
+  //             element.name!.toLowerCase().contains(searchQuery.toLowerCase()))
+  //         .toList();
+  //     founddouser.clear();
+  //     founddouser.addAll(results);
+  //   }
+  // }
 
   // Future<Map<String, List<Map<String, dynamic>>>> getAllSubcollectionData(
   //     Timestamp startDate, Timestamp endDate) async {
@@ -374,6 +389,30 @@ class AdminAttendanceController extends GetxController {
       for (var user in founddouser) {
         CollectionReference subCollectionRef = firebaseFirestore
             .collection('do_users')
+            .doc(user.docId)
+            .collection('Record');
+
+        Query query = subCollectionRef
+            .where('date', isGreaterThanOrEqualTo: startDate)
+            .where('date', isLessThanOrEqualTo: endDate)
+            .orderBy('date',
+                descending: false); // Sort by date in descending order
+
+        QuerySnapshot querySnapshot = await query.get();
+        for (QueryDocumentSnapshot doc in querySnapshot.docs) {
+          Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+          data['userName'] = user.name;
+
+          if (!allData.containsKey(user.name)) {
+            allData[user.name!] = [];
+          }
+          allData[user.name]!.add(data);
+        }
+      }
+
+      for (var user in foundGenuser) {
+        CollectionReference subCollectionRef = firebaseFirestore
+            .collection('general_users')
             .doc(user.docId)
             .collection('Record');
 
