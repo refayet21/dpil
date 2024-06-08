@@ -261,7 +261,10 @@ class AdminAddvendorScreen extends GetView<AdminAddvendorController> {
                     height: 8.h,
                   ),
                   TextFormField(
-                    keyboardType: TextInputType.multiline,
+                    keyboardType: TextInputType.number,
+                    validator: (value) {
+                      return controller.validatemobile(value!);
+                    },
                     decoration: InputDecoration(
                       hintText: 'Mobile',
                       border: OutlineInputBorder(

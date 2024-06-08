@@ -52,9 +52,21 @@ class AdminAddvendorController extends GetxController {
     return null;
   }
 
+  // String? validatemobile(String value) {
+  //   if (value.isEmpty) {
+  //     return "mobile can not be empty";
+  //   }
+  //   return null;
+  // }
   String? validatemobile(String value) {
     if (value.isEmpty) {
-      return "mobile can not be empty";
+      return "The Mobile can't be empty";
+    }
+    if (value.length != 11) {
+      return "Mobile No should be exactly 11 digits";
+    }
+    if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
+      return "Mobile No should contain only digits";
     }
     return null;
   }
