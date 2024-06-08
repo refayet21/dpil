@@ -158,27 +158,64 @@ class LoginScreen extends GetView<LoginController> {
                                   },
                                 ),
                               ),
+                              // Container(
+                              //   padding: EdgeInsets.all(8.w),
+                              //   child: TextFormField(
+                              //     autocorrect: true,
+                              //     controller: controller.passwordController,
+                              //     obscureText: true,
+                              //     decoration: InputDecoration(
+                              //       border: InputBorder.none,
+                              //       hintText: "Password",
+                              //       hintStyle: TextStyle(
+                              //         color: Colors.grey[700],
+                              //       ),
+                              //     ),
+                              //     validator: (value) {
+                              //       if (value == null || value.isEmpty) {
+                              //         return 'Please enter your password';
+                              //       }
+                              //       // Add more password validation if necessary
+                              //       return null;
+                              //     },
+                              //   ),
+                              // ),
+
                               Container(
                                 padding: EdgeInsets.all(8.w),
-                                child: TextFormField(
-                                  autocorrect: true,
-                                  controller: controller.passwordController,
-                                  obscureText: true,
-                                  decoration: InputDecoration(
-                                    border: InputBorder.none,
-                                    hintText: "Password",
-                                    hintStyle: TextStyle(
-                                      color: Colors.grey[700],
+                                child: Obx(() {
+                                  return TextFormField(
+                                    controller: controller.passwordController,
+                                    autocorrect: true,
+                                    obscureText:
+                                        !controller.isPasswordVisible.value,
+                                    decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText: "Password",
+                                      hintStyle:
+                                          TextStyle(color: Colors.grey[700]),
+                                      suffixIcon: IconButton(
+                                        icon: Icon(
+                                          controller.isPasswordVisible.value
+                                              ? Icons.visibility
+                                              : Icons.visibility_off,
+                                          color: Colors.grey[700],
+                                        ),
+                                        onPressed: () {
+                                          controller.isPasswordVisible.value =
+                                              !controller
+                                                  .isPasswordVisible.value;
+                                        },
+                                      ),
                                     ),
-                                  ),
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return 'Please enter your password';
-                                    }
-                                    // Add more password validation if necessary
-                                    return null;
-                                  },
-                                ),
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return 'Please enter your password';
+                                      }
+                                      return null;
+                                    },
+                                  );
+                                }),
                               ),
                             ],
                           ),

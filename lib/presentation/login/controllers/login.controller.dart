@@ -8,6 +8,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class LoginController extends GetxController {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  var isPasswordVisible = false.obs;
   final box = GetStorage();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
