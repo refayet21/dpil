@@ -443,11 +443,10 @@ class AdminAddproductScreen extends GetView<AdminAddproductController> {
                                   children: [
                                     SizedBox(height: 5.h),
                                     Text(
-                                        'Stock in: ${products[index].checkin ?? "N/A"}'),
+                                        'Stock in: ${products[index].checkin}'),
                                     Text(
-                                        'Stock out: ${products[index].checkout ?? "N/A"}'),
-                                    Text(
-                                        'Booked: ${products[index].booked ?? "N/A"}'),
+                                        'Stock out: ${products[index].checkout}'),
+                                    Text('Booked: ${products[index].booked}'),
                                   ],
                                 ),
 
@@ -772,12 +771,22 @@ class AdminAddproductScreen extends GetView<AdminAddproductController> {
                             docId: docId,
                             name: controller.nameController.text,
                             category: controller.categoryController.text,
-                            checkin:
-                                int.tryParse(controller.checkinController.text),
+                            // checkin:
+                            //     int.tryParse(controller.checkinController.text),
+                            // checkout: int.tryParse(
+                            //     controller.checkoutController.text),
+                            // booked:
+                            //     int.tryParse(controller.bookedController.text),
+
+                            checkin: int.tryParse(
+                                    controller.checkinController.text) ??
+                                0,
                             checkout: int.tryParse(
-                                controller.checkoutController.text),
-                            booked:
-                                int.tryParse(controller.bookedController.text),
+                                    controller.checkoutController.text) ??
+                                0,
+                            booked: int.tryParse(
+                                    controller.bookedController.text) ??
+                                0,
                           );
 
                           controller.saveUpdateProduct(
