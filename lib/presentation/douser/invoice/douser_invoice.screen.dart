@@ -195,19 +195,56 @@ class DouserInvoiceScreen extends GetView<DouserInvoiceController> {
                                     color: Colors.blue,
                                   ),
                                   onPressed: () async {
-                                    bool bookedSuccessfully =
-                                        await controller.removepreviousBooking(
-                                            filteredDousers[index]['data']!);
-                                    if (bookedSuccessfully) {
-                                      Get.to(() => EditCartItemsScreen(
-                                            data: filteredDousers[index]
-                                                ['data'],
-                                            doNo: filteredDousers[index]
-                                                ['doNo'],
-                                          ));
-
-                                      print(filteredDousers[index]['data']);
-                                    }
+                                    await showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          title:
+                                              Text('Remove Previous Booking?'),
+                                          actions: <Widget>[
+                                            TextButton(
+                                              onPressed: () async {
+                                                bool bookedSuccessfully =
+                                                    await controller
+                                                        .removepreviousBooking(
+                                                            filteredDousers[
+                                                                    index]
+                                                                ['data']!);
+                                                Navigator.of(context)
+                                                    .pop(); // Close the dialog first
+                                                if (bookedSuccessfully) {
+                                                  Get.to(() =>
+                                                      EditCartItemsScreen(
+                                                        data: filteredDousers[
+                                                            index]['data'],
+                                                        doNo: filteredDousers[
+                                                            index]['doNo'],
+                                                      ));
+                                                }
+                                              },
+                                              child: Obx(
+                                                () => controller
+                                                        .isSendingEmail.value
+                                                    ? CircularProgressIndicator(
+                                                        color: Colors.blue,
+                                                      )
+                                                    : Text('Edit'),
+                                              ),
+                                            ),
+                                            TextButton(
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                              child: Text(
+                                                'No',
+                                                style:
+                                                    TextStyle(fontSize: 11.sp),
+                                              ),
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
                                   },
                                 )
                               : IconButton(
