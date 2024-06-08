@@ -159,6 +159,20 @@ class EditCartItemsScreen extends StatelessWidget {
   final List<dynamic> data;
   final List<dynamic>? previousdata;
   final String? doNo;
+  TextEditingController deliverydateController = TextEditingController();
+
+  Future<void> selectDate(BuildContext context) async {
+    DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1900),
+      lastDate: DateTime(2101),
+    );
+    if (picked != null && picked != DateTime.now()) {
+      String formattedDate = "${picked.day}/${picked.month}/${picked.year}";
+      deliverydateController.text = formattedDate;
+    }
+  }
 
   EditCartItemsScreen(
       {Key? key, required this.data, this.previousdata, this.doNo})
@@ -200,6 +214,22 @@ class EditCartItemsScreen extends StatelessWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          Expanded(
+            flex: 1,
+            child: TextField(
+              controller: deliverydateController,
+              decoration: InputDecoration(
+                icon: Icon(
+                  Icons.calendar_today,
+                ),
+                hintText: "Delivery Date",
+              ),
+              readOnly: true,
+              onTap: () {
+                selectDate(context);
+              },
+            ),
+          ),
           Expanded(
             flex: 8,
             child: ListView.builder(
@@ -425,7 +455,10 @@ class EditCartItemsScreen extends StatelessWidget {
                                   await controller.updateBooking(invoiceData);
                               if (savedSuccessfully) {
                                 controller.updateDeliveryOrderFields(
-                                    doNo!, invoiceData, totalAmount);
+                                    doNo!,
+                                    invoiceData,
+                                    totalAmount,
+                                    deliverydateController.text);
                               }
 
                               // print('bookedSuccessfully');

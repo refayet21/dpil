@@ -221,8 +221,8 @@ class DouserInvoiceController extends GetxController {
     }
   }
 
-  Future<bool> updateDeliveryOrderFields(
-      String doNo, List<List<dynamic>>? data, dynamic totalInWord) async {
+  Future<bool> updateDeliveryOrderFields(String doNo, List<List<dynamic>>? data,
+      dynamic totalInWord, String deliveryDate) async {
     if (doNo.isEmpty) {
       return false;
     }
@@ -237,6 +237,7 @@ class DouserInvoiceController extends GetxController {
           .update({
         'data': data?.map((list) => {'items': list}).toList(),
         'totalInWord': totalInWord,
+        'deliveryDate': deliveryDate,
       });
       // isSendingEmail.value = false;
       Get.offAllNamed(Routes.DOUSER_INVOICE);
