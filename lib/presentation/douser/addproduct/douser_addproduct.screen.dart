@@ -200,11 +200,11 @@ class DouserAddproductScreen extends GetView<DouserAddproductController> {
                                   children: [
                                     SizedBox(height: 5.h),
                                     Text(
-                                        'Stock in: ${products[index].checkin ?? "N/A"}'),
+                                        'Stock in: ${products[index].checkin ?? 0}'),
                                     Text(
-                                        'Stock out: ${products[index].checkout ?? "N/A"}'),
+                                        'Stock out: ${products[index].checkout ?? 0}'),
                                     Text(
-                                        'Booked: ${products[index].booked ?? "N/A"}'),
+                                        'Booked: ${products[index].booked ?? 0}'),
                                   ],
                                 ),
 
@@ -272,11 +272,12 @@ class DouserAddproductScreen extends GetView<DouserAddproductController> {
     Get.bottomSheet(
       Container(
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
-              topRight: Radius.circular(16.r),
-              topLeft: Radius.circular(16.r),
-            ),
-            color: Colors.blue.shade200),
+          borderRadius: BorderRadius.only(
+            topRight: Radius.circular(16.r),
+            topLeft: Radius.circular(16.r),
+          ),
+          color: Colors.blue.shade200,
+        ),
         child: Padding(
           padding:
               EdgeInsets.only(left: 16.w, right: 16.w, top: 16.h, bottom: 16.h),
@@ -290,13 +291,12 @@ class DouserAddproductScreen extends GetView<DouserAddproductController> {
                   Text(
                     '${text} Product',
                     style: TextStyle(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black),
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
                   ),
-                  SizedBox(
-                    height: 8.h,
-                  ),
+                  SizedBox(height: 8.h),
                   TextFormField(
                     keyboardType: TextInputType.text,
                     decoration: InputDecoration(
@@ -310,22 +310,18 @@ class DouserAddproductScreen extends GetView<DouserAddproductController> {
                       return controller.validateName(value!);
                     },
                   ),
-                  SizedBox(
-                    height: 10.h,
-                  ),
+                  SizedBox(height: 10.h),
                   TextFormField(
                     keyboardType: TextInputType.text,
                     decoration: InputDecoration(
-                      hintText: 'category',
+                      hintText: 'Category',
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8.r),
                       ),
                     ),
                     controller: controller.categoryController,
                   ),
-                  SizedBox(
-                    height: 10.h,
-                  ),
+                  SizedBox(height: 10.h),
                   TextFormField(
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
@@ -336,9 +332,7 @@ class DouserAddproductScreen extends GetView<DouserAddproductController> {
                     ),
                     controller: controller.checkinController,
                   ),
-                  SizedBox(
-                    height: 10.h,
-                  ),
+                  SizedBox(height: 10.h),
                   TextFormField(
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
@@ -349,9 +343,7 @@ class DouserAddproductScreen extends GetView<DouserAddproductController> {
                     ),
                     controller: controller.checkoutController,
                   ),
-                  SizedBox(
-                    height: 10.h,
-                  ),
+                  SizedBox(height: 10.h),
                   TextFormField(
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
@@ -362,12 +354,12 @@ class DouserAddproductScreen extends GetView<DouserAddproductController> {
                     ),
                     controller: controller.bookedController,
                   ),
-                  SizedBox(
-                    height: 8.h,
-                  ),
+                  SizedBox(height: 8.h),
                   ConstrainedBox(
                     constraints: BoxConstraints.tightFor(
-                        width: Get.context!.width, height: 45.h),
+                      width: Get.context!.width,
+                      height: 45.h,
+                    ),
                     child: ElevatedButton(
                       child: Text(
                         text!,
@@ -379,16 +371,22 @@ class DouserAddproductScreen extends GetView<DouserAddproductController> {
                             docId: docId,
                             name: controller.nameController.text,
                             category: controller.categoryController.text,
-                            checkin:
-                                int.tryParse(controller.checkinController.text),
+                            checkin: int.tryParse(
+                                    controller.checkinController.text) ??
+                                0,
                             checkout: int.tryParse(
-                                controller.checkoutController.text),
-                            booked:
-                                int.tryParse(controller.bookedController.text),
+                                    controller.checkoutController.text) ??
+                                0,
+                            booked: int.tryParse(
+                                    controller.bookedController.text) ??
+                                0,
                           );
 
                           controller.saveUpdateProduct(
-                              productModel, docId!, addEditFlag!);
+                            productModel,
+                            docId!,
+                            addEditFlag!,
+                          );
                         }
                       },
                     ),

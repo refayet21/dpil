@@ -27,9 +27,12 @@ class DouserAddproductController extends GetxController {
     nameController = TextEditingController();
     categoryController = TextEditingController();
 
-    checkinController = TextEditingController();
-    checkoutController = TextEditingController();
-    bookedController = TextEditingController();
+    // checkinController = TextEditingController();
+    // checkoutController = TextEditingController();
+    // bookedController = TextEditingController();
+    checkinController = TextEditingController(text: '0');
+    checkoutController = TextEditingController(text: '0');
+    bookedController = TextEditingController(text: '0');
     collectionReference = firebaseFirestore.collection("products");
     // Products.bindStream(getAllProducts());
     // foundProduct = Products;
