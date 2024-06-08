@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dpil/presentation/admin/previewattendance/controllers/admin_previewattendance.controller.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -10,9 +11,12 @@ import 'controllers/admin_previewgenattendence.controller.dart';
 class AdminPreviewgenattendenceScreen
     extends GetView<AdminPreviewgenattendenceController> {
   final String? employeeId;
+  final String? employeeName;
   final AdminPreviewgenattendenceController _calendarController;
+  AdminPreviewattendanceController _adminPreviewattendanceController =
+      Get.put(AdminPreviewattendanceController());
 
-  AdminPreviewgenattendenceScreen({this.employeeId})
+  AdminPreviewgenattendenceScreen({this.employeeId, this.employeeName})
       : _calendarController = Get.put(
             AdminPreviewgenattendenceController(employeeId: employeeId));
 
@@ -192,6 +196,23 @@ class AdminPreviewgenattendenceScreen
             ),
           ],
         ),
+      ),
+      floatingActionButton: ElevatedButton(
+        onPressed: () {
+          _adminPreviewattendanceController.generateSingleAttendencePdf(
+            employeeName!,
+            _calendarController.filteredAttendance
+                .map((snapshot) => [
+                      _formatDateTime(snapshot['date']),
+                      snapshot['checkIn'],
+                      snapshot['checkInLocation'],
+                      snapshot['checkOut'],
+                      snapshot['checkOutLocation'],
+                    ])
+                .toList(),
+          );
+        },
+        child: Text('Generate PDF'),
       ),
     );
   }

@@ -102,6 +102,8 @@ class AdminGenattendenceScreen extends GetView<AdminGenattendenceController> {
                       onTap: () {
                         Get.to(() => AdminPreviewgenattendenceScreen(
                               employeeId: controller.foundGenuser[index].docId!,
+                              employeeName:
+                                  controller.foundGenuser[index].name!,
                             ));
                       },
                     ),
