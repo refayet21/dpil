@@ -33,6 +33,7 @@ class DouserProductcartController extends GetxController {
   String generateddate = DateFormat('dd.MM.yyyy').format(DateTime.now());
   RxBool isSendingEmail = false.obs;
   final box = GetStorage();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   // Method to update the selected vendor
   void updateSelectedVendor(VendorModel? value) {
@@ -538,5 +539,19 @@ class DouserProductcartController extends GetxController {
     } catch (e) {
       // print('Error: $e');
     }
+  }
+
+  String? validateDoDate(String value) {
+    if (value.isEmpty) {
+      return "DoDate can't be empty";
+    }
+    return null;
+  }
+
+  String? validateRollPcsBag(String value) {
+    if (value.isEmpty) {
+      return "Roll/PCS/Bag can't be empty";
+    }
+    return null;
   }
 }
