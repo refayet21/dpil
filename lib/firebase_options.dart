@@ -50,19 +50,19 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCdnwhPc3gkFYW4LUsx4dYbffiKkhLck5g',
-    appId: '1:555945911762:android:cfdd664046f8b352e9140b',
-    messagingSenderId: '555945911762',
-    projectId: 'dpil-1dc53',
-    storageBucket: 'dpil-1dc53.appspot.com',
+    apiKey: 'AIzaSyBBwDWQIwF7fsbFO0Rdjq3PtyTHXDbMn6Q',
+    appId: '1:647880356114:android:4ff9d6d51116d19a6fc3cb',
+    messagingSenderId: '647880356114',
+    projectId: 'appdpilbd-c330c',
+    storageBucket: 'appdpilbd-c330c.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyBZbLS4aXXiNUndvjr-AtyXPpa4-HF4MOg',
-    appId: '1:555945911762:ios:1fc425d811bafd8ce9140b',
-    messagingSenderId: '555945911762',
-    projectId: 'dpil-1dc53',
-    storageBucket: 'dpil-1dc53.appspot.com',
+    apiKey: 'AIzaSyCuFOIQGjYB0ww1pKyU_oE74gjfqydwuHc',
+    appId: '1:647880356114:ios:650b786e469a75e26fc3cb',
+    messagingSenderId: '647880356114',
+    projectId: 'appdpilbd-c330c',
+    storageBucket: 'appdpilbd-c330c.appspot.com',
     iosBundleId: 'com.example.dpil',
   );
 
