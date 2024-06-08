@@ -409,7 +409,7 @@ class AdminAttendanceController extends GetxController {
           allData[user.name]!.add(data);
         }
       }
-
+// gen user info
       for (var user in foundGenuser) {
         CollectionReference subCollectionRef = firebaseFirestore
             .collection('general_users')
@@ -433,7 +433,8 @@ class AdminAttendanceController extends GetxController {
           allData[user.name]!.add(data);
         }
       }
-      print('Grouped subcollection data: $allData');
+      // gen user info added end
+      // print('Grouped subcollection data: $allData');
       return allData;
     } catch (e) {
       print(e);
