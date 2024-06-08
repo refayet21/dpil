@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dpil/presentation/admin/previewattendance/controllers/admin_previewattendance.controller.dart';
+import 'package:dpil/presentation/genuser/dashboard/controllers/genuser_dashboard.controller.dart';
 import 'package:dpil/presentation/widgets/ge_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -17,6 +19,10 @@ class GenuserGenattendenceScreen
   final GenuserGenattendenceController _calendarController =
       Get.put(GenuserGenattendenceController());
   final box = GetStorage();
+  AdminPreviewattendanceController _adminPreviewattendanceController =
+      Get.put(AdminPreviewattendanceController());
+  GenuserDashboardController _genuserDashboardController =
+      Get.put(GenuserDashboardController());
   String _formatDateTime(Timestamp timestamp) {
     // Convert the Timestamp object to a DateTime object
     DateTime dateTime = timestamp.toDate();
@@ -205,6 +211,23 @@ class GenuserGenattendenceScreen
             ),
           ],
         ),
+      ),
+      floatingActionButton: ElevatedButton(
+        onPressed: () {
+          _adminPreviewattendanceController.generateSingleAttendencePdf(
+            _genuserDashboardController.employeeName.value,
+            _calendarController.filteredAttendance
+                .map((snapshot) => [
+                      _formatDateTime(snapshot['date']),
+                      snapshot['checkIn'],
+                      snapshot['checkInLocation'],
+                      snapshot['checkOut'],
+                      snapshot['checkOutLocation'],
+                    ])
+                .toList(),
+          );
+        },
+        child: Text('Generate PDF'),
       ),
     );
   }
