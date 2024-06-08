@@ -199,8 +199,8 @@ class DouserInvoiceScreen extends GetView<DouserInvoiceController> {
                                       context: context,
                                       builder: (BuildContext context) {
                                         return AlertDialog(
-                                          title:
-                                              Text('Remove Previous Booking?'),
+                                          title: Text(
+                                              'If you edit, it will be removed previous booking'),
                                           actions: <Widget>[
                                             TextButton(
                                               onPressed: () async {

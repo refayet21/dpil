@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dpil/infrastructure/navigation/routes.dart';
 import 'package:dpil/model/do_model.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
@@ -15,6 +16,7 @@ class DouserInvoiceController extends GetxController {
   final box = GetStorage();
   RxBool isSendingEmail = false.obs;
   RxList<Map<String, dynamic>> dousers = RxList<Map<String, dynamic>>();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   // Add observables for start and end dates
   Rx<DateTime?> startDate = Rx<DateTime?>(null);
@@ -274,5 +276,12 @@ class DouserInvoiceController extends GetxController {
     } finally {
       isSendingEmail.value = false;
     }
+  }
+
+  String? validateDoDate(String value) {
+    if (value.isEmpty) {
+      return "DoDate can't be empty";
+    }
+    return null;
   }
 }
