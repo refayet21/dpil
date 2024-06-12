@@ -238,6 +238,7 @@ class DouserInvoiceController extends GetxController {
           .doc(doNo)
           .update({
         'data': data?.map((list) => {'items': list}).toList(),
+        'doNo': doNo + '(Revised)',
         'totalInWord': totalInWord,
         'deliveryDate': deliveryDate,
       });

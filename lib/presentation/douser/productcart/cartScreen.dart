@@ -507,13 +507,13 @@ class CartItemsScreen extends GetView<DouserProductcartController> {
                                       DateTime.now().year.toString();
 
                                   var firstletter = marketingperson!.name;
-
-                                  final String doNo =
-                                      'DPIL-$currentDate-$currentMonth-$currentYear-$firstletter-$docounter';
-                                  final String date =
-                                      '$currentDate-$currentMonth-$currentYear';
                                   String vendorName =
                                       '${controller.selectedVendor.value!.name ?? ""}';
+                                  final String doNo =
+                                      'DPIL-$vendorName-$currentDate-$currentMonth-$currentYear-$firstletter-$docounter';
+                                  final String date =
+                                      '$currentDate-$currentMonth-$currentYear';
+
                                   String vendorAddress =
                                       '${controller.selectedVendor.value!.address ?? ""}';
                                   String contactPerson =
